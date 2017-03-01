@@ -20,7 +20,7 @@
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     
-    self.collectionModel = [[PWCollectionModel alloc] initWithCollectionView:self.collectionView];
+    self.collectionModel = [[PWCollectionAdapter alloc] initWithCollectionView:self.collectionView];
     
     [self.contentView addSubview:self.collectionView];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -41,6 +41,10 @@
         }];
         
     }];
+}
+
++ (CGFloat)cellHeight {
+    return 100;
 }
 
 @end

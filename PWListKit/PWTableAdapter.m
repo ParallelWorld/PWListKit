@@ -6,16 +6,15 @@
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 
-#import "PWTableModel.h"
-#import "PWTableRow.h"
-#import "PWTableCellProtocol.h"
-#import "PWTableSection.h"
+#import "PWTableAdapter.h"
+#import "PWListItem.h"
+#import "PWListSection.h"
 #import "PWTableHeaderFooter.h"
-#import "PWListConfigureProtocol.h"
-#import "PWTableContext.h"
-#import "PWTableSection+Private.h"
+#import "PWListContext.h"
 #import "UITableView+PWTemplateLayoutCell.h"
-#import "PWTableModelProxy.h"
+#import "PWTableAdapterProxy.h"
+#import "PWListProtocol.h"
+
 
 
 static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
@@ -30,16 +29,16 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
 
 
 
-@interface PWTableModel () <UITableViewDelegate, UITableViewDataSource>
+@interface PWTableAdapter () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic) PWTableContext *context;
-@property (nonatomic) PWTableModelProxy *delegateProxy; ///< 包含tableView的dataSource和delegate
+@property (nonatomic) PWTableAdapterProxy *delegateProxy; ///< 包含tableView的dataSource和delegate
 
 @end
 
 
 
-@implementation PWTableModel
+@implementation PWTableAdapter
 
 - (void)dealloc {
     // on iOS 9 setting the dataSource has side effects that can invalidate the layout and seg fault
@@ -86,7 +85,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     _tableView.delegate = nil;
     _tableView.dataSource = nil;
     
-    self.delegateProxy = [[PWTableModelProxy alloc] initWithTableDataSourceTarget:_tableDataSource
+    self.delegateProxy = [[PWTableAdapterProxy alloc] initWithTableDataSourceTarget:_tableDataSource
                                                               TableDelegateTarget:_tableDelegate
                                                                       interceptor:self];
     [self updateTablewDelegate];
@@ -125,7 +124,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     [self removeChild:section];
 }
 
-- (PWTableRow *)rowAtIndexPath:(NSIndexPath *)indexPath {
+- (PWTableItem *)rowAtIndexPath:(NSIndexPath *)indexPath {
     return [[self childAtIndex:indexPath.section] childAtIndex:indexPath.row];
 }
 
@@ -133,10 +132,10 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     return [self childAtIndex:index];
 }
 
-- (PWTableSection *)sectionForIdentifier:(NSString *)identifier {
+- (PWTableSection *)sectionWithTag:(NSString *)tag {
     NSArray *sections = self.children;
     for (PWTableSection *section in sections) {
-        if ([section.identifier isEqualToString:identifier]) {
+        if ([section.tag isEqualToString:tag]) {
             return section;
         }
     }
@@ -155,9 +154,9 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
         return [dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
     }
     
-    PWTableRow *row = [self rowAtIndexPath:indexPath];
-    UITableViewCell<PWTableCellProtocol> *cell = [tableView dequeueReusableCellWithIdentifier:row.cellIdentifier forIndexPath:indexPath];
-    NSAssert([cell conformsToProtocol:@protocol(PWTableCellProtocol)], @"cell要符合PWTableCellProtocol协议");
+    PWTableItem *row = [self rowAtIndexPath:indexPath];
+    UITableViewCell<PWListConfigurationProtocol> *cell = [tableView dequeueReusableCellWithIdentifier:row.cellIdentifier forIndexPath:indexPath];
+    NSAssert([cell conformsToProtocol:@protocol(PWListConfigurationProtocol)], @"cell要符合PWTableCellProtocol协议");
     [cell configureWithData:row.data];
     return cell;
 }
@@ -224,7 +223,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     Class clazz = header.headerFooterClass;
     NSAssert([clazz isSubclassOfClass:UITableViewHeaderFooterView.class], @"header的class必须是UITableViewHeaderFooterView子类");
     NSAssert([clazz instancesRespondToSelector:@selector(configureWithData:)], @"header的实例需要实现`configureWithData:`方法");
-    UITableViewHeaderFooterView<PWListConfigureProtocol> *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:header.headerFooterIdentifier];
+    UITableViewHeaderFooterView<PWListConfigurationProtocol> *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:header.headerFooterIdentifier];
     if (!headerView) {
         headerView = [[clazz alloc] initWithReuseIdentifier:header.headerFooterIdentifier];
     }
@@ -247,7 +246,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     Class clazz = footer.headerFooterClass;
     NSAssert([clazz isSubclassOfClass:UITableViewHeaderFooterView.class], @"header的class必须是UITableViewHeaderFooterView子类");
     NSAssert([clazz instancesRespondToSelector:@selector(configureWithData:)], @"header的实例需要实现`configureWithData:`方法");
-    UITableViewHeaderFooterView<PWListConfigureProtocol> *footerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:footer.headerFooterIdentifier];
+    UITableViewHeaderFooterView<PWListConfigurationProtocol> *footerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:footer.headerFooterIdentifier];
     if (!footerView) {
         footerView = [[clazz alloc] initWithReuseIdentifier:footer.headerFooterIdentifier];
     }
@@ -266,7 +265,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
 }
 
 - (CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    PWTableRow *row = [self rowAtIndexPath:indexPath];
+    PWTableItem *row = [self rowAtIndexPath:indexPath];
     if (!row) {
         return 0;
     }
@@ -274,7 +273,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
         return row.cellHeight;
     }
 
-    return [self.tableView pw_heightForCellWithIdentifier:row.cellIdentifier cacheByIndexPath:indexPath configuration:^(UITableViewCell<PWTableCellProtocol> *cell) {
+    return [self.tableView pw_heightForCellWithIdentifier:row.cellIdentifier cacheByIndexPath:indexPath configuration:^(UITableViewCell<PWListConfigurationProtocol> *cell) {
         [cell configureWithData:row.data];
     }];
 }
@@ -290,7 +289,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     if (header.height > 0) {
         return header.height;
     }
-    return [self.tableView pw_heightForHeaderWithIdentifier:header.headerFooterIdentifier cacheBySection:section configuration:^(UITableViewHeaderFooterView<PWListConfigureProtocol> *headerView) {
+    return [self.tableView pw_heightForHeaderWithIdentifier:header.headerFooterIdentifier cacheBySection:section configuration:^(UITableViewHeaderFooterView<PWListConfigurationProtocol> *headerView) {
         [headerView configureWithData:header.data];
     }];
 }
@@ -306,7 +305,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     if (footer.height > 0) {
         return footer.height;
     }
-    return [self.tableView pw_heightForFooterWithIdentifier:footer.headerFooterIdentifier cacheBySection:section configuration:^(UITableViewHeaderFooterView<PWListConfigureProtocol> *footerView) {
+    return [self.tableView pw_heightForFooterWithIdentifier:footer.headerFooterIdentifier cacheBySection:section configuration:^(UITableViewHeaderFooterView<PWListConfigurationProtocol> *footerView) {
         [footerView configureWithData:footer.data];
     }];
 }

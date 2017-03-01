@@ -6,15 +6,15 @@
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 
-#import "PWNode.h"
+#import "PWListNode.h"
 #import <UIKit/UIkit.h>
 
 @class PWTableSection;
-@class PWTableRow;
+@class PWTableItem;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PWTableModel : PWNode
+@interface PWTableAdapter : PWListNode
 
 - (instancetype)initWithTableView:(UITableView *)tableView NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
@@ -37,15 +37,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)clearAllSections;
 
-- (PWTableRow *)rowAtIndexPath:(NSIndexPath *)indexPath;
+- (PWTableItem *)rowAtIndexPath:(NSIndexPath *)indexPath;
 - (PWTableSection *)sectionAtIndex:(NSUInteger)index;
-- (PWTableSection *)sectionForIdentifier:(NSString *)identifier;
+- (PWTableSection *)sectionWithTag:(NSString *)tag;
 
 @end
 
 
 
-@interface PWTableModel (UITableView)
+@interface PWTableAdapter (UITableView)
 
 - (NSInteger)numberOfSections;
 - (NSInteger)numberOfRowsInSection:(NSInteger)section;

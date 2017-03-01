@@ -6,17 +6,17 @@
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 
-#import "PWNode.h"
+#import "PWListNode.h"
 
 #define LOCK   [_lock lock]
 #define UNLOCK [_lock unlock]
 
-@interface PWNode ()
+@interface PWListNode ()
 @property (nonatomic) NSMutableArray *innerChildren;
 @property (nonatomic) NSLock *lock;
 @end
 
-@implementation PWNode
+@implementation PWListNode
 
 - (instancetype)init {
     self = [super init];
@@ -29,7 +29,7 @@
     return self.innerChildren.copy;
 }
 
-- (void)addChild:(__kindof PWNode *)node {
+- (void)addChild:(__kindof PWListNode *)node {
     if (node) {
         LOCK;
         node.parent = self;
@@ -38,16 +38,16 @@
     }
 }
 
-- (void)addChildFromArray:(NSArray<__kindof PWNode *> *)array {
+- (void)addChildFromArray:(NSArray<__kindof PWListNode *> *)array {
     LOCK;
-    for (PWNode *node in array) {
+    for (PWListNode *node in array) {
         node.parent = self;
         [_innerChildren addObject:node];
     }
     UNLOCK;
 }
 
-- (void)insertChild:(__kindof PWNode *)node atIndex:(NSUInteger)index {
+- (void)insertChild:(__kindof PWListNode *)node atIndex:(NSUInteger)index {
     if (node && index <= _innerChildren.count) {
         node.parent = self;
         LOCK;
@@ -56,7 +56,7 @@
     }
 }
 
-- (void)removeChild:(__kindof PWNode *)node {
+- (void)removeChild:(__kindof PWListNode *)node {
     LOCK;
     [_innerChildren removeObject:node];
     UNLOCK;
@@ -91,15 +91,15 @@
     return [self.parent.children indexOfObject:self];
 }
 
-- (PWNode *)firstChild {
+- (PWListNode *)firstChild {
     return _innerChildren.firstObject;
 }
 
-- (PWNode *)lastChild {
+- (PWListNode *)lastChild {
     return _innerChildren.lastObject;
 }
 
-- (PWNode *)childAtIndex:(NSUInteger)index {
+- (PWListNode *)childAtIndex:(NSUInteger)index {
     if (index >= _innerChildren.count) {
         return nil;
     }

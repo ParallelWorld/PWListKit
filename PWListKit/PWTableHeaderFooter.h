@@ -6,11 +6,11 @@
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 
-#import "PWNode.h"
+#import "PWListNode.h"
 #import <UIKit/UIKit.h>
 
 
-@interface PWTableHeaderFooter : PWNode
+@interface PWTableHeaderFooter : PWListNode
 
 @property (nonatomic, readonly) NSString *headerFooterIdentifier;
 

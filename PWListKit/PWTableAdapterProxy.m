@@ -1,12 +1,12 @@
 //
-//  PWTableModelProxy.m
+//  PWTableAdapterProxy.m
 //  PWListKitDemo
 //
 //  Created by Huang Wei on 2017/3/1.
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 
-#import "PWTableModelProxy.h"
+#import "PWTableAdapterProxy.h"
 
 /**
  Define messages that you want the PWTableModel object to intercept. Pattern copied from
@@ -27,7 +27,7 @@ static BOOL isInterceptedSelector(SEL sel) {
             );
 }
 
-@implementation PWTableModelProxy {
+@implementation PWTableAdapterProxy {
     __weak id _tableDataSourceTarget;
     __weak id _tableDelegateTarget;
     __weak id _interceptor;

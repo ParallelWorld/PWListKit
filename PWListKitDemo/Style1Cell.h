@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PWListKit.h"
 
-@interface Style1Cell : UITableViewCell <PWTableCellProtocol>
+@interface Style1Cell : UITableViewCell <PWTableCellConfigurationProtocol>
 @property (weak, nonatomic) IBOutlet UIImageView *leftImageView;
 @property (weak, nonatomic) IBOutlet UILabel *rightLabel;
 @end

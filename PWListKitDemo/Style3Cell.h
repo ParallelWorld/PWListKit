@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "PWListKit.h"
 
-@interface Style3Cell : UITableViewCell <PWTableCellProtocol>
+@interface Style3Cell : UITableViewCell <PWTableCellConfigurationProtocol>
 
 @property (nonatomic) UICollectionView *collectionView;
 
-@property (nonatomic) PWCollectionModel *collectionModel;
+@property (nonatomic) PWCollectionAdapter *collectionModel;
 
 @end

@@ -9,10 +9,25 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface PWTableContext : NSObject
+
+@interface PWListContext : NSObject
+
+@property (nonatomic) NSMutableSet *registeredCellClasses;
+
+@end
+
+
+
+@interface PWTableContext : PWListContext
 
 @property (nonatomic, weak) UITableView *tableView;
-@property (nonatomic) NSMutableSet *registeredCellClasses;
 @property (nonatomic) NSMutableSet *registeredHeaderFooterClasses;
+
+@end
+
+
+@interface PWCollectionContext : PWListContext
+
+@property (nonatomic, weak) UICollectionView *collectionView;
 
 @end

@@ -1,5 +1,5 @@
 //
-//  PWTableModelProxy.h
+//  PWTableAdapterProxy.h
 //  PWListKitDemo
 //
 //  Created by Huang Wei on 2017/3/1.
@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PWTableModelProxy : NSProxy
+@interface PWTableAdapterProxy : NSProxy
 
 - (instancetype)initWithTableDataSourceTarget:(id<UITableViewDataSource>)tableDataSourceTarget
                           TableDelegateTarget:(id<UITableViewDelegate>)tableDelegateTarget

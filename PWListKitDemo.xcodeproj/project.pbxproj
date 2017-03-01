@@ -9,22 +9,20 @@
 /* Begin PBXBuildFile section */
 		0E88AEDA1E65C0FB0045401A /* PWTableHeaderFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AED91E65C0FB0045401A /* PWTableHeaderFooter.m */; };
 		0E88AEDE1E65C8150045401A /* TableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AEDD1E65C8150045401A /* TableHeaderView.m */; };
-		0E88AEE41E666A2D0045401A /* PWTableContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AEE31E666A2D0045401A /* PWTableContext.m */; };
+		0E88AEE41E666A2D0045401A /* PWListContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AEE31E666A2D0045401A /* PWListContext.m */; };
 		0E88AEE71E6690CE0045401A /* UITableView+PWTemplateLayoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AEE61E6690CE0045401A /* UITableView+PWTemplateLayoutCell.m */; };
-		0E88AEEA1E66B9ED0045401A /* PWTableModelProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AEE91E66B9ED0045401A /* PWTableModelProxy.m */; };
+		0E88AEEA1E66B9ED0045401A /* PWTableAdapterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AEE91E66B9ED0045401A /* PWTableAdapterProxy.m */; };
+		0E88AEF21E66EF330045401A /* PWListSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AEF11E66EF330045401A /* PWListSection.m */; };
+		0E88AEF51E66EF4A0045401A /* PWListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AEF41E66EF4A0045401A /* PWListItem.m */; };
 		0E8AFDA01E659C5800904504 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFD9F1E659C5800904504 /* main.m */; };
 		0E8AFDA31E659C5800904504 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFDA21E659C5800904504 /* AppDelegate.m */; };
 		0E8AFDA61E659C5800904504 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFDA51E659C5800904504 /* ViewController.m */; };
 		0E8AFDA91E659C5800904504 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8AFDA71E659C5800904504 /* Main.storyboard */; };
 		0E8AFDAB1E659C5800904504 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E8AFDAA1E659C5800904504 /* Assets.xcassets */; };
 		0E8AFDAE1E659C5800904504 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8AFDAC1E659C5800904504 /* LaunchScreen.storyboard */; };
-		0E8AFDC61E659E9300904504 /* PWCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFDB71E659E9300904504 /* PWCollectionItem.m */; };
-		0E8AFDC71E659E9300904504 /* PWCollectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFDB91E659E9300904504 /* PWCollectionModel.m */; };
-		0E8AFDC81E659E9300904504 /* PWCollectionSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFDBB1E659E9300904504 /* PWCollectionSection.m */; };
-		0E8AFDC91E659E9300904504 /* PWNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFDBE1E659E9300904504 /* PWNode.m */; };
-		0E8AFDCA1E659E9300904504 /* PWTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFDC11E659E9300904504 /* PWTableModel.m */; };
-		0E8AFDCB1E659E9300904504 /* PWTableRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFDC31E659E9300904504 /* PWTableRow.m */; };
-		0E8AFDCC1E659E9300904504 /* PWTableSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFDC51E659E9300904504 /* PWTableSection.m */; };
+		0E8AFDC71E659E9300904504 /* PWCollectionAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFDB91E659E9300904504 /* PWCollectionAdapter.m */; };
+		0E8AFDC91E659E9300904504 /* PWListNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFDBE1E659E9300904504 /* PWListNode.m */; };
+		0E8AFDCA1E659E9300904504 /* PWTableAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFDC11E659E9300904504 /* PWTableAdapter.m */; };
 		0E8AFDD61E659EB700904504 /* CollectionStyle1Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFDCE1E659EB600904504 /* CollectionStyle1Cell.m */; };
 		0E8AFDD71E659EB700904504 /* Style1Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFDD01E659EB600904504 /* Style1Cell.m */; };
 		0E8AFDD81E659EB700904504 /* Style1Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E8AFDD11E659EB600904504 /* Style1Cell.xib */; };
@@ -38,16 +36,19 @@
 		0DFDA7C36D263DBA88E92FE7 /* Pods-PWListKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PWListKitDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-PWListKitDemo/Pods-PWListKitDemo.release.xcconfig"; sourceTree = "<group>"; };
 		0E88AED81E65C0FA0045401A /* PWTableHeaderFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWTableHeaderFooter.h; sourceTree = "<group>"; };
 		0E88AED91E65C0FB0045401A /* PWTableHeaderFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWTableHeaderFooter.m; sourceTree = "<group>"; };
-		0E88AEDB1E65C5A60045401A /* PWListConfigureProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWListConfigureProtocol.h; sourceTree = "<group>"; };
 		0E88AEDC1E65C8150045401A /* TableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableHeaderView.h; sourceTree = "<group>"; };
 		0E88AEDD1E65C8150045401A /* TableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableHeaderView.m; sourceTree = "<group>"; };
-		0E88AEDF1E66685C0045401A /* PWTableSection+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PWTableSection+Private.h"; sourceTree = "<group>"; };
-		0E88AEE21E666A2D0045401A /* PWTableContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWTableContext.h; sourceTree = "<group>"; };
-		0E88AEE31E666A2D0045401A /* PWTableContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWTableContext.m; sourceTree = "<group>"; };
+		0E88AEE21E666A2D0045401A /* PWListContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWListContext.h; sourceTree = "<group>"; };
+		0E88AEE31E666A2D0045401A /* PWListContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWListContext.m; sourceTree = "<group>"; };
 		0E88AEE51E6690CE0045401A /* UITableView+PWTemplateLayoutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+PWTemplateLayoutCell.h"; sourceTree = "<group>"; };
 		0E88AEE61E6690CE0045401A /* UITableView+PWTemplateLayoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+PWTemplateLayoutCell.m"; sourceTree = "<group>"; };
-		0E88AEE81E66B9ED0045401A /* PWTableModelProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWTableModelProxy.h; sourceTree = "<group>"; };
-		0E88AEE91E66B9ED0045401A /* PWTableModelProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWTableModelProxy.m; sourceTree = "<group>"; };
+		0E88AEE81E66B9ED0045401A /* PWTableAdapterProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWTableAdapterProxy.h; sourceTree = "<group>"; };
+		0E88AEE91E66B9ED0045401A /* PWTableAdapterProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWTableAdapterProxy.m; sourceTree = "<group>"; };
+		0E88AEEF1E66EB160045401A /* PWListProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWListProtocol.h; sourceTree = "<group>"; };
+		0E88AEF01E66EF330045401A /* PWListSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWListSection.h; sourceTree = "<group>"; };
+		0E88AEF11E66EF330045401A /* PWListSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWListSection.m; sourceTree = "<group>"; };
+		0E88AEF31E66EF4A0045401A /* PWListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWListItem.h; sourceTree = "<group>"; };
+		0E88AEF41E66EF4A0045401A /* PWListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWListItem.m; sourceTree = "<group>"; };
 		0E8AFD9B1E659C5800904504 /* PWListKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PWListKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E8AFD9F1E659C5800904504 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0E8AFDA11E659C5800904504 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -58,22 +59,13 @@
 		0E8AFDAA1E659C5800904504 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0E8AFDAD1E659C5800904504 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0E8AFDAF1E659C5800904504 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0E8AFDB61E659E9300904504 /* PWCollectionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWCollectionItem.h; sourceTree = "<group>"; };
-		0E8AFDB71E659E9300904504 /* PWCollectionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWCollectionItem.m; sourceTree = "<group>"; };
-		0E8AFDB81E659E9300904504 /* PWCollectionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWCollectionModel.h; sourceTree = "<group>"; };
-		0E8AFDB91E659E9300904504 /* PWCollectionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWCollectionModel.m; sourceTree = "<group>"; };
-		0E8AFDBA1E659E9300904504 /* PWCollectionSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWCollectionSection.h; sourceTree = "<group>"; };
-		0E8AFDBB1E659E9300904504 /* PWCollectionSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWCollectionSection.m; sourceTree = "<group>"; };
+		0E8AFDB81E659E9300904504 /* PWCollectionAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWCollectionAdapter.h; sourceTree = "<group>"; };
+		0E8AFDB91E659E9300904504 /* PWCollectionAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWCollectionAdapter.m; sourceTree = "<group>"; };
 		0E8AFDBC1E659E9300904504 /* PWListKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWListKit.h; sourceTree = "<group>"; };
-		0E8AFDBD1E659E9300904504 /* PWNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWNode.h; sourceTree = "<group>"; };
-		0E8AFDBE1E659E9300904504 /* PWNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWNode.m; sourceTree = "<group>"; };
-		0E8AFDBF1E659E9300904504 /* PWTableCellProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWTableCellProtocol.h; sourceTree = "<group>"; };
-		0E8AFDC01E659E9300904504 /* PWTableModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWTableModel.h; sourceTree = "<group>"; };
-		0E8AFDC11E659E9300904504 /* PWTableModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWTableModel.m; sourceTree = "<group>"; };
-		0E8AFDC21E659E9300904504 /* PWTableRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWTableRow.h; sourceTree = "<group>"; };
-		0E8AFDC31E659E9300904504 /* PWTableRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWTableRow.m; sourceTree = "<group>"; };
-		0E8AFDC41E659E9300904504 /* PWTableSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWTableSection.h; sourceTree = "<group>"; };
-		0E8AFDC51E659E9300904504 /* PWTableSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWTableSection.m; sourceTree = "<group>"; };
+		0E8AFDBD1E659E9300904504 /* PWListNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWListNode.h; sourceTree = "<group>"; };
+		0E8AFDBE1E659E9300904504 /* PWListNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWListNode.m; sourceTree = "<group>"; };
+		0E8AFDC01E659E9300904504 /* PWTableAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWTableAdapter.h; sourceTree = "<group>"; };
+		0E8AFDC11E659E9300904504 /* PWTableAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWTableAdapter.m; sourceTree = "<group>"; };
 		0E8AFDCD1E659EB600904504 /* CollectionStyle1Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionStyle1Cell.h; sourceTree = "<group>"; };
 		0E8AFDCE1E659EB600904504 /* CollectionStyle1Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionStyle1Cell.m; sourceTree = "<group>"; };
 		0E8AFDCF1E659EB600904504 /* Style1Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Style1Cell.h; sourceTree = "<group>"; };
@@ -158,30 +150,24 @@
 		0E8AFDB51E659E2200904504 /* PWListKit */ = {
 			isa = PBXGroup;
 			children = (
-				0E8AFDB61E659E9300904504 /* PWCollectionItem.h */,
-				0E8AFDB71E659E9300904504 /* PWCollectionItem.m */,
-				0E8AFDB81E659E9300904504 /* PWCollectionModel.h */,
-				0E8AFDB91E659E9300904504 /* PWCollectionModel.m */,
-				0E8AFDBA1E659E9300904504 /* PWCollectionSection.h */,
-				0E8AFDBB1E659E9300904504 /* PWCollectionSection.m */,
-				0E88AEDB1E65C5A60045401A /* PWListConfigureProtocol.h */,
 				0E8AFDBC1E659E9300904504 /* PWListKit.h */,
-				0E8AFDBD1E659E9300904504 /* PWNode.h */,
-				0E8AFDBE1E659E9300904504 /* PWNode.m */,
-				0E8AFDBF1E659E9300904504 /* PWTableCellProtocol.h */,
-				0E88AEE21E666A2D0045401A /* PWTableContext.h */,
-				0E88AEE31E666A2D0045401A /* PWTableContext.m */,
+				0E8AFDB81E659E9300904504 /* PWCollectionAdapter.h */,
+				0E8AFDB91E659E9300904504 /* PWCollectionAdapter.m */,
+				0E88AEE21E666A2D0045401A /* PWListContext.h */,
+				0E88AEE31E666A2D0045401A /* PWListContext.m */,
+				0E88AEF31E66EF4A0045401A /* PWListItem.h */,
+				0E88AEF41E66EF4A0045401A /* PWListItem.m */,
+				0E8AFDBD1E659E9300904504 /* PWListNode.h */,
+				0E8AFDBE1E659E9300904504 /* PWListNode.m */,
+				0E88AEEF1E66EB160045401A /* PWListProtocol.h */,
+				0E88AEF01E66EF330045401A /* PWListSection.h */,
+				0E88AEF11E66EF330045401A /* PWListSection.m */,
+				0E8AFDC01E659E9300904504 /* PWTableAdapter.h */,
+				0E8AFDC11E659E9300904504 /* PWTableAdapter.m */,
+				0E88AEE81E66B9ED0045401A /* PWTableAdapterProxy.h */,
+				0E88AEE91E66B9ED0045401A /* PWTableAdapterProxy.m */,
 				0E88AED81E65C0FA0045401A /* PWTableHeaderFooter.h */,
 				0E88AED91E65C0FB0045401A /* PWTableHeaderFooter.m */,
-				0E8AFDC01E659E9300904504 /* PWTableModel.h */,
-				0E8AFDC11E659E9300904504 /* PWTableModel.m */,
-				0E88AEE81E66B9ED0045401A /* PWTableModelProxy.h */,
-				0E88AEE91E66B9ED0045401A /* PWTableModelProxy.m */,
-				0E8AFDC21E659E9300904504 /* PWTableRow.h */,
-				0E8AFDC31E659E9300904504 /* PWTableRow.m */,
-				0E8AFDC41E659E9300904504 /* PWTableSection.h */,
-				0E8AFDC51E659E9300904504 /* PWTableSection.m */,
-				0E88AEDF1E66685C0045401A /* PWTableSection+Private.h */,
 				0E88AEE51E6690CE0045401A /* UITableView+PWTemplateLayoutCell.h */,
 				0E88AEE61E6690CE0045401A /* UITableView+PWTemplateLayoutCell.m */,
 			);
@@ -331,24 +317,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E8AFDA61E659C5800904504 /* ViewController.m in Sources */,
-				0E88AEE41E666A2D0045401A /* PWTableContext.m in Sources */,
-				0E8AFDCC1E659E9300904504 /* PWTableSection.m in Sources */,
+				0E88AEE41E666A2D0045401A /* PWListContext.m in Sources */,
 				0E88AEDA1E65C0FB0045401A /* PWTableHeaderFooter.m in Sources */,
-				0E8AFDCA1E659E9300904504 /* PWTableModel.m in Sources */,
+				0E8AFDCA1E659E9300904504 /* PWTableAdapter.m in Sources */,
 				0E8AFDA31E659C5800904504 /* AppDelegate.m in Sources */,
 				0E88AEE71E6690CE0045401A /* UITableView+PWTemplateLayoutCell.m in Sources */,
-				0E8AFDC91E659E9300904504 /* PWNode.m in Sources */,
-				0E88AEEA1E66B9ED0045401A /* PWTableModelProxy.m in Sources */,
+				0E8AFDC91E659E9300904504 /* PWListNode.m in Sources */,
+				0E88AEEA1E66B9ED0045401A /* PWTableAdapterProxy.m in Sources */,
 				0E8AFDD61E659EB700904504 /* CollectionStyle1Cell.m in Sources */,
-				0E8AFDC71E659E9300904504 /* PWCollectionModel.m in Sources */,
+				0E8AFDC71E659E9300904504 /* PWCollectionAdapter.m in Sources */,
 				0E88AEDE1E65C8150045401A /* TableHeaderView.m in Sources */,
 				0E8AFDDA1E659EB700904504 /* Style3Cell.m in Sources */,
 				0E8AFDA01E659C5800904504 /* main.m in Sources */,
-				0E8AFDC81E659E9300904504 /* PWCollectionSection.m in Sources */,
+				0E88AEF21E66EF330045401A /* PWListSection.m in Sources */,
 				0E8AFDD71E659EB700904504 /* Style1Cell.m in Sources */,
-				0E8AFDCB1E659E9300904504 /* PWTableRow.m in Sources */,
+				0E88AEF51E66EF4A0045401A /* PWListItem.m in Sources */,
 				0E8AFDD91E659EB700904504 /* Style2Cell.m in Sources */,
-				0E8AFDC61E659E9300904504 /* PWCollectionItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

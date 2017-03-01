@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PWTableCellProtocol.h"
+#import "PWListKit.h"
 
-@interface CollectionStyle1Cell : UICollectionViewCell <PWTableCellProtocol>
+
+@interface CollectionStyle1Cell : UICollectionViewCell <PWTableCellConfigurationProtocol>
 
 @property (nonatomic) UILabel *titleLabel;
 

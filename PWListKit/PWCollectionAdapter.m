@@ -1,22 +1,22 @@
 //
-//  PWCollectionModel.m
+//  PWCollectionAdapter.m
 //  Demo
 //
 //  Created by Huang Wei on 2017/2/28.
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 
-#import "PWCollectionModel.h"
-#import "PWCollectionSection.h"
-#import "PWCollectionItem.h"
-#import "PWTableCellProtocol.h"
+#import "PWCollectionAdapter.h"
+#import "PWListSection.h"
+#import "PWListItem.h"
+#import "PWListProtocol.h"
 
 
-@interface PWCollectionModel () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface PWCollectionAdapter () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @end
 
-@implementation PWCollectionModel
+@implementation PWCollectionAdapter
 
 - (instancetype)initWithCollectionView:(UICollectionView *)collectionView {
     self = [super init];
@@ -74,8 +74,8 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     PWCollectionItem *item = [self itemAtIndexPath:indexPath];
-    UICollectionViewCell<PWTableCellProtocol> *cell = [collectionView dequeueReusableCellWithReuseIdentifier:item.cellIdentifier forIndexPath:indexPath];
-    NSAssert([cell conformsToProtocol:@protocol(PWTableCellProtocol)], @"cell要符合PWTableCellProtocol协议");
+    UICollectionViewCell<PWListConfigurationProtocol> *cell = [collectionView dequeueReusableCellWithReuseIdentifier:item.cellIdentifier forIndexPath:indexPath];
+    NSAssert([cell conformsToProtocol:@protocol(PWListConfigurationProtocol)], @"cell要符合PWTableCellProtocol协议");
     [cell configureWithData:item.data];
     return cell;
 }

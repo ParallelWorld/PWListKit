@@ -21,7 +21,7 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 
-@property (nonatomic, strong) PWTableModel *tableModel;
+@property (nonatomic, strong) PWTableAdapter *tableAdapter;
 
 @end
 
@@ -38,20 +38,20 @@
     }];
     
     
-    self.tableModel = [[PWTableModel alloc] initWithTableView:self.tableView];
-    self.tableModel.tableDelegate = self;
+    self.tableAdapter = [[PWTableAdapter alloc] initWithTableView:self.tableView];
+    self.tableAdapter.tableDelegate = self;
     
     
     
     for (int i = 0; i < 10; i++) {
-        [self.tableModel addSection:^(PWTableSection *section) {
+        [self.tableAdapter addSection:^(PWTableSection *section) {
             [section setHeader:^(PWTableHeaderFooter * _Nonnull header) {
                 header.headerFooterClass = [TableHeaderView class];
                 header.data = @{@"title": @"哈哈"};
             }];
             
             for (int j = 0; j < 3; j++) {
-                [section addRow:^(PWTableRow *row) {
+                [section addItem:^(PWTableItem *row) {
                     row.cellClass = [Style1Cell class];
                     row.data = @{@"image": @"star_blue",
                                  @"label": @"今日新闻-xxxxxxxxx",
@@ -62,7 +62,7 @@
             NSMutableString *s = [NSMutableString new];
             for (int j = 0; j < 1; j++) {
                 [s appendFormat:@"%@+", @(j)];
-                [section addRow:^(PWTableRow *row) {
+                [section addItem:^(PWTableItem *row) {
                     row.cellClass = [Style2Cell class];
                     row.data = @{@"title": @"商品名称",
                                  @"price": @"￥ 34.59",
@@ -70,14 +70,14 @@
                 }];
             }
             for (int j = 0; j < 6; j++) {
-                [section addRow:^(PWTableRow *row) {
+                [section addItem:^(PWTableItem *row) {
                     row.cellClass = [Style3Cell class];
                     NSMutableArray *mArray = [NSMutableArray new];
                     for (int k = 0; k < 10; k++) {
                         [mArray addObject:@(k).stringValue];
                     }
                     row.data = mArray.copy;
-                    row.cellHeight = 51;
+//                    row.cellHeight = 51;
                 }];
             }
             
@@ -96,7 +96,7 @@
         }];
     }
     
-    [self.tableModel reloadTableView];
+    [self.tableAdapter reloadTableView];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

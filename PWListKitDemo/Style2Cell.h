@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PWListKit.h"
 
-@interface Style2Cell : UITableViewCell <PWTableCellProtocol>
+@interface Style2Cell : UITableViewCell <PWTableCellConfigurationProtocol>
 
 @property (nonatomic) UILabel *label1;
 @property (nonatomic) UILabel *label2;
