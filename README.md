@@ -1,3 +1,9 @@
+## 使用
+```
+pod 'PWListKit', :git => 'https://github.com/parallelWorld/PWListKit.git', :tag => '0.0.1'
+```
+
+
 PWListKit完成的功能
 
 
