@@ -26,4 +26,8 @@
     self.titleLabel.text = data;
 }
 
++ (CGSize)cellSize {
+    return CGSizeMake(100, 100);
+}
+
 @end

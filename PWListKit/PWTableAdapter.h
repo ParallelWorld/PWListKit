@@ -30,14 +30,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addSection:(void (^)(PWTableSection *section))block;
 - (void)insertSection:(void (^)(PWTableSection *section))block atIndex:(NSUInteger)index;
 
-
 - (void)removeSectionAtIndex:(NSUInteger)index;
 - (void)removeSectionsAtIndexSet:(NSIndexSet *)indexSet;
 - (void)removeSection:(PWTableSection *)section;
 
 - (void)clearAllSections;
 
-- (PWTableItem *)rowAtIndexPath:(NSIndexPath *)indexPath;
+- (PWTableItem *)itemAtIndexPath:(NSIndexPath *)indexPath;
 - (PWTableSection *)sectionAtIndex:(NSUInteger)index;
 - (PWTableSection *)sectionWithTag:(NSString *)tag;
 

@@ -46,7 +46,7 @@
 
 @property (nonatomic, copy, readonly) NSString *cellIdentifier;
 
-@property (nonatomic) CGSize itemSize;
+@property (nonatomic) CGSize size;
 
 @end
 

@@ -79,25 +79,6 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     }
 }
 
-- (void)updateTableProxy {
-    // there is a known bug with accessibility and using an NSProxy as the delegate that will cause EXC_BAD_ACCESS
-    // when voiceover is enabled. it will hold an unsafe ref to the delegate
-    _tableView.delegate = nil;
-    _tableView.dataSource = nil;
-    
-    self.delegateProxy = [[PWTableAdapterProxy alloc] initWithTableDataSourceTarget:_tableDataSource
-                                                              TableDelegateTarget:_tableDelegate
-                                                                      interceptor:self];
-    [self updateTablewDelegate];
-}
-
-- (void)updateTablewDelegate {
-    // set up the delegate to the proxy so the adapter can intercept events
-    // default to the adapter simply being the delegate
-    _tableView.delegate = (id<UITableViewDelegate>)self.delegateProxy ?: self;
-    _tableView.dataSource = (id<UITableViewDataSource>)self.delegateProxy ?: self;
-}
-
 - (void)addSection:(void (^)(PWTableSection *section))block {
     PWTableSection *section = [PWTableSection new];
     section.context = self.context;
@@ -124,7 +105,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     [self removeChild:section];
 }
 
-- (PWTableItem *)rowAtIndexPath:(NSIndexPath *)indexPath {
+- (PWTableItem *)itemAtIndexPath:(NSIndexPath *)indexPath {
     return [[self childAtIndex:indexPath.section] childAtIndex:indexPath.row];
 }
 
@@ -154,10 +135,10 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
         return [dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
     }
     
-    PWTableItem *row = [self rowAtIndexPath:indexPath];
-    UITableViewCell<PWListConfigurationProtocol> *cell = [tableView dequeueReusableCellWithIdentifier:row.cellIdentifier forIndexPath:indexPath];
-    NSAssert([cell conformsToProtocol:@protocol(PWListConfigurationProtocol)], @"cell要符合PWTableCellProtocol协议");
-    [cell configureWithData:row.data];
+    PWTableItem *item = [self itemAtIndexPath:indexPath];
+    UITableViewCell<PWListConfigurationProtocol> *cell = [tableView dequeueReusableCellWithIdentifier:item.cellIdentifier forIndexPath:indexPath];
+    NSAssert([cell conformsToProtocol:@protocol(PWTableCellConfigurationProtocol)], @"cell要符合`PWTableCellConfigurationProtocol`协议");
+    [cell configureWithData:item.data];
     return cell;
 }
 
@@ -265,7 +246,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
 }
 
 - (CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    PWTableItem *row = [self rowAtIndexPath:indexPath];
+    PWTableItem *row = [self itemAtIndexPath:indexPath];
     if (!row) {
         return 0;
     }
@@ -333,7 +314,20 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
 }
 
 
-
 #pragma mark - Private method
+
+- (void)updateTableProxy {
+    // there is a known bug with accessibility and using an NSProxy as the delegate that will cause EXC_BAD_ACCESS
+    // when voiceover is enabled. it will hold an unsafe ref to the delegate
+    _tableView.delegate = nil;
+    _tableView.dataSource = nil;
+    
+    self.delegateProxy = [[PWTableAdapterProxy alloc] initWithTableDataSourceTarget:_tableDataSource tableDelegateTarget:_tableDelegate interceptor:self];
+    
+    // set up the delegate to the proxy so the adapter can intercept events
+    // default to the adapter simply being the delegate
+    _tableView.delegate = (id<UITableViewDelegate>)self.delegateProxy ?: self;
+    _tableView.dataSource = (id<UITableViewDataSource>)self.delegateProxy ?: self;
+}
 
 @end

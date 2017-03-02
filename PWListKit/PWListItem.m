@@ -7,6 +7,8 @@
 //
 
 #import "PWListItem.h"
+#import "PWListProtocol.h"
+
 
 @implementation PWListItem
 
@@ -33,9 +35,6 @@
         height = [clazz cellHeight];
     }
     
-    if (height < 0) {
-        height = 0;
-    }
     return height;
 }
 
@@ -44,9 +43,30 @@
 
 
 @implementation PWCollectionItem
+
+- (instancetype)init {
+    self = [super init];
+    self.size = CGSizeZero;
+    return self;
+}
 - (NSString *)cellIdentifier {
     NSAssert(self.cellClass, @"cellClass不能为空");
     return NSStringFromClass(self.cellClass);
+}
+
+- (CGSize)size {
+    if (!CGSizeEqualToSize(_size, CGSizeZero)) {
+        return _size;
+    }
+    
+    id clazz = self.cellClass;
+    CGSize size = CGSizeZero;
+    
+    if ([clazz respondsToSelector:@selector(cellSize)]) {
+        size = [clazz cellSize];
+    }
+    
+    return size;
 }
 
 @end

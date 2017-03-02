@@ -10,32 +10,104 @@
 #import "PWListSection.h"
 #import "PWListItem.h"
 #import "PWListProtocol.h"
+#import "PWListContext.h"
+#import "PWCollectionAdapterProxy.h"
 
 
 @interface PWCollectionAdapter () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
+@property (nonatomic) PWCollectionContext *context;
+
+@property (nonatomic) PWCollectionAdapterProxy *delegateProxy;
 @end
 
 @implementation PWCollectionAdapter
 
+- (void)dealloc {
+    // on iOS 9 setting the dataSource has side effects that can invalidate the layout and seg fault
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 9.0) {
+        // properties are assign for <iOS 9
+        _collectionView.dataSource = nil;
+        _collectionView.delegate = nil;
+    }
+}
+
 - (instancetype)initWithCollectionView:(UICollectionView *)collectionView {
     self = [super init];
+    
+    NSAssert(collectionView, @"collectionView不能为nil");
+
     _collectionView = collectionView;
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
+    
+    _context = [PWCollectionContext new];
+    _context.collectionView = collectionView;
+    _context.registeredCellClasses = [NSMutableSet new];
+    
     return self;
+}
+
+- (void)setCollectionDataSource:(id<UICollectionViewDataSource>)collectionDataSource {
+    if (_collectionDataSource != collectionDataSource) {
+        _collectionDataSource = collectionDataSource;
+        [self updateCollectionProxy];
+    }
+}
+
+- (void)setCollectionDelegate:(id<UICollectionViewDelegate>)collectionDelegate {
+    if (_collectionDelegate != collectionDelegate) {
+        _collectionDelegate = collectionDelegate;
+        [self updateCollectionProxy];
+    }
 }
 
 - (void)addSection:(void (^)(PWCollectionSection *section))block {
     PWCollectionSection *section = [PWCollectionSection new];
+    section.context = self.context;
     block(section);
     [self addChild:section];
-    
-    // 注册cell
-    NSArray<PWCollectionItem *> *children = section.children;
-    for (PWCollectionItem *item in children) {
-        [self registerCellClassOrNib:NSStringFromClass(item.cellClass) forCellReuseIdentifier:item.cellIdentifier];
+}
+
+- (void)insertSection:(void (^)(PWCollectionSection *section))block atIndex:(NSUInteger)index {
+    PWCollectionSection *section = [PWCollectionSection new];
+    section.context = self.context;
+    block(section);
+    [self insertChild:section atIndex:index];
+}
+
+- (void)removeSectionAtIndex:(NSUInteger)index {
+    [self removeChildAtIndex:index];
+}
+
+- (void)removeSectionsAtIndexSet:(NSIndexSet *)indexSet {
+    [self removeChildrenAtIndexSet:indexSet];
+}
+
+- (void)removeSection:(PWCollectionSection *)section {
+    [self removeChild:section];
+}
+
+- (void)clearAllSections {
+    [self removeAllChildren];
+}
+
+- (PWCollectionItem *)itemAtIndexPath:(NSIndexPath *)indexPath {
+    return [[self childAtIndex:indexPath.section] childAtIndex:indexPath.row];
+}
+
+- (PWCollectionSection *)sectionAtIndex:(NSUInteger)index {
+    return [self childAtIndex:index];
+}
+
+- (PWCollectionSection *)sectionWithTag:(NSString *)tag {
+    NSArray *sections = self.children;
+    for (PWCollectionSection *section in sections) {
+        if ([section.tag isEqualToString:tag]) {
+            return section;
+        }
     }
+    return nil;
 }
 
 - (NSInteger)numberOfItemsInSection:(NSInteger)section {
@@ -47,45 +119,66 @@
     return self.children.count;
 }
 
-- (void)registerCellClassOrNib:(NSString *)classNameOrNibName forCellReuseIdentifier:(NSString *)identifier {
-    NSString *nibPath = [[NSBundle mainBundle] pathForResource:classNameOrNibName ofType:@"nib"];
-    if (nibPath) {
-        [self.collectionView registerNib:[UINib nibWithNibName:classNameOrNibName bundle:nil] forCellWithReuseIdentifier:identifier];
-    } else {
-        [self.collectionView registerClass:NSClassFromString(classNameOrNibName) forCellWithReuseIdentifier:identifier];
-    }
-}
-
-- (PWCollectionItem *)itemAtIndexPath:(NSIndexPath *)indexPath {
-    PWCollectionSection *section = [self childAtIndex:indexPath.section];
-    return [section childAtIndex:indexPath.row];
-}
-
 #pragma mark - UICollectionViewDelegate
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     PWCollectionItem *item = [self itemAtIndexPath:indexPath];
-    return [item itemSize];
+    if (!item) {
+        return CGSizeZero;
+    }
+    
+    return item.size;
 }
 
 #pragma mark - UICollectionViewDataSource
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    id<UICollectionViewDataSource> dataSource = self.collectionDataSource;
+    if ([dataSource respondsToSelector:@selector(collectionView:cellForItemAtIndexPath:)]) {
+        return [dataSource collectionView:collectionView cellForItemAtIndexPath:indexPath];
+    }
+    
     PWCollectionItem *item = [self itemAtIndexPath:indexPath];
     UICollectionViewCell<PWListConfigurationProtocol> *cell = [collectionView dequeueReusableCellWithReuseIdentifier:item.cellIdentifier forIndexPath:indexPath];
-    NSAssert([cell conformsToProtocol:@protocol(PWListConfigurationProtocol)], @"cell要符合PWTableCellProtocol协议");
+    NSAssert([cell conformsToProtocol:@protocol(PWCollectionCellConfigurationProtocol)], @"cell要符合`PWCollectionCellConfigurationProtocol`协议");
     [cell configureWithData:item.data];
     return cell;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    id<UICollectionViewDataSource> dataSource = self.collectionDataSource;
+    if ([dataSource respondsToSelector:@selector(collectionView:numberOfItemsInSection:)]) {
+        return [dataSource collectionView:collectionView numberOfItemsInSection:section];
+    }
+    
     return [self numberOfItemsInSection:section];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    id<UICollectionViewDataSource> dataSource = self.collectionDataSource;
+    if ([dataSource respondsToSelector:@selector(numberOfSectionsInCollectionView:)]) {
+        return [dataSource numberOfSectionsInCollectionView:collectionView];
+    }
+    
     return [self numberOfSections];
+}
+
+#pragma mark - Private method
+
+- (void)updateCollectionProxy {
+    // there is a known bug with accessibility and using an NSProxy as the delegate that will cause EXC_BAD_ACCESS
+    // when voiceover is enabled. it will hold an unsafe ref to the delegate
+    _collectionView.delegate = nil;
+    _collectionView.dataSource = nil;
+    
+    self.delegateProxy = [[PWCollectionAdapterProxy alloc] initWithCollectionDataSourceTarget:_collectionDataSource collectionDelegateTarget:_collectionDelegate interceptor:self];
+    
+    // set up the delegate to the proxy so the adapter can intercept events
+    // default to the adapter simply being the delegate
+    _collectionView.delegate = (id<UICollectionViewDelegate>)self.delegateProxy ?: self;
+    _collectionView.dataSource = (id<UICollectionViewDataSource>)self.delegateProxy ?: self;
 }
 
 @end

@@ -33,12 +33,14 @@ static BOOL isInterceptedSelector(SEL sel) {
     __weak id _interceptor;
 }
 
-- (instancetype)initWithTableDataSourceTarget:(id<UITableViewDataSource>)tableDataSourceTarget TableDelegateTarget:(id<UITableViewDelegate>)tableDelegateTarget interceptor:(id)interceptor {
+- (instancetype)initWithTableDataSourceTarget:(id<UITableViewDataSource>)dataSource
+                          tableDelegateTarget:(id<UITableViewDelegate>)delegate
+                                  interceptor:(id)interceptor {
     NSAssert(interceptor, @"interceptor不能为nil");
     
     // -[NSProxy init] is undefined
-    _tableDataSourceTarget = tableDataSourceTarget;
-    _tableDelegateTarget = tableDelegateTarget;
+    _tableDataSourceTarget = dataSource;
+    _tableDelegateTarget = delegate;
     _interceptor = interceptor;
     
     return self;

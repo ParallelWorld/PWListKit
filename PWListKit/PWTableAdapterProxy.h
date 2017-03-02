@@ -13,8 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PWTableAdapterProxy : NSProxy
 
-- (instancetype)initWithTableDataSourceTarget:(id<UITableViewDataSource>)tableDataSourceTarget
-                          TableDelegateTarget:(id<UITableViewDelegate>)tableDelegateTarget
+- (instancetype)initWithTableDataSourceTarget:(id<UITableViewDataSource>)dataSource
+                          tableDelegateTarget:(id<UITableViewDelegate>)delegate
                                   interceptor:(id)interceptor;
 
 @end

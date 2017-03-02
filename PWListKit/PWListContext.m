@@ -15,3 +15,7 @@
 @implementation PWTableContext
 
 @end
+
+@implementation PWCollectionContext
+
+@end

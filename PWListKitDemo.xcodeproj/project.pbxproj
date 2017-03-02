@@ -14,6 +14,7 @@
 		0E88AEEA1E66B9ED0045401A /* PWTableAdapterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AEE91E66B9ED0045401A /* PWTableAdapterProxy.m */; };
 		0E88AEF21E66EF330045401A /* PWListSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AEF11E66EF330045401A /* PWListSection.m */; };
 		0E88AEF51E66EF4A0045401A /* PWListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AEF41E66EF4A0045401A /* PWListItem.m */; };
+		0E88AEF81E6705310045401A /* PWCollectionAdapterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AEF71E6705310045401A /* PWCollectionAdapterProxy.m */; };
 		0E8AFDA01E659C5800904504 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFD9F1E659C5800904504 /* main.m */; };
 		0E8AFDA31E659C5800904504 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFDA21E659C5800904504 /* AppDelegate.m */; };
 		0E8AFDA61E659C5800904504 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFDA51E659C5800904504 /* ViewController.m */; };
@@ -49,6 +50,8 @@
 		0E88AEF11E66EF330045401A /* PWListSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWListSection.m; sourceTree = "<group>"; };
 		0E88AEF31E66EF4A0045401A /* PWListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWListItem.h; sourceTree = "<group>"; };
 		0E88AEF41E66EF4A0045401A /* PWListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWListItem.m; sourceTree = "<group>"; };
+		0E88AEF61E6705310045401A /* PWCollectionAdapterProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWCollectionAdapterProxy.h; sourceTree = "<group>"; };
+		0E88AEF71E6705310045401A /* PWCollectionAdapterProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWCollectionAdapterProxy.m; sourceTree = "<group>"; };
 		0E8AFD9B1E659C5800904504 /* PWListKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PWListKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E8AFD9F1E659C5800904504 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0E8AFDA11E659C5800904504 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -150,13 +153,15 @@
 		0E8AFDB51E659E2200904504 /* PWListKit */ = {
 			isa = PBXGroup;
 			children = (
-				0E8AFDBC1E659E9300904504 /* PWListKit.h */,
 				0E8AFDB81E659E9300904504 /* PWCollectionAdapter.h */,
 				0E8AFDB91E659E9300904504 /* PWCollectionAdapter.m */,
+				0E88AEF61E6705310045401A /* PWCollectionAdapterProxy.h */,
+				0E88AEF71E6705310045401A /* PWCollectionAdapterProxy.m */,
 				0E88AEE21E666A2D0045401A /* PWListContext.h */,
 				0E88AEE31E666A2D0045401A /* PWListContext.m */,
 				0E88AEF31E66EF4A0045401A /* PWListItem.h */,
 				0E88AEF41E66EF4A0045401A /* PWListItem.m */,
+				0E8AFDBC1E659E9300904504 /* PWListKit.h */,
 				0E8AFDBD1E659E9300904504 /* PWListNode.h */,
 				0E8AFDBE1E659E9300904504 /* PWListNode.m */,
 				0E88AEEF1E66EB160045401A /* PWListProtocol.h */,
@@ -329,6 +334,7 @@
 				0E88AEDE1E65C8150045401A /* TableHeaderView.m in Sources */,
 				0E8AFDDA1E659EB700904504 /* Style3Cell.m in Sources */,
 				0E8AFDA01E659C5800904504 /* main.m in Sources */,
+				0E88AEF81E6705310045401A /* PWCollectionAdapterProxy.m in Sources */,
 				0E88AEF21E66EF330045401A /* PWListSection.m in Sources */,
 				0E8AFDD71E659EB700904504 /* Style1Cell.m in Sources */,
 				0E88AEF51E66EF4A0045401A /* PWListItem.m in Sources */,

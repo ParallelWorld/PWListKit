@@ -36,7 +36,7 @@
             [section addItem:^(PWCollectionItem *item) {
                 item.cellClass = [CollectionStyle1Cell class];
                 item.data = obj;
-                item.itemSize = CGSizeMake(100, 50);
+//                item.size = CGSizeMake(100, 50);
             }];
         }];
         

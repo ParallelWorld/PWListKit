@@ -9,7 +9,7 @@
 #import "PWListNode.h"
 #import <UIKit/UIKit.h>
 
-@class PWCollectionSection;
+@class PWCollectionSection, PWCollectionItem;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,6 +27,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)addSection:(void (^)(PWCollectionSection *section))block;
 - (void)insertSection:(void (^)(PWCollectionSection *section))block atIndex:(NSUInteger)index;
+
+- (void)removeSectionAtIndex:(NSUInteger)index;
+- (void)removeSectionsAtIndexSet:(NSIndexSet *)indexSet;
+- (void)removeSection:(PWCollectionSection *)section;
+
+- (void)clearAllSections;
+
+- (PWCollectionItem *)itemAtIndexPath:(NSIndexPath *)indexPath;
+- (PWCollectionSection *)sectionAtIndex:(NSUInteger)index;
+- (PWCollectionSection *)sectionWithTag:(NSString *)tag;
 
 @end
 
