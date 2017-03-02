@@ -1,15 +1,15 @@
 //
-//  Style3Cell.h
-//  Demo
+//  carouselTableCell.h
+//  PWListKitDemo
 //
-//  Created by Huang Wei on 2017/2/28.
+//  Created by Huang Wei on 2017/3/2.
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "PWListKit.h"
 
-@interface Style3Cell : UITableViewCell <PWTableCellConfigurationProtocol>
+@interface CarouselTableCell : UITableViewCell <PWTableCellConfigurationProtocol>
 
 @property (nonatomic) UICollectionView *collectionView;
 

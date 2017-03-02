@@ -181,4 +181,36 @@
     _collectionView.dataSource = (id<UICollectionViewDataSource>)self.delegateProxy ?: self;
 }
 
+- (void)updateCollectionEmptyView {
+    
+    UIView *emptyView = nil;
+    if ([self.dataSource respondsToSelector:@selector(emptyViewForTableAdapter:)]) {
+        emptyView = [self.dataSource emptyViewForCollectionAdapter:self];
+    }
+    if (!emptyView) {
+        return;
+    }
+    
+    if (emptyView != _collectionView.backgroundView) {
+        [_collectionView.backgroundView removeFromSuperview];
+        _collectionView.backgroundView = emptyView;
+    }
+    _collectionView.backgroundView.hidden = ![self isCollectionEmpty];
+}
+
+- (BOOL)isCollectionEmpty {
+    if (self.numberOfSections == 0) {
+        return YES;
+    }
+    
+    NSArray<PWTableSection *> *sections = self.children;
+    for (PWTableSection *section in sections) {
+        if ([section numberOfItems] != 0) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
 @end

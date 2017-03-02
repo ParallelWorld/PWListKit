@@ -6,10 +6,10 @@
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 
-#import "CollectionStyle1Cell.h"
+#import "CollectionColorCell.h"
 #import "Masonry.h"
 
-@implementation CollectionStyle1Cell
+@implementation CollectionColorCell
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -18,7 +18,7 @@
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.contentView);
     }];
-    self.backgroundColor = [UIColor redColor];
+    self.backgroundColor = [UIColor purpleColor];
     return self;
 }
 

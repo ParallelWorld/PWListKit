@@ -1,16 +1,16 @@
 //
-//  Style3Cell.m
-//  Demo
+//  carouselTableCell.m
+//  PWListKitDemo
 //
-//  Created by Huang Wei on 2017/2/28.
+//  Created by Huang Wei on 2017/3/2.
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 
-#import "Style3Cell.h"
+#import "CarouselTableCell.h"
+#import "CollectionColorCell.h"
 #import "Masonry.h"
-#import "CollectionStyle1Cell.h"
 
-@implementation Style3Cell
+@implementation CarouselTableCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -34,12 +34,10 @@
     [self.collectionModel addSection:^(PWCollectionSection *section) {
         [data enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [section addItem:^(PWCollectionItem *item) {
-                item.cellClass = [CollectionStyle1Cell class];
+                item.cellClass = [CollectionColorCell class];
                 item.data = obj;
-//                item.size = CGSizeMake(100, 50);
             }];
         }];
-        
     }];
 }
 

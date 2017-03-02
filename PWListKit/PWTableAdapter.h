@@ -8,9 +8,12 @@
 
 #import "PWListNode.h"
 #import <UIKit/UIkit.h>
+#import "PWListProtocol.h"
+
 
 @class PWTableSection;
 @class PWTableItem;
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,8 +26,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak, readonly) UITableView *tableView;
 
 
+@property (nonatomic, weak) id<PWTableAdapterDataSource> dataSource;
 @property (nonatomic, weak) id<UITableViewDataSource> tableDataSource;
 @property (nonatomic, weak) id<UITableViewDelegate> tableDelegate;
+
 
 
 - (void)addSection:(void (^)(PWTableSection *section))block;
@@ -40,11 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (PWTableSection *)sectionAtIndex:(NSUInteger)index;
 - (PWTableSection *)sectionWithTag:(NSString *)tag;
 
-@end
-
-
-
-@interface PWTableAdapter (UITableView)
 
 - (NSInteger)numberOfSections;
 - (NSInteger)numberOfRowsInSection:(NSInteger)section;

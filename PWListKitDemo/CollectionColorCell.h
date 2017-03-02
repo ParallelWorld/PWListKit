@@ -10,7 +10,7 @@
 #import "PWListKit.h"
 
 
-@interface CollectionStyle1Cell : UICollectionViewCell <PWCollectionCellConfigurationProtocol>
+@interface CollectionColorCell : UICollectionViewCell <PWCollectionCellConfigurationProtocol>
 
 @property (nonatomic) UILabel *titleLabel;
 

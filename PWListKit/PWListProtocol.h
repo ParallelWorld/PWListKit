@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+
+@class PWTableAdapter, PWCollectionAdapter;
+
+
 /// list中view的配置data的协议
 @protocol PWListConfigurationProtocol <NSObject>
 
@@ -34,3 +38,19 @@
 
 @end
 
+
+@protocol PWTableAdapterDataSource <NSObject>
+
+@optional
+- (UIView *)emptyViewForTableAdapter:(PWTableAdapter *)adapter;
+
+@end
+
+
+
+@protocol PWCollectionAdapterDataSource <NSObject>
+
+@optional
+- (UIView *)emptyViewForCollectionAdapter:(PWCollectionAdapter *)adapter;
+
+@end

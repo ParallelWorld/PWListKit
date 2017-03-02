@@ -16,7 +16,6 @@
 #import "PWListProtocol.h"
 
 
-
 static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     if ([NSThread mainThread]) {
         block();
@@ -254,7 +253,8 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
         return row.cellHeight;
     }
 
-    return [self.tableView pw_heightForCellWithIdentifier:row.cellIdentifier cacheByIndexPath:indexPath configuration:^(UITableViewCell<PWListConfigurationProtocol> *cell) {
+    return [self.tableView pw_heightForCellWithIdentifier:row.cellIdentifier cacheByIndexPath:indexPath configuration:^(UITableViewCell<PWTableCellConfigurationProtocol> *cell) {
+        NSAssert([cell conformsToProtocol:@protocol(PWTableCellConfigurationProtocol)], @"tableCell需要满足`PWTableCellConfigurationProtocol`协议");
         [cell configureWithData:row.data];
     }];
 }
@@ -270,7 +270,9 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     if (header.height > 0) {
         return header.height;
     }
+    
     return [self.tableView pw_heightForHeaderWithIdentifier:header.headerFooterIdentifier cacheBySection:section configuration:^(UITableViewHeaderFooterView<PWListConfigurationProtocol> *headerView) {
+        NSAssert([headerView conformsToProtocol:@protocol(PWListConfigurationProtocol)], @"headerFooterView需要满足`PWListConfigurationProtocol`协议");
         [headerView configureWithData:header.data];
     }];
 }
@@ -286,7 +288,9 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     if (footer.height > 0) {
         return footer.height;
     }
+    
     return [self.tableView pw_heightForFooterWithIdentifier:footer.headerFooterIdentifier cacheBySection:section configuration:^(UITableViewHeaderFooterView<PWListConfigurationProtocol> *footerView) {
+        NSAssert([footerView conformsToProtocol:@protocol(PWListConfigurationProtocol)], @"headerFooterView需要满足`PWListConfigurationProtocol`协议");
         [footerView configureWithData:footer.data];
     }];
 }
@@ -298,21 +302,26 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
             [self.tableView layoutIfNeeded];
         }
         [self.tableView reloadData];
+        
+        [self updateTableEmptyView];
     });
 }
 
 - (void)reloadRowAtIndexPath:(NSIndexPath *)indexPath withRowAnimation:(UITableViewRowAnimation)animation {
     pw_dispatch_block_into_main_queue(^{
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:animation];
+        
+        [self updateTableEmptyView];
     });
 }
 
 - (void)reloadSectionAtIndex:(NSUInteger)index withRowAnimation:(UITableViewRowAnimation)animation {
     pw_dispatch_block_into_main_queue(^{
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:animation];
+        
+        [self updateTableEmptyView];
     });
 }
-
 
 #pragma mark - Private method
 
@@ -328,6 +337,38 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     // default to the adapter simply being the delegate
     _tableView.delegate = (id<UITableViewDelegate>)self.delegateProxy ?: self;
     _tableView.dataSource = (id<UITableViewDataSource>)self.delegateProxy ?: self;
+}
+
+- (void)updateTableEmptyView {
+    
+    UIView *emptyView = nil;
+    if ([self.dataSource respondsToSelector:@selector(emptyViewForTableAdapter:)]) {
+        emptyView = [self.dataSource emptyViewForTableAdapter:self];
+    }
+    if (!emptyView) {
+        return;
+    }
+    
+    if (emptyView != _tableView.backgroundView) {
+        [_tableView.backgroundView removeFromSuperview];
+        _tableView.backgroundView = emptyView;
+    }
+    _tableView.backgroundView.hidden = ![self isTableEmpty];
+}
+
+- (BOOL)isTableEmpty {
+    if (self.numberOfSections == 0) {
+        return YES;
+    }
+    
+    NSArray<PWTableSection *> *sections = self.children;
+    for (PWTableSection *section in sections) {
+        if ([section numberOfItems] != 0) {
+            return NO;
+        }
+    }
+
+    return YES;
 }
 
 @end

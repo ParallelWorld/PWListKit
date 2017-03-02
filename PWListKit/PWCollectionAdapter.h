@@ -8,8 +8,11 @@
 
 #import "PWListNode.h"
 #import <UIKit/UIKit.h>
+#import "PWListProtocol.h"
+
 
 @class PWCollectionSection, PWCollectionItem;
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak, readonly) UICollectionView *collectionView;
 
-
+@property (nonatomic, weak) id<PWCollectionAdapterDataSource> dataSource;
 @property (nonatomic, weak) id<UICollectionViewDataSource> collectionDataSource;
 @property (nonatomic, weak) id<UICollectionViewDelegate> collectionDelegate;
 
