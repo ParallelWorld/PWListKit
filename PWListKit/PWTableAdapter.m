@@ -14,6 +14,8 @@
 #import "UITableView+PWTemplateLayoutCell.h"
 #import "PWTableAdapterProxy.h"
 #import "PWListProtocol.h"
+#import "PWListConstant.h"
+
 
 
 static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
@@ -249,7 +251,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     if (!row) {
         return 0;
     }
-    if (row.cellHeight > 0) {
+    if (row.cellHeight != PWTableViewAutomaticDimension) {
         return row.cellHeight;
     }
 

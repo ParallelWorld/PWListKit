@@ -11,7 +11,6 @@
 
 @class PWTableAdapter, PWCollectionAdapter;
 
-
 /// list中view的配置data的协议
 @protocol PWListConfigurationProtocol <NSObject>
 

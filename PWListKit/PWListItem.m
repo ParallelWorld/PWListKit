@@ -8,6 +8,8 @@
 
 #import "PWListItem.h"
 #import "PWListProtocol.h"
+#import "PWListConstant.h"
+
 
 
 @implementation PWListItem
@@ -18,24 +20,28 @@
 
 @implementation PWTableItem
 
+- (instancetype)init {
+    self = [super init];
+    _cellHeight = PWTableViewAutomaticDimension;
+    return self;
+}
+
 - (NSString *)cellIdentifier {
     NSAssert(self.cellClass, @"cellClass不能为空");
     return NSStringFromClass(self.cellClass);
 }
 
 - (CGFloat)cellHeight {
-    if (_cellHeight > 0) {
+    // tableItem已经被外界赋值
+    if (_cellHeight != PWTableViewAutomaticDimension) {
         return _cellHeight;
     }
     
-    id clazz = self.cellClass;
-    CGFloat height = 0;
-    
-    if ([clazz respondsToSelector:@selector(cellHeight)]) {
-        height = [clazz cellHeight];
+    if ([self.cellClass respondsToSelector:@selector(cellHeight)]) {
+        return [self.cellClass cellHeight];
     }
     
-    return height;
+    return _cellHeight;
 }
 
 @end

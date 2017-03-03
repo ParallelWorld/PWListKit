@@ -7,8 +7,16 @@
 //
 
 #import "PWTableHeaderFooter.h"
+#import "PWListConstant.h"
+
 
 @implementation PWTableHeaderFooter
+
+- (instancetype)init {
+    self = [super init];
+    _height = PWTableViewAutomaticDimension;
+    return self;
+}
 
 - (NSString *)headerFooterIdentifier {
     NSAssert(self.headerFooterClass, @"cellClass不能为空");

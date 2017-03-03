@@ -25,6 +25,7 @@
 		0E88AF141E68100B0045401A /* TableFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AF131E68100B0045401A /* TableFooterView.m */; };
 		0E88AF171E6819030045401A /* EmptyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AF161E6819030045401A /* EmptyViewController.m */; };
 		0E88AF1A1E6819CF0045401A /* RemoveTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AF191E6819CF0045401A /* RemoveTableCell.m */; };
+		0E88AF951E6966AA0045401A /* PWListConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AF941E6966AA0045401A /* PWListConstant.m */; };
 		0E8AFDA01E659C5800904504 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFD9F1E659C5800904504 /* main.m */; };
 		0E8AFDA31E659C5800904504 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8AFDA21E659C5800904504 /* AppDelegate.m */; };
 		0E8AFDA91E659C5800904504 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8AFDA71E659C5800904504 /* Main.storyboard */; };
@@ -76,6 +77,8 @@
 		0E88AF161E6819030045401A /* EmptyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyViewController.m; sourceTree = "<group>"; };
 		0E88AF181E6819CF0045401A /* RemoveTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoveTableCell.h; sourceTree = "<group>"; };
 		0E88AF191E6819CF0045401A /* RemoveTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoveTableCell.m; sourceTree = "<group>"; };
+		0E88AF931E6966AA0045401A /* PWListConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWListConstant.h; sourceTree = "<group>"; };
+		0E88AF941E6966AA0045401A /* PWListConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWListConstant.m; sourceTree = "<group>"; };
 		0E8AFD9B1E659C5800904504 /* PWListKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PWListKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E8AFD9F1E659C5800904504 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0E8AFDA11E659C5800904504 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -205,6 +208,8 @@
 				0E8AFDB91E659E9300904504 /* PWCollectionAdapter.m */,
 				0E88AEF61E6705310045401A /* PWCollectionAdapterProxy.h */,
 				0E88AEF71E6705310045401A /* PWCollectionAdapterProxy.m */,
+				0E88AF931E6966AA0045401A /* PWListConstant.h */,
+				0E88AF941E6966AA0045401A /* PWListConstant.m */,
 				0E88AEE21E666A2D0045401A /* PWListContext.h */,
 				0E88AEE31E666A2D0045401A /* PWListContext.m */,
 				0E88AEF31E66EF4A0045401A /* PWListItem.h */,
@@ -368,6 +373,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E88AEE41E666A2D0045401A /* PWListContext.m in Sources */,
+				0E88AF951E6966AA0045401A /* PWListConstant.m in Sources */,
 				0E88AEDA1E65C0FB0045401A /* PWTableHeaderFooter.m in Sources */,
 				0E8AFDCA1E659E9300904504 /* PWTableAdapter.m in Sources */,
 				0E8AFDA31E659C5800904504 /* AppDelegate.m in Sources */,

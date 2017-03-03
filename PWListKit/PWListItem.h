@@ -19,11 +19,12 @@
 @interface PWTableItem : PWListItem
 
 /// row对应的cellClass
-/// cell必须满足PWTableCellProtocol协议
+/// cell必须满足`PWTableCellProtocol`协议
 @property (nonatomic) Class cellClass;
 
 /// 可以直接设置cellHeight，也可以在cell中覆写cellHeight类方法
-/// 如果cellHeight是0，则使用的AutoLayout自动算高
+/// 优先级是[tableItem cellHeight] > [cellClass cellHeight]
+/// 默认是`PWTableViewAutomaticDimension`
 @property (nonatomic) CGFloat cellHeight;
 
 @property (nonatomic) id data;

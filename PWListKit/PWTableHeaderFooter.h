@@ -14,6 +14,9 @@
 
 @property (nonatomic, readonly) NSString *headerFooterIdentifier;
 
+/// headerFooter对应的headerFooterClass
+/// headerFooter必须是`UITableViewHeaderFooterView`子类
+/// 必须满足`PWListConfigurationProtocol`协议
 @property (nonatomic) Class headerFooterClass;
 
 @property (nonatomic) id data;
