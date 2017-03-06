@@ -139,7 +139,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     PWTableItem *item = [self itemAtIndexPath:indexPath];
     UITableViewCell<PWListConfigurationProtocol> *cell = [tableView dequeueReusableCellWithIdentifier:item.cellIdentifier forIndexPath:indexPath];
     NSAssert([cell conformsToProtocol:@protocol(PWTableCellConfigurationProtocol)], @"cell要符合`PWTableCellConfigurationProtocol`协议");
-    [cell configureWithData:item.data];
+    [cell populateData:item.data];
     return cell;
 }
 
@@ -204,12 +204,12 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     }
     Class clazz = header.headerFooterClass;
     NSAssert([clazz isSubclassOfClass:UITableViewHeaderFooterView.class], @"header的class必须是UITableViewHeaderFooterView子类");
-    NSAssert([clazz instancesRespondToSelector:@selector(configureWithData:)], @"header的实例需要实现`configureWithData:`方法");
+    NSAssert([clazz instancesRespondToSelector:@selector(populateData:)], @"header的实例需要实现`populateData:`方法");
     UITableViewHeaderFooterView<PWListConfigurationProtocol> *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:header.headerFooterIdentifier];
     if (!headerView) {
         headerView = [[clazz alloc] initWithReuseIdentifier:header.headerFooterIdentifier];
     }
-    [headerView configureWithData:header.data];
+    [headerView populateData:header.data];
     return headerView;
 }
 
@@ -227,12 +227,12 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     }
     Class clazz = footer.headerFooterClass;
     NSAssert([clazz isSubclassOfClass:UITableViewHeaderFooterView.class], @"header的class必须是UITableViewHeaderFooterView子类");
-    NSAssert([clazz instancesRespondToSelector:@selector(configureWithData:)], @"header的实例需要实现`configureWithData:`方法");
+    NSAssert([clazz instancesRespondToSelector:@selector(populateData:)], @"header的实例需要实现`populateData:`方法");
     UITableViewHeaderFooterView<PWListConfigurationProtocol> *footerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:footer.headerFooterIdentifier];
     if (!footerView) {
         footerView = [[clazz alloc] initWithReuseIdentifier:footer.headerFooterIdentifier];
     }
-    [footerView configureWithData:footer.data];
+    [footerView populateData:footer.data];
     return footerView;
 }
 
@@ -257,7 +257,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
 
     return [self.tableView pw_heightForCellWithIdentifier:row.cellIdentifier cacheByIndexPath:indexPath configuration:^(UITableViewCell<PWTableCellConfigurationProtocol> *cell) {
         NSAssert([cell conformsToProtocol:@protocol(PWTableCellConfigurationProtocol)], @"tableCell需要满足`PWTableCellConfigurationProtocol`协议");
-        [cell configureWithData:row.data];
+        [cell populateData:row.data];
     }];
 }
 
@@ -275,7 +275,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     
     return [self.tableView pw_heightForHeaderWithIdentifier:header.headerFooterIdentifier cacheBySection:section configuration:^(UITableViewHeaderFooterView<PWListConfigurationProtocol> *headerView) {
         NSAssert([headerView conformsToProtocol:@protocol(PWListConfigurationProtocol)], @"headerFooterView需要满足`PWListConfigurationProtocol`协议");
-        [headerView configureWithData:header.data];
+        [headerView populateData:header.data];
     }];
 }
 
@@ -293,7 +293,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     
     return [self.tableView pw_heightForFooterWithIdentifier:footer.headerFooterIdentifier cacheBySection:section configuration:^(UITableViewHeaderFooterView<PWListConfigurationProtocol> *footerView) {
         NSAssert([footerView conformsToProtocol:@protocol(PWListConfigurationProtocol)], @"headerFooterView需要满足`PWListConfigurationProtocol`协议");
-        [footerView configureWithData:footer.data];
+        [footerView populateData:footer.data];
     }];
 }
 

@@ -16,7 +16,7 @@
     return self;
 }
 
-- (void)configureWithData:(id)data {
+- (void)populateData:(id)data {
     
 }
 

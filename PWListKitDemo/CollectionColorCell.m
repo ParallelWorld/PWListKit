@@ -22,7 +22,7 @@
     return self;
 }
 
-- (void)configureWithData:(NSString *)data {
+- (void)populateData:(NSString *)data {
     self.titleLabel.text = data;
 }
 

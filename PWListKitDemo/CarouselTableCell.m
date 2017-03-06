@@ -30,7 +30,7 @@
     return self;
 }
 
-- (void)configureWithData:(NSArray *)data {
+- (void)populateData:(NSArray *)data {
     [self.collectionModel addSection:^(PWCollectionSection *section) {
         [data enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [section addItem:^(PWCollectionItem *item) {

@@ -143,7 +143,7 @@
     PWCollectionItem *item = [self itemAtIndexPath:indexPath];
     UICollectionViewCell<PWListConfigurationProtocol> *cell = [collectionView dequeueReusableCellWithReuseIdentifier:item.cellIdentifier forIndexPath:indexPath];
     NSAssert([cell conformsToProtocol:@protocol(PWCollectionCellConfigurationProtocol)], @"cell要符合`PWCollectionCellConfigurationProtocol`协议");
-    [cell configureWithData:item.data];
+    [cell populateData:item.data];
     return cell;
 }
 

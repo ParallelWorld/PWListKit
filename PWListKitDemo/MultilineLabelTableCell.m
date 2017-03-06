@@ -28,7 +28,7 @@
     return self;
 }
 
-- (void)configureWithData:(id)data {
+- (void)populateData:(id)data {
     self.multilineLabel.text = data[@"largeText"];
 }
 

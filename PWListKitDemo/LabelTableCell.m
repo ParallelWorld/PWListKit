@@ -10,7 +10,7 @@
 
 @implementation LabelTableCell
 
-- (void)configureWithData:(id)data {
+- (void)populateData:(id)data {
     self.textLabel.text = data[@"title"];
 }
 

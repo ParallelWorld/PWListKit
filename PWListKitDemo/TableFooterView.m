@@ -29,7 +29,7 @@
     return self;
 }
 
-- (void)configureWithData:(NSDictionary *)data {
+- (void)populateData:(NSDictionary *)data {
     self.middleTitleLabel.text = data[@"title"];
 }
 
