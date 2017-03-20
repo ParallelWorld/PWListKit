@@ -18,6 +18,9 @@
 #import "PWTableSection.h"
 #import "PWTableRow.h"
 #import "PWTableHeaderFooter.h"
+#import "PWTableAdapter.h"
+#import "UITableView+PWAdapter.h"
+
 
 /// CollectionView
 #import "PWCollectionSection.h"
@@ -26,7 +29,6 @@
 
 
 #import "PWCollectionAdapter.h"
-#import "PWTableAdapter.h"
 #import "PWTableHeaderFooter.h"
 #import "UITableView+PWTemplateLayoutCell.h"
 

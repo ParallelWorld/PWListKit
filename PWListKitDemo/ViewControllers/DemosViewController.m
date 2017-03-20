@@ -17,8 +17,6 @@
 
 @property (nonatomic) UITableView *tableView;
 
-@property (nonatomic) PWTableAdapter *tableAdapter;
-
 @end
 
 @implementation DemosViewController
@@ -38,7 +36,7 @@
 - (void)loadData {
     NSArray *controllerClassNames = [self controllerClassNames];
     
-    [self.tableAdapter addSection:^(PWTableSection * _Nonnull section) {
+    [self.tableView.adapter addSection:^(PWTableSection * _Nonnull section) {
         [controllerClassNames enumerateObjectsUsingBlock:^(NSString *name, NSUInteger idx, BOOL * _Nonnull stop) {
             [section addRow:^(PWTableRow *row) {
                 row.clazz = [LabelTableCell class];
@@ -47,7 +45,7 @@
         }];
     }];
     
-    [self.tableAdapter reloadTableViewWithCompletion:^{
+    [self.tableView.adapter reloadTableViewWithCompletion:^{
         
     }];
 }
@@ -61,7 +59,7 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    PWTableRow *item = [self.tableAdapter rowAtIndexPath:indexPath];
+    PWTableRow *item = [self.tableView.adapter rowAtIndexPath:indexPath];
     NSString *title = item.data[@"title"];
     Class controllerClass = NSClassFromString(title);
     UIViewController *controller = [controllerClass new];
@@ -73,16 +71,9 @@
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [UITableView new];
+        _tableView.adapter.tableDelegate = self;
     }
     return _tableView;
-}
-
-- (PWTableAdapter *)tableAdapter {
-    if (!_tableAdapter) {
-        _tableAdapter = [[PWTableAdapter alloc] initWithTableView:self.tableView];
-        _tableAdapter.tableDelegate = self;
-    }
-    return _tableAdapter;
 }
 
 @end
