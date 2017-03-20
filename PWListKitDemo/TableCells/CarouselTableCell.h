@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PWListKit.h"
 
-@interface CarouselTableCell : UITableViewCell <PWTableCellConfigurationProtocol>
+@interface CarouselTableCell : UITableViewCell <PWTableCellConfigureProtocol>
 
 @property (nonatomic) UICollectionView *collectionView;
 

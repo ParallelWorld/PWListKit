@@ -36,8 +36,8 @@
     }];
     
     [self.tableAdapter addSection:^(PWTableSection * _Nonnull section) {
-        [section addItem:^(__kindof PWTableRow *item) {
-            item.cellClass = RemoveTableCell.class;
+        [section addRow:^(PWTableRow * _Nonnull row) {
+            row.clazz = RemoveTableCell.class;
         }];
     }];
     
@@ -47,8 +47,8 @@
 
 - (void)clickAddCellButton {
     [self.tableAdapter addSection:^(PWTableSection *section) {
-        [section addItem:^(__kindof PWTableRow *item) {
-            item.cellClass = RemoveTableCell.class;
+        [section addRow:^(PWTableRow * _Nonnull row) {
+            row.clazz = RemoveTableCell.class;
         }];
     }];
     [self.tableAdapter reloadTableView];
@@ -98,8 +98,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     PWTableSection *section = [self.tableAdapter sectionAtIndex:indexPath.section];
-    [section removeItemAtIndex:indexPath.row];
-    [self.tableAdapter reloadSectionAtIndex:indexPath.section withRowAnimation:UITableViewRowAnimationFade];
+    [section removeRowAtIndex:indexPath.row];
+    [self.tableAdapter reloadTableView];
 }
 
 @end

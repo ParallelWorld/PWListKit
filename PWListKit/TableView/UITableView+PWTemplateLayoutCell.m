@@ -88,7 +88,6 @@
 }
 
 - (__kindof UITableViewHeaderFooterView *)pw_templateHeaderFooterForReuseIdentifier:(NSString *)identifier {
-    NSAssert([identifier isKindOfClass:[NSString class]], @"identifier必须是NSString类型");
     NSAssert(identifier.length > 0, @"identifier不能为空");
     
     NSMutableDictionary *templateHeaderFootersByIdentifiers = objc_getAssociatedObject(self, _cmd);

@@ -6,24 +6,32 @@
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 
-#import "PWListItem.h"
-#import "PWListProtocol.h"
+#import "PWListNode.h"
+#import <UIKit/UIKit.h>
+
+/// Table cell配置协议
+@protocol PWTableCellConfigureProtocol <NSObject>
+
+@required
+- (void)populateData:(id)data;
+
+@optional
++ (CGFloat)cellHeight;
+
+@end
 
 
 /// Table row model.
-@interface PWTableRow : PWListItem
+@interface PWTableRow : PWListNode
 
-/// row对应的cellClass
-/// cell必须满足`PWTableCellProtocol`协议
-@property (nonatomic) Class<PWTableCellConfigurationProtocol> cellClass;
+/// Row 对应的 cell class
+@property (nonatomic) Class<PWTableCellConfigureProtocol> clazz;
 
 /// 可以直接设置cellHeight，也可以在cell中覆写cellHeight类方法
 /// 优先级是[tableItem cellHeight] > [cellClass cellHeight]
-/// 默认是`PWTableViewAutomaticDimension`
-@property (nonatomic) CGFloat cellHeight;
+/// 默认是0
+@property (nonatomic) CGFloat height;
 
-@property (nonatomic) id data;
-
-@property (nonatomic, readonly) NSString *cellIdentifier;
+@property (nonatomic, readonly) NSString *reuseIdentifier;
 
 @end

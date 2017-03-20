@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PWListKit.h"
 
-@interface MultilineLabelTableCell : UITableViewCell <PWTableCellConfigurationProtocol>
+@interface MultilineLabelTableCell : UITableViewCell <PWTableCellConfigureProtocol>
 
 @property (nonatomic) UILabel *multilineLabel;
 

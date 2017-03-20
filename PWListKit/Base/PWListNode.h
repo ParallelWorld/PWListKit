@@ -34,6 +34,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (__kindof PWListNode *)lastChild;
 - (__kindof PWListNode *)childAtIndex:(NSUInteger)index;
 
+
+@property (nonatomic) id data; /// 结点携带的数据
+@property (nonatomic, copy) NSString *tag; /// 结点的标识
+
 @end
 
 NS_ASSUME_NONNULL_END

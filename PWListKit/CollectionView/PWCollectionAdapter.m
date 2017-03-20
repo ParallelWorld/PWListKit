@@ -9,8 +9,7 @@
 #import "PWCollectionAdapter.h"
 #import "PWCollectionSection.h"
 #import "PWCollectionItem.h"
-#import "PWListProtocol.h"
-#import "PWListContext.h"
+#import "PWCollectionContext.h"
 #import "PWCollectionAdapterProxy.h"
 
 
@@ -141,8 +140,7 @@
     }
     
     PWCollectionItem *item = [self itemAtIndexPath:indexPath];
-    UICollectionViewCell<PWListConfigurationProtocol> *cell = [collectionView dequeueReusableCellWithReuseIdentifier:item.cellIdentifier forIndexPath:indexPath];
-    NSAssert([cell conformsToProtocol:@protocol(PWCollectionCellConfigurationProtocol)], @"cell要符合`PWCollectionCellConfigurationProtocol`协议");
+    UICollectionViewCell<PWCollectionCellConfigureProtocol> *cell = [collectionView dequeueReusableCellWithReuseIdentifier:item.cellIdentifier forIndexPath:indexPath];
     [cell populateData:item.data];
     return cell;
 }
@@ -184,7 +182,7 @@
 - (void)updateCollectionEmptyView {
     
     UIView *emptyView = nil;
-    if ([self.dataSource respondsToSelector:@selector(emptyViewForTableAdapter:)]) {
+    if ([self.dataSource respondsToSelector:@selector(emptyViewForCollectionAdapter:)]) {
         emptyView = [self.dataSource emptyViewForCollectionAdapter:self];
     }
     if (!emptyView) {

@@ -10,17 +10,28 @@
 #import <UIKit/UIKit.h>
 
 
+/// Table header footer配置协议
+@protocol PWTableHeaderFooterConfigureProtocol <NSObject>
+
+@required
+- (void)populateData:(id)data;
+
+@optional
++ (CGFloat)headerFooterHeight;
+
+@end
+
+
+/// Table header footer model.
 @interface PWTableHeaderFooter : PWListNode
 
-@property (nonatomic, readonly) NSString *headerFooterIdentifier;
+@property (nonatomic, readonly) NSString *reuseIdentifier;
 
-/// headerFooter对应的headerFooterClass
-/// headerFooter必须是`UITableViewHeaderFooterView`子类
-/// 必须满足`PWListConfigurationProtocol`协议
-@property (nonatomic) Class headerFooterClass;
-
-@property (nonatomic) id data;
-
+/// 可以直接设置headerFooterHeight，也可以在headerFooterView中覆写headerFooterHeight类方法
+/// 优先级是[headerFooter headerFooterHeight] > [headerFooterClass headerFooterHeight]
+/// 默认是0
 @property (nonatomic) CGFloat height;
+
+@property (nonatomic) Class<PWTableHeaderFooterConfigureProtocol> clazz;
 
 @end

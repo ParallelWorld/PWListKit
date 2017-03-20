@@ -52,20 +52,19 @@
 - (void)setHeader:(void (^)(PWTableHeaderFooter * _Nonnull))block {
     PWTableHeaderFooter *header = [PWTableHeaderFooter new];
     block(header);
-    [self m_registerHeaderFooterClassForHeaderFooter:header];
+    [self registerHeaderFooterClassForHeaderFooter:header];
     _sectionHeader = header;
 }
 
 - (void)setFooter:(void (^)(PWTableHeaderFooter * _Nonnull))block {
     PWTableHeaderFooter *footer = [PWTableHeaderFooter new];
     block(footer);
-    [self m_registerHeaderFooterClassForHeaderFooter:footer];
+    [self registerHeaderFooterClassForHeaderFooter:footer];
     _sectionFooter = footer;
 }
 
 - (void)registerCellClassForRow:(PWTableRow *)row {
-    Class clazz = row.cellClass;
-    NSAssert(clazz, @"注册的cellClass不能为空");
+    Class clazz = row.clazz;
     NSString *className = NSStringFromClass(clazz);
     
     if ([self.context.registeredCellClasses containsObject:clazz]) {
@@ -74,17 +73,16 @@
     
     NSString *nibPath = [[NSBundle mainBundle] pathForResource:className ofType:@"nib"];
     if (nibPath) {
-        [self.context.tableView registerNib:[UINib nibWithNibName:className bundle:nil] forCellReuseIdentifier:row.cellIdentifier];
+        [self.context.tableView registerNib:[UINib nibWithNibName:className bundle:nil] forCellReuseIdentifier:row.reuseIdentifier];
     } else {
-        [self.context.tableView registerClass:clazz forCellReuseIdentifier:row.cellIdentifier];
+        [self.context.tableView registerClass:clazz forCellReuseIdentifier:row.reuseIdentifier];
     }
     
     [self.context.registeredCellClasses addObject:clazz];
 }
 
-- (void)m_registerHeaderFooterClassForHeaderFooter:(PWTableHeaderFooter *)headerFooter {
-    Class clazz = headerFooter.headerFooterClass;
-    NSAssert(clazz, @"注册的headerFooterClass不能为nil");
+- (void)registerHeaderFooterClassForHeaderFooter:(PWTableHeaderFooter *)headerFooter {
+    Class clazz = headerFooter.clazz;
     NSString *className = NSStringFromClass(clazz);
     
     if ([self.context.registeredHeaderFooterClasses containsObject:clazz]) {
@@ -93,9 +91,9 @@
     
     NSString *nibPath = [[NSBundle mainBundle] pathForResource:className ofType:@"nib"];
     if (nibPath) {
-        [self.context.tableView registerNib:[UINib nibWithNibName:className bundle:nil] forHeaderFooterViewReuseIdentifier:headerFooter.headerFooterIdentifier];
+        [self.context.tableView registerNib:[UINib nibWithNibName:className bundle:nil] forHeaderFooterViewReuseIdentifier:headerFooter.reuseIdentifier];
     } else {
-        [self.context.tableView registerClass:clazz forHeaderFooterViewReuseIdentifier:headerFooter.headerFooterIdentifier];
+        [self.context.tableView registerClass:clazz forHeaderFooterViewReuseIdentifier:headerFooter.reuseIdentifier];
     }
     
     [self.context.registeredHeaderFooterClasses addObject:clazz];

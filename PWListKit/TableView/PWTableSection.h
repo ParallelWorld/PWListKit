@@ -6,17 +6,20 @@
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 
-#import "PWListSection.h"
+#import "PWListNode.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class PWTableRow, PWTableHeaderFooter;
+@class PWTableRow, PWTableHeaderFooter, PWTableContext;
 
 /// Table section model.
-@interface PWTableSection : PWListSection
+@interface PWTableSection : PWListNode
 
 /// Table context
 @property (nonatomic, weak) PWTableContext *context;
+@property (nonatomic, readonly) PWTableHeaderFooter *sectionHeader;
+@property (nonatomic, readonly) PWTableHeaderFooter *sectionFooter;
+
 
 
 - (void)addRow:(void (^)(PWTableRow *row))block;
@@ -27,10 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 - (NSInteger)numberOfRows;
-
-
-@property (nonatomic, readonly) PWTableHeaderFooter *sectionHeader;
-@property (nonatomic, readonly) PWTableHeaderFooter *sectionFooter;
 
 - (void)setHeader:(void (^)(PWTableHeaderFooter *header))block;
 - (void)setFooter:(void (^)(PWTableHeaderFooter *footer))block;

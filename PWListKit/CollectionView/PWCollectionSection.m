@@ -8,19 +8,44 @@
 
 #import "PWCollectionSection.h"
 #import "PWCollectionItem.h"
-#import "PWListContext.h"
+#import "PWCollectionContext.h"
 
 
 
 @implementation PWCollectionSection
 
-- (Class)listItemClass {
-    return [PWCollectionItem class];
+- (void)addItem:(void (^)(PWCollectionItem * _Nonnull))block {
+    PWCollectionItem *item = [PWCollectionItem new];
+    block(item);
+    [self addChild:item];
+    [self registerCellClassForItem:item];
 }
 
-- (void)registerCellClassForItem:(__kindof PWCollectionItem *)item {
+- (void)insertItem:(void (^)(PWCollectionItem * _Nonnull))block atIndex:(NSUInteger)index {
+    PWCollectionItem *item = [PWCollectionItem new];
+    block(item);
+    [self insertChild:item atIndex:index];
+    [self registerCellClassForItem:item];
+}
+
+- (void)removeItemAtIndex:(NSUInteger)index {
+    [self removeChildAtIndex:index];
+}
+
+- (PWCollectionItem *)itemAtIndex:(NSUInteger)index {
+    return [self childAtIndex:index];
+}
+
+- (void)clearAllItems {
+    [self removeAllChildren];
+}
+
+- (NSInteger)numberOfItems {
+    return self.children.count;
+}
+
+- (void)registerCellClassForItem:(PWCollectionItem *)item {
     Class clazz = item.cellClass;
-    NSAssert(clazz, @"注册的cellClass不能为nil");
     NSString *className = NSStringFromClass(clazz);
     
     if ([self.context.registeredCellClasses containsObject:clazz]) {

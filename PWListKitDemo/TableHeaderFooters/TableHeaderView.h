@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PWListKit.h"
 
-@interface TableHeaderView : UITableViewHeaderFooterView <PWListConfigurationProtocol>
+@interface TableHeaderView : UITableViewHeaderFooterView <PWTableHeaderFooterConfigureProtocol>
 
 @property (nonatomic) UILabel *middleTitleLabel;
 

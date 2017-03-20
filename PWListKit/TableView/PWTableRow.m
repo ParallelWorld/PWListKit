@@ -7,34 +7,30 @@
 //
 
 #import "PWTableRow.h"
-#import "PWListContext.h"
-#import "PWListConstant.h"
+#import <objc/runtime.h>
 
 
 @implementation PWTableRow
 
-- (instancetype)init {
-    self = [super init];
-    _cellHeight = PWTableViewAutomaticDimension;
-    return self;
+- (void)setClazz:(Class<PWTableCellConfigureProtocol>)clazz {
+    _clazz = clazz;
+    NSAssert(class_conformsToProtocol(clazz, @protocol(PWTableCellConfigureProtocol)), @"Cell class 需满足`PWTableCellConfigureProtocol`协议");
 }
 
-- (NSString *)cellIdentifier {
-    NSAssert(self.cellClass, @"cellClass不能为空");
-    return NSStringFromClass(self.cellClass);
+- (NSString *)reuseIdentifier {
+    NSAssert(self.clazz, @"cellClass不能为空");
+    return NSStringFromClass(self.clazz);
 }
 
-- (CGFloat)cellHeight {
-    // tableItem已经被外界赋值
-    if (_cellHeight != PWTableViewAutomaticDimension) {
-        return _cellHeight;
+- (CGFloat)height {
+    if (_height > 0) return _height;
+
+    Method method = class_getClassMethod(self.clazz, @selector(cellHeight));
+    if (method) {
+        return [self.clazz cellHeight];
     }
     
-    if ([self.cellClass respondsToSelector:@selector(cellHeight)]) {
-        return [self.cellClass cellHeight];
-    }
-    
-    return _cellHeight;
+    return _height;
 }
 
 @end

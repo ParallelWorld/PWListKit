@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "PWListKit.h"
 
-@interface RemoveTableCell : UITableViewCell <PWTableCellConfigurationProtocol>
+@interface RemoveTableCell : UITableViewCell <PWTableCellConfigureProtocol>
 
 @end

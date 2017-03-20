@@ -6,23 +6,13 @@
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
 
-@interface PWListContext : NSObject
-
-@property (nonatomic) NSMutableSet *registeredCellClasses;
-
-@end
-
-
-
-
-
-
-@interface PWCollectionContext : PWListContext
+@interface PWCollectionContext : NSObject
 
 @property (nonatomic, weak) UICollectionView *collectionView;
+
+@property (nonatomic) NSMutableSet *registeredCellClasses;
 
 @end

@@ -6,14 +6,25 @@
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 
-#import "PWListItem.h"
+#import "PWListNode.h"
+#import <UIKit/UIKit.h>
 
-@interface PWCollectionItem : PWListItem
+/// Collection cell配置协议
+@protocol PWCollectionCellConfigureProtocol <NSObject>
+
+@required
+- (void)populateData:(id)data;
+
+@optional
++ (CGSize)cellSize;
+
+@end
+
+
+@interface PWCollectionItem : PWListNode
 
 /// cell必须满足PWTableCellProtocol协议
 @property (nonatomic) Class cellClass;
-
-@property (nonatomic) id data;
 
 @property (nonatomic, copy, readonly) NSString *cellIdentifier;
 

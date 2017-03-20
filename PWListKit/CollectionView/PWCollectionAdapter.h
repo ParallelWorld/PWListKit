@@ -8,13 +8,23 @@
 
 #import "PWListNode.h"
 #import <UIKit/UIKit.h>
-#import "PWListProtocol.h"
 
 
-@class PWCollectionSection, PWCollectionItem;
-
+@class PWCollectionSection, PWCollectionItem, PWCollectionAdapter;
 
 NS_ASSUME_NONNULL_BEGIN
+
+
+
+@protocol PWCollectionAdapterDataSource <NSObject>
+
+@optional
+- (UIView *)emptyViewForCollectionAdapter:(PWCollectionAdapter *)adapter;
+
+@end
+
+
+
 
 @interface PWCollectionAdapter : PWListNode
 

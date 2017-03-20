@@ -6,11 +6,12 @@
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 
-#import "PWListContext.h"
+#import <UIKit/UIKit.h>
 
-@interface PWTableContext : PWListContext
+@interface PWTableContext : NSObject
 
 @property (nonatomic, weak) UITableView *tableView;
+@property (nonatomic) NSMutableSet *registeredCellClasses;
 @property (nonatomic) NSMutableSet *registeredHeaderFooterClasses;
 
 @end

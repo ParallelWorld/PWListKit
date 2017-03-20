@@ -8,11 +8,19 @@
 
 #import "PWListNode.h"
 #import <UIKit/UIkit.h>
-#import "PWListProtocol.h"
 
 
 @class PWTableSection;
 @class PWTableRow;
+@class PWTableAdapter;
+
+
+@protocol PWTableAdapterDataSource <NSObject>
+
+@optional
+- (UIView * _Nullable)emptyViewForTableAdapter:(PWTableAdapter * _Nonnull)adapter;
+
+@end
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -41,8 +49,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)clearAllSections;
 
-- (PWTableRow *)itemAtIndexPath:(NSIndexPath *)indexPath;
+- (PWTableRow *)rowAtIndexPath:(NSIndexPath *)indexPath;
 - (PWTableSection *)sectionAtIndex:(NSUInteger)index;
+
+/// 根据自定义的tag来索引对应的section
 - (PWTableSection *)sectionWithTag:(NSString *)tag;
 
 
@@ -54,6 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGFloat)heightForFooterInSection:(NSInteger)section;
 
 - (void)reloadTableView;
+- (void)reloadTableViewWithCompletion:(nullable void(^)(void))completion;
 - (void)reloadRowAtIndexPath:(NSIndexPath *)indexPath withRowAnimation:(UITableViewRowAnimation)animation;
 - (void)reloadSectionAtIndex:(NSUInteger)index withRowAnimation:(UITableViewRowAnimation)animation;
 

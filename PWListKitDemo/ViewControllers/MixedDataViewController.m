@@ -40,18 +40,18 @@
         
         for (NSUInteger sectionIndex = 0; sectionIndex < 10; sectionIndex++) {
             [section setHeader:^(PWTableHeaderFooter *header) {
-                header.headerFooterClass = [TableHeaderView class];
+                header.clazz = [TableHeaderView class];
                 header.data = @{@"title": [NSString stringWithFormat:@"section%@-Header", @(sectionIndex)]};
             }];
             
-            [section addItem:^(PWTableRow *row) {
-                row.cellClass = [LabelTableCell class];
+            [section addRow:^(PWTableRow * _Nonnull row) {
+                row.clazz = [LabelTableCell class];
                 row.data = @{@"title": @"LabelTableCell"};
             }];
             
             
-            [section addItem:^(PWTableRow *row) {
-                row.cellClass = [CarouselTableCell class];
+            [section addRow:^(PWTableRow * _Nonnull row) {
+                row.clazz = [CarouselTableCell class];
                 NSMutableArray *mArray = [NSMutableArray new];
                 for (int k = 0; k < 10; k++) {
                     [mArray addObject:@(k).stringValue];
@@ -60,7 +60,7 @@
             }];
             
             [section setFooter:^(PWTableHeaderFooter *footer) {
-                footer.headerFooterClass = [TableFooterView class];
+                footer.clazz = [TableFooterView class];
                 footer.data = @{@"title": [NSString stringWithFormat:@"section%@-Footer", @(sectionIndex)]};
             }];
         }
