@@ -33,4 +33,9 @@
     return _height;
 }
 
+- (NSIndexPath *)indexPath {
+    if (!self.parent) return nil;
+    return [NSIndexPath indexPathForRow:self.index inSection:self.parent.index];
+}
+
 @end

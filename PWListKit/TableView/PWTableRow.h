@@ -34,4 +34,6 @@
 
 @property (nonatomic, readonly) NSString *reuseIdentifier;
 
+@property (nonatomic, readonly) NSIndexPath *indexPath;
+
 @end

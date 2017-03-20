@@ -26,7 +26,7 @@
 /// cell必须满足PWTableCellProtocol协议
 @property (nonatomic) Class cellClass;
 
-@property (nonatomic, copy, readonly) NSString *cellIdentifier;
+@property (nonatomic, readonly) NSString *cellIdentifier;
 
 @property (nonatomic) CGSize size;
 

@@ -40,13 +40,10 @@
     [self removeAllChildren];
 }
 
-- (NSInteger)numberOfRows {
-    return self.children.count;
+
+- (NSUInteger)section {
+    return self.index;
 }
-
-
-
-
 
 
 - (void)setHeader:(void (^)(PWTableHeaderFooter * _Nonnull))block {

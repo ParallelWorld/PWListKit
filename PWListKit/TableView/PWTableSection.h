@@ -17,10 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Table context
 @property (nonatomic, weak) PWTableContext *context;
+
 @property (nonatomic, readonly) PWTableHeaderFooter *sectionHeader;
 @property (nonatomic, readonly) PWTableHeaderFooter *sectionFooter;
 
-
+@property (nonatomic, readonly) NSUInteger section;
 
 - (void)addRow:(void (^)(PWTableRow *row))block;
 - (void)insertRow:(void (^)(PWTableRow *row))block atIndex:(NSUInteger)index;
@@ -28,8 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (PWTableRow *)rowAtIndex:(NSUInteger)index;
 - (void)clearAllRows;
 
-
-- (NSInteger)numberOfRows;
 
 - (void)setHeader:(void (^)(PWTableHeaderFooter *header))block;
 - (void)setFooter:(void (^)(PWTableHeaderFooter *footer))block;
