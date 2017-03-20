@@ -20,6 +20,7 @@
 #import "PWTableHeaderFooter.h"
 #import "PWTableAdapter.h"
 #import "UITableView+PWAdapter.h"
+#import "UITableViewCell+PWTableRow.h"
 
 
 /// CollectionView

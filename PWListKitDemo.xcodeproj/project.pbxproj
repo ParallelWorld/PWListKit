@@ -13,6 +13,7 @@
 		0E33AD051E7FC46400025D84 /* PWCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E33AD041E7FC46400025D84 /* PWCollectionItem.m */; };
 		0E33AD091E7FC8D000025D84 /* PWTableContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E33AD081E7FC8D000025D84 /* PWTableContext.m */; };
 		0E4A10B31E80130F00EB8FBF /* UITableView+PWAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4A10B21E80130F00EB8FBF /* UITableView+PWAdapter.m */; };
+		0E4A10B61E80184800EB8FBF /* UITableViewCell+PWTableRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4A10B51E80184800EB8FBF /* UITableViewCell+PWTableRow.m */; };
 		0E88AEDA1E65C0FB0045401A /* PWTableHeaderFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AED91E65C0FB0045401A /* PWTableHeaderFooter.m */; };
 		0E88AEDE1E65C8150045401A /* TableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AEDD1E65C8150045401A /* TableHeaderView.m */; };
 		0E88AEE41E666A2D0045401A /* PWCollectionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AEE31E666A2D0045401A /* PWCollectionContext.m */; };
@@ -55,6 +56,8 @@
 		0E33AD081E7FC8D000025D84 /* PWTableContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWTableContext.m; sourceTree = "<group>"; };
 		0E4A10B11E80130F00EB8FBF /* UITableView+PWAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+PWAdapter.h"; sourceTree = "<group>"; };
 		0E4A10B21E80130F00EB8FBF /* UITableView+PWAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+PWAdapter.m"; sourceTree = "<group>"; };
+		0E4A10B41E80184800EB8FBF /* UITableViewCell+PWTableRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+PWTableRow.h"; sourceTree = "<group>"; };
+		0E4A10B51E80184800EB8FBF /* UITableViewCell+PWTableRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+PWTableRow.m"; sourceTree = "<group>"; };
 		0E88AED81E65C0FA0045401A /* PWTableHeaderFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWTableHeaderFooter.h; sourceTree = "<group>"; };
 		0E88AED91E65C0FB0045401A /* PWTableHeaderFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWTableHeaderFooter.m; sourceTree = "<group>"; };
 		0E88AEDC1E65C8150045401A /* TableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableHeaderView.h; sourceTree = "<group>"; };
@@ -156,6 +159,8 @@
 				0E4A10B21E80130F00EB8FBF /* UITableView+PWAdapter.m */,
 				0E88AEE51E6690CE0045401A /* UITableView+PWTemplateLayoutCell.h */,
 				0E88AEE61E6690CE0045401A /* UITableView+PWTemplateLayoutCell.m */,
+				0E4A10B41E80184800EB8FBF /* UITableViewCell+PWTableRow.h */,
+				0E4A10B51E80184800EB8FBF /* UITableViewCell+PWTableRow.m */,
 			);
 			path = TableView;
 			sourceTree = "<group>";
@@ -416,6 +421,7 @@
 				0E88AEE71E6690CE0045401A /* UITableView+PWTemplateLayoutCell.m in Sources */,
 				0E88AF081E67C87E0045401A /* TableDifferentCellHeightViewController.m in Sources */,
 				0E8AFDC91E659E9300904504 /* PWListNode.m in Sources */,
+				0E4A10B61E80184800EB8FBF /* UITableViewCell+PWTableRow.m in Sources */,
 				0E88AEFB1E67C0650045401A /* DemosViewController.m in Sources */,
 				0E88AF141E68100B0045401A /* TableFooterView.m in Sources */,
 				0E88AEEA1E66B9ED0045401A /* PWTableAdapterProxy.m in Sources */,

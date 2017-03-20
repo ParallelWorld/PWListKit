@@ -21,7 +21,7 @@
 @end
 
 
-/// Table row model.
+/// Table row model
 @interface PWTableRow : PWListNode
 
 /// Row 对应的 cell class

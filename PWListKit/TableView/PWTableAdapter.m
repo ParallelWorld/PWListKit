@@ -13,7 +13,7 @@
 #import "PWTableContext.h"
 #import "UITableView+PWTemplateLayoutCell.h"
 #import "PWTableAdapterProxy.h"
-
+#import "UITableViewCell+PWTableRow.h"
 
 
 static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
@@ -170,9 +170,10 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    PWTableRow *item = [self rowAtIndexPath:indexPath];
-    UITableViewCell<PWTableCellConfigureProtocol> *cell = [tableView dequeueReusableCellWithIdentifier:item.reuseIdentifier forIndexPath:indexPath];
-    [cell populateData:item.data];
+    PWTableRow *row = [self rowAtIndexPath:indexPath];
+    UITableViewCell<PWTableCellConfigureProtocol> *cell = [tableView dequeueReusableCellWithIdentifier:row.reuseIdentifier forIndexPath:indexPath];
+    cell.row = row;
+    [cell populateData:row.data];
     return cell;
 }
 
