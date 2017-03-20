@@ -56,13 +56,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (PWTableSection *)sectionWithTag:(NSString *)tag;
 
 
-- (NSInteger)numberOfSections;
-- (NSInteger)numberOfRowsInSection:(NSInteger)section;
-
-- (CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (CGFloat)heightForHeaderInSection:(NSInteger)section;
-- (CGFloat)heightForFooterInSection:(NSInteger)section;
-
 - (void)reloadTableView;
 - (void)reloadTableViewWithCompletion:(nullable void(^)(void))completion;
 - (void)reloadRowAtIndexPath:(NSIndexPath *)indexPath withRowAnimation:(UITableViewRowAnimation)animation;
