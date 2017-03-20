@@ -2,20 +2,12 @@
 //  PWTableContext.m
 //  PWListKitDemo
 //
-//  Created by Huang Wei on 2017/3/1.
+//  Created by Huang Wei on 2017/3/20.
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 
-#import "PWListContext.h"
-
-@implementation PWListContext
-
-@end
+#import "PWTableContext.h"
 
 @implementation PWTableContext
-
-@end
-
-@implementation PWCollectionContext
 
 @end

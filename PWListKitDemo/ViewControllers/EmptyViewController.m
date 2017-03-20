@@ -36,7 +36,7 @@
     }];
     
     [self.tableAdapter addSection:^(PWTableSection * _Nonnull section) {
-        [section addItem:^(__kindof PWTableItem *item) {
+        [section addItem:^(__kindof PWTableRow *item) {
             item.cellClass = RemoveTableCell.class;
         }];
     }];
@@ -47,7 +47,7 @@
 
 - (void)clickAddCellButton {
     [self.tableAdapter addSection:^(PWTableSection *section) {
-        [section addItem:^(__kindof PWTableItem *item) {
+        [section addItem:^(__kindof PWTableRow *item) {
             item.cellClass = RemoveTableCell.class;
         }];
     }];

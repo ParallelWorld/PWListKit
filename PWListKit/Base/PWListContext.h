@@ -18,12 +18,7 @@
 
 
 
-@interface PWTableContext : PWListContext
 
-@property (nonatomic, weak) UITableView *tableView;
-@property (nonatomic) NSMutableSet *registeredHeaderFooterClasses;
-
-@end
 
 
 @interface PWCollectionContext : PWListContext

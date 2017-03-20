@@ -12,7 +12,7 @@
 
 
 @class PWTableSection;
-@class PWTableItem;
+@class PWTableRow;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)clearAllSections;
 
-- (PWTableItem *)itemAtIndexPath:(NSIndexPath *)indexPath;
+- (PWTableRow *)itemAtIndexPath:(NSIndexPath *)indexPath;
 - (PWTableSection *)sectionAtIndex:(NSUInteger)index;
 - (PWTableSection *)sectionWithTag:(NSString *)tag;
 

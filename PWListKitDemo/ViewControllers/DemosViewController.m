@@ -40,9 +40,9 @@
     
     [self.tableAdapter addSection:^(PWTableSection * _Nonnull section) {
         [controllerClassNames enumerateObjectsUsingBlock:^(NSString *name, NSUInteger idx, BOOL * _Nonnull stop) {
-            [section addItem:^(__kindof PWTableItem *item) {
-                item.cellClass = [LabelTableCell class];
-                item.data = @{@"title": name};
+            [section addRow:^(PWTableRow *row) {
+                row.cellClass = [LabelTableCell class];
+                row.data = @{@"title": name};
             }];
         }];
     }];
@@ -59,7 +59,7 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    PWTableItem *item = [self.tableAdapter itemAtIndexPath:indexPath];
+    PWTableRow *item = [self.tableAdapter itemAtIndexPath:indexPath];
     NSString *title = item.data[@"title"];
     Class controllerClass = NSClassFromString(title);
     UIViewController *controller = [controllerClass new];

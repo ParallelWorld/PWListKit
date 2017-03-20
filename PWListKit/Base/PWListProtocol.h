@@ -20,7 +20,7 @@
 @end
 
 
-/// tableCell配置协议
+/// Table cell配置协议
 @protocol PWTableCellConfigurationProtocol <PWListConfigurationProtocol>
 
 @optional
@@ -29,7 +29,7 @@
 @end
 
 
-/// collectionCell配置协议
+/// Collection cell配置协议
 @protocol PWCollectionCellConfigurationProtocol <PWListConfigurationProtocol>
 
 @optional

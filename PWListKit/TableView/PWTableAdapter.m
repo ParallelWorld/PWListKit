@@ -7,10 +7,10 @@
 //
 
 #import "PWTableAdapter.h"
-#import "PWListItem.h"
-#import "PWListSection.h"
+#import "PWTableRow.h"
+#import "PWTableSection.h"
 #import "PWTableHeaderFooter.h"
-#import "PWListContext.h"
+#import "PWTableContext.h"
 #import "UITableView+PWTemplateLayoutCell.h"
 #import "PWTableAdapterProxy.h"
 #import "PWListProtocol.h"
@@ -106,7 +106,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     [self removeChild:section];
 }
 
-- (PWTableItem *)itemAtIndexPath:(NSIndexPath *)indexPath {
+- (PWTableRow *)itemAtIndexPath:(NSIndexPath *)indexPath {
     return [[self childAtIndex:indexPath.section] childAtIndex:indexPath.row];
 }
 
@@ -136,7 +136,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
         return [dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
     }
     
-    PWTableItem *item = [self itemAtIndexPath:indexPath];
+    PWTableRow *item = [self itemAtIndexPath:indexPath];
     UITableViewCell<PWListConfigurationProtocol> *cell = [tableView dequeueReusableCellWithIdentifier:item.cellIdentifier forIndexPath:indexPath];
     NSAssert([cell conformsToProtocol:@protocol(PWTableCellConfigurationProtocol)], @"cell要符合`PWTableCellConfigurationProtocol`协议");
     [cell populateData:item.data];
@@ -247,7 +247,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
 }
 
 - (CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    PWTableItem *row = [self itemAtIndexPath:indexPath];
+    PWTableRow *row = [self itemAtIndexPath:indexPath];
     if (!row) {
         return 0;
     }

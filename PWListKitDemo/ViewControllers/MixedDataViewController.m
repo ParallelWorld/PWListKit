@@ -44,13 +44,13 @@
                 header.data = @{@"title": [NSString stringWithFormat:@"section%@-Header", @(sectionIndex)]};
             }];
             
-            [section addItem:^(PWTableItem *row) {
+            [section addItem:^(PWTableRow *row) {
                 row.cellClass = [LabelTableCell class];
                 row.data = @{@"title": @"LabelTableCell"};
             }];
             
             
-            [section addItem:^(PWTableItem *row) {
+            [section addItem:^(PWTableRow *row) {
                 row.cellClass = [CarouselTableCell class];
                 NSMutableArray *mArray = [NSMutableArray new];
                 for (int k = 0; k < 10; k++) {

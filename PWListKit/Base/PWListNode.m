@@ -39,18 +39,15 @@
 }
 
 - (void)addChildFromArray:(NSArray<__kindof PWListNode *> *)array {
-    LOCK;
     for (PWListNode *node in array) {
-        node.parent = self;
-        [_innerChildren addObject:node];
+        [self addChild:node];
     }
-    UNLOCK;
 }
 
 - (void)insertChild:(__kindof PWListNode *)node atIndex:(NSUInteger)index {
     if (node && index <= _innerChildren.count) {
-        node.parent = self;
         LOCK;
+        node.parent = self;
         [_innerChildren insertObject:node atIndex:index];
         UNLOCK;
     }
@@ -69,22 +66,24 @@
 }
 
 - (void)removeChildrenAtIndexSet:(NSIndexSet *)indexSet {
-    LOCK;
     [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
-        [_innerChildren removeObjectAtIndex:idx];
+        [self removeChildAtIndex:idx];
     }];
+}
+
+- (void)removeFromParent {
+    LOCK;
+    [self.parent removeChild:self];
     UNLOCK;
 }
 
-- (void)removeFromeParent {
-    [self.parent removeChild:self];
-}
-
 - (void)removeAllChildren {
+    LOCK;
     [_innerChildren removeAllObjects];
+    UNLOCK;
 }
 
-- (NSUInteger)indexAmongBrothers {
+- (NSUInteger)index {
     if (!self.parent) {
         return NSNotFound;
     }

@@ -41,7 +41,8 @@
     [self.tableAdapter addSection:^(PWTableSection * _Nonnull section) {
         
         [data enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [section addItem:^(__kindof PWTableItem *item) {
+            
+            [section addRow:^(PWTableRow *item) {
                 item.cellClass = [MultilineLabelTableCell class];
                 item.data = @{@"largeText": obj};
             }];

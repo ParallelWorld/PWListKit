@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// 相比较直接用数组管理，方便了增删改查
 @interface PWListNode : NSObject
 
-@property (nonatomic, weak) PWListNode *parent;
-@property (nonatomic, readonly) NSArray *children;
+@property (nonatomic, nullable, weak) PWListNode *parent;
+@property (nonatomic, nullable, readonly) NSArray *children;
 
 - (void)addChild:(__kindof PWListNode *)node;
 - (void)addChildFromArray:(NSArray<__kindof PWListNode *> *)array;
@@ -25,10 +25,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeChildAtIndex:(NSUInteger)index;
 - (void)removeChildrenAtIndexSet:(NSIndexSet *)indexSet;
 
-- (void)removeFromeParent;
+- (void)removeFromParent;
 - (void)removeAllChildren;
 
-- (NSUInteger)indexAmongBrothers;
+- (NSUInteger)index;
 
 - (__kindof PWListNode *)firstChild;
 - (__kindof PWListNode *)lastChild;

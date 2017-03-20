@@ -7,8 +7,8 @@
 //
 
 #import "PWCollectionAdapter.h"
-#import "PWListSection.h"
-#import "PWListItem.h"
+#import "PWCollectionSection.h"
+#import "PWCollectionItem.h"
 #import "PWListProtocol.h"
 #import "PWListContext.h"
 #import "PWCollectionAdapterProxy.h"
@@ -203,8 +203,8 @@
         return YES;
     }
     
-    NSArray<PWTableSection *> *sections = self.children;
-    for (PWTableSection *section in sections) {
+    NSArray<PWCollectionSection *> *sections = self.children;
+    for (PWCollectionSection *section in sections) {
         if ([section numberOfItems] != 0) {
             return NO;
         }

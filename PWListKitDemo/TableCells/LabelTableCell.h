@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "PWListKit.h"
 
-@interface LabelTableCell : UITableViewCell <PWTableCellConfigurationProtocol>
+@interface LabelTableCell : UITableViewCell 
 
 @end

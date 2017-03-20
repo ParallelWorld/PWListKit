@@ -8,14 +8,15 @@
 
 #import "PWListNode.h"
 
-@class PWTableItem, PWTableHeaderFooter;
+@class PWTableRow, PWTableHeaderFooter;
 @class PWListItem;
-@class PWTableItem;
+@class PWTableRow;
 
 @class PWTableContext, PWCollectionContext;
 @class PWCollectionItem;
 
 
+/// Base list section.
 @interface PWListSection : PWListNode
 
 @property (nonatomic) id data;
@@ -39,22 +40,4 @@
 
 
 
-@interface PWTableSection : PWListSection
 
-@property (nonatomic) PWTableContext *context;
-
-@property (nonatomic, readonly) PWTableHeaderFooter *sectionHeader;
-@property (nonatomic, readonly) PWTableHeaderFooter *sectionFooter;
-
-- (void)setHeader:(void (^)(PWTableHeaderFooter *header))block;
-- (void)setFooter:(void (^)(PWTableHeaderFooter *footer))block;
-
-@end
-
-
-
-@interface PWCollectionSection : PWListSection
-
-@property (nonatomic) PWCollectionContext *context;
-
-@end

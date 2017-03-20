@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E33ACFE1E7FC09800025D84 /* PWTableRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E33ACFB1E7FC09800025D84 /* PWTableRow.m */; };
+		0E33ACFF1E7FC09800025D84 /* PWTableSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E33ACFD1E7FC09800025D84 /* PWTableSection.m */; };
+		0E33AD021E7FC43000025D84 /* PWCollectionSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E33AD011E7FC43000025D84 /* PWCollectionSection.m */; };
+		0E33AD051E7FC46400025D84 /* PWCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E33AD041E7FC46400025D84 /* PWCollectionItem.m */; };
+		0E33AD091E7FC8D000025D84 /* PWTableContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E33AD081E7FC8D000025D84 /* PWTableContext.m */; };
 		0E88AEDA1E65C0FB0045401A /* PWTableHeaderFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AED91E65C0FB0045401A /* PWTableHeaderFooter.m */; };
 		0E88AEDE1E65C8150045401A /* TableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AEDD1E65C8150045401A /* TableHeaderView.m */; };
 		0E88AEE41E666A2D0045401A /* PWListContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88AEE31E666A2D0045401A /* PWListContext.m */; };
@@ -40,6 +45,16 @@
 
 /* Begin PBXFileReference section */
 		0DFDA7C36D263DBA88E92FE7 /* Pods-PWListKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PWListKitDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-PWListKitDemo/Pods-PWListKitDemo.release.xcconfig"; sourceTree = "<group>"; };
+		0E33ACFA1E7FC09800025D84 /* PWTableRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWTableRow.h; sourceTree = "<group>"; };
+		0E33ACFB1E7FC09800025D84 /* PWTableRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWTableRow.m; sourceTree = "<group>"; };
+		0E33ACFC1E7FC09800025D84 /* PWTableSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWTableSection.h; sourceTree = "<group>"; };
+		0E33ACFD1E7FC09800025D84 /* PWTableSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWTableSection.m; sourceTree = "<group>"; };
+		0E33AD001E7FC43000025D84 /* PWCollectionSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWCollectionSection.h; sourceTree = "<group>"; };
+		0E33AD011E7FC43000025D84 /* PWCollectionSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWCollectionSection.m; sourceTree = "<group>"; };
+		0E33AD031E7FC46400025D84 /* PWCollectionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWCollectionItem.h; sourceTree = "<group>"; };
+		0E33AD041E7FC46400025D84 /* PWCollectionItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWCollectionItem.m; sourceTree = "<group>"; };
+		0E33AD071E7FC8D000025D84 /* PWTableContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWTableContext.h; sourceTree = "<group>"; };
+		0E33AD081E7FC8D000025D84 /* PWTableContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWTableContext.m; sourceTree = "<group>"; };
 		0E88AED81E65C0FA0045401A /* PWTableHeaderFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PWTableHeaderFooter.h; sourceTree = "<group>"; };
 		0E88AED91E65C0FB0045401A /* PWTableHeaderFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PWTableHeaderFooter.m; sourceTree = "<group>"; };
 		0E88AEDC1E65C8150045401A /* TableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableHeaderView.h; sourceTree = "<group>"; };
@@ -112,6 +127,60 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E33ACF81E7FC09800025D84 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				0E8AFDB81E659E9300904504 /* PWCollectionAdapter.h */,
+				0E8AFDB91E659E9300904504 /* PWCollectionAdapter.m */,
+				0E88AEF61E6705310045401A /* PWCollectionAdapterProxy.h */,
+				0E88AEF71E6705310045401A /* PWCollectionAdapterProxy.m */,
+				0E33AD031E7FC46400025D84 /* PWCollectionItem.h */,
+				0E33AD041E7FC46400025D84 /* PWCollectionItem.m */,
+				0E33AD001E7FC43000025D84 /* PWCollectionSection.h */,
+				0E33AD011E7FC43000025D84 /* PWCollectionSection.m */,
+			);
+			path = CollectionView;
+			sourceTree = "<group>";
+		};
+		0E33ACF91E7FC09800025D84 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				0E33AD071E7FC8D000025D84 /* PWTableContext.h */,
+				0E33AD081E7FC8D000025D84 /* PWTableContext.m */,
+				0E8AFDC01E659E9300904504 /* PWTableAdapter.h */,
+				0E8AFDC11E659E9300904504 /* PWTableAdapter.m */,
+				0E88AEE81E66B9ED0045401A /* PWTableAdapterProxy.h */,
+				0E88AEE91E66B9ED0045401A /* PWTableAdapterProxy.m */,
+				0E88AED81E65C0FA0045401A /* PWTableHeaderFooter.h */,
+				0E88AED91E65C0FB0045401A /* PWTableHeaderFooter.m */,
+				0E33ACFA1E7FC09800025D84 /* PWTableRow.h */,
+				0E33ACFB1E7FC09800025D84 /* PWTableRow.m */,
+				0E33ACFC1E7FC09800025D84 /* PWTableSection.h */,
+				0E33ACFD1E7FC09800025D84 /* PWTableSection.m */,
+				0E88AEE51E6690CE0045401A /* UITableView+PWTemplateLayoutCell.h */,
+				0E88AEE61E6690CE0045401A /* UITableView+PWTemplateLayoutCell.m */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
+		0E33AD061E7FC61800025D84 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				0E88AF931E6966AA0045401A /* PWListConstant.h */,
+				0E88AF941E6966AA0045401A /* PWListConstant.m */,
+				0E88AEE21E666A2D0045401A /* PWListContext.h */,
+				0E88AEE31E666A2D0045401A /* PWListContext.m */,
+				0E88AEF31E66EF4A0045401A /* PWListItem.h */,
+				0E88AEF41E66EF4A0045401A /* PWListItem.m */,
+				0E8AFDBD1E659E9300904504 /* PWListNode.h */,
+				0E8AFDBE1E659E9300904504 /* PWListNode.m */,
+				0E88AEEF1E66EB160045401A /* PWListProtocol.h */,
+				0E88AEF01E66EF330045401A /* PWListSection.h */,
+				0E88AEF11E66EF330045401A /* PWListSection.m */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
 		0E88AEFC1E67C0920045401A /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,29 +188,29 @@
 				0E88AF041E67C86D0045401A /* BaseViewController.m */,
 				0E88AEF91E67C0650045401A /* DemosViewController.h */,
 				0E88AEFA1E67C0650045401A /* DemosViewController.m */,
-				0E88AF061E67C87E0045401A /* TableDifferentCellHeightViewController.h */,
-				0E88AF071E67C87E0045401A /* TableDifferentCellHeightViewController.m */,
-				0E88AF0C1E680AF20045401A /* MixedDataViewController.h */,
-				0E88AF0D1E680AF20045401A /* MixedDataViewController.m */,
 				0E88AF151E6819030045401A /* EmptyViewController.h */,
 				0E88AF161E6819030045401A /* EmptyViewController.m */,
+				0E88AF0C1E680AF20045401A /* MixedDataViewController.h */,
+				0E88AF0D1E680AF20045401A /* MixedDataViewController.m */,
+				0E88AF061E67C87E0045401A /* TableDifferentCellHeightViewController.h */,
+				0E88AF071E67C87E0045401A /* TableDifferentCellHeightViewController.m */,
 			);
-			name = ViewControllers;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		0E88AEFD1E67C0A20045401A /* TableCells */ = {
 			isa = PBXGroup;
 			children = (
+				0E88AF0F1E680DD70045401A /* CarouselTableCell.h */,
+				0E88AF101E680DD70045401A /* CarouselTableCell.m */,
 				0E88AF001E67C2CE0045401A /* LabelTableCell.h */,
 				0E88AF011E67C2CE0045401A /* LabelTableCell.m */,
 				0E88AF091E67CA7D0045401A /* MultilineLabelTableCell.h */,
 				0E88AF0A1E67CA7D0045401A /* MultilineLabelTableCell.m */,
-				0E88AF0F1E680DD70045401A /* CarouselTableCell.h */,
-				0E88AF101E680DD70045401A /* CarouselTableCell.m */,
 				0E88AF181E6819CF0045401A /* RemoveTableCell.h */,
 				0E88AF191E6819CF0045401A /* RemoveTableCell.m */,
 			);
-			name = TableCells;
+			path = TableCells;
 			sourceTree = "<group>";
 		};
 		0E88AEFE1E67C0AC0045401A /* CollectionCells */ = {
@@ -150,28 +219,28 @@
 				0E8AFDCD1E659EB600904504 /* CollectionColorCell.h */,
 				0E8AFDCE1E659EB600904504 /* CollectionColorCell.m */,
 			);
-			name = CollectionCells;
+			path = CollectionCells;
 			sourceTree = "<group>";
 		};
 		0E88AEFF1E67C0B40045401A /* TableHeaderFooters */ = {
 			isa = PBXGroup;
 			children = (
-				0E88AEDC1E65C8150045401A /* TableHeaderView.h */,
-				0E88AEDD1E65C8150045401A /* TableHeaderView.m */,
 				0E88AF121E68100B0045401A /* TableFooterView.h */,
 				0E88AF131E68100B0045401A /* TableFooterView.m */,
+				0E88AEDC1E65C8150045401A /* TableHeaderView.h */,
+				0E88AEDD1E65C8150045401A /* TableHeaderView.m */,
 			);
-			name = TableHeaderFooters;
+			path = TableHeaderFooters;
 			sourceTree = "<group>";
 		};
 		0E8AFD921E659C5800904504 = {
 			isa = PBXGroup;
 			children = (
+				1B3580BB29BF7A73913E5289 /* Frameworks */,
 				0E8AFDB51E659E2200904504 /* PWListKit */,
 				0E8AFD9D1E659C5800904504 /* PWListKitDemo */,
-				0E8AFD9C1E659C5800904504 /* Products */,
 				6DDB93ABFB2A3E218A4A3B1B /* Pods */,
-				1B3580BB29BF7A73913E5289 /* Frameworks */,
+				0E8AFD9C1E659C5800904504 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -186,17 +255,17 @@
 		0E8AFD9D1E659C5800904504 /* PWListKitDemo */ = {
 			isa = PBXGroup;
 			children = (
+				0E88AEFE1E67C0AC0045401A /* CollectionCells */,
+				0E88AEFD1E67C0A20045401A /* TableCells */,
+				0E88AEFF1E67C0B40045401A /* TableHeaderFooters */,
+				0E88AEFC1E67C0920045401A /* ViewControllers */,
 				0E8AFDA11E659C5800904504 /* AppDelegate.h */,
 				0E8AFDA21E659C5800904504 /* AppDelegate.m */,
 				0E8AFDAA1E659C5800904504 /* Assets.xcassets */,
 				0E8AFDAF1E659C5800904504 /* Info.plist */,
 				0E8AFDAC1E659C5800904504 /* LaunchScreen.storyboard */,
-				0E8AFD9F1E659C5800904504 /* main.m */,
 				0E8AFDA71E659C5800904504 /* Main.storyboard */,
-				0E88AEFE1E67C0AC0045401A /* CollectionCells */,
-				0E88AEFD1E67C0A20045401A /* TableCells */,
-				0E88AEFF1E67C0B40045401A /* TableHeaderFooters */,
-				0E88AEFC1E67C0920045401A /* ViewControllers */,
+				0E8AFD9F1E659C5800904504 /* main.m */,
 			);
 			path = PWListKitDemo;
 			sourceTree = "<group>";
@@ -204,30 +273,10 @@
 		0E8AFDB51E659E2200904504 /* PWListKit */ = {
 			isa = PBXGroup;
 			children = (
-				0E8AFDB81E659E9300904504 /* PWCollectionAdapter.h */,
-				0E8AFDB91E659E9300904504 /* PWCollectionAdapter.m */,
-				0E88AEF61E6705310045401A /* PWCollectionAdapterProxy.h */,
-				0E88AEF71E6705310045401A /* PWCollectionAdapterProxy.m */,
-				0E88AF931E6966AA0045401A /* PWListConstant.h */,
-				0E88AF941E6966AA0045401A /* PWListConstant.m */,
-				0E88AEE21E666A2D0045401A /* PWListContext.h */,
-				0E88AEE31E666A2D0045401A /* PWListContext.m */,
-				0E88AEF31E66EF4A0045401A /* PWListItem.h */,
-				0E88AEF41E66EF4A0045401A /* PWListItem.m */,
 				0E8AFDBC1E659E9300904504 /* PWListKit.h */,
-				0E8AFDBD1E659E9300904504 /* PWListNode.h */,
-				0E8AFDBE1E659E9300904504 /* PWListNode.m */,
-				0E88AEEF1E66EB160045401A /* PWListProtocol.h */,
-				0E88AEF01E66EF330045401A /* PWListSection.h */,
-				0E88AEF11E66EF330045401A /* PWListSection.m */,
-				0E8AFDC01E659E9300904504 /* PWTableAdapter.h */,
-				0E8AFDC11E659E9300904504 /* PWTableAdapter.m */,
-				0E88AEE81E66B9ED0045401A /* PWTableAdapterProxy.h */,
-				0E88AEE91E66B9ED0045401A /* PWTableAdapterProxy.m */,
-				0E88AED81E65C0FA0045401A /* PWTableHeaderFooter.h */,
-				0E88AED91E65C0FB0045401A /* PWTableHeaderFooter.m */,
-				0E88AEE51E6690CE0045401A /* UITableView+PWTemplateLayoutCell.h */,
-				0E88AEE61E6690CE0045401A /* UITableView+PWTemplateLayoutCell.m */,
+				0E33AD061E7FC61800025D84 /* Base */,
+				0E33ACF81E7FC09800025D84 /* CollectionView */,
+				0E33ACF91E7FC09800025D84 /* TableView */,
 			);
 			path = PWListKit;
 			sourceTree = "<group>";
@@ -390,10 +439,15 @@
 				0E88AEDE1E65C8150045401A /* TableHeaderView.m in Sources */,
 				0E88AF0B1E67CA7D0045401A /* MultilineLabelTableCell.m in Sources */,
 				0E88AF171E6819030045401A /* EmptyViewController.m in Sources */,
+				0E33AD051E7FC46400025D84 /* PWCollectionItem.m in Sources */,
+				0E33ACFE1E7FC09800025D84 /* PWTableRow.m in Sources */,
 				0E8AFDA01E659C5800904504 /* main.m in Sources */,
+				0E33AD091E7FC8D000025D84 /* PWTableContext.m in Sources */,
 				0E88AEF81E6705310045401A /* PWCollectionAdapterProxy.m in Sources */,
 				0E88AF111E680DD70045401A /* CarouselTableCell.m in Sources */,
+				0E33ACFF1E7FC09800025D84 /* PWTableSection.m in Sources */,
 				0E88AEF21E66EF330045401A /* PWListSection.m in Sources */,
+				0E33AD021E7FC43000025D84 /* PWCollectionSection.m in Sources */,
 				0E88AF0E1E680AF20045401A /* MixedDataViewController.m in Sources */,
 				0E88AEF51E66EF4A0045401A /* PWListItem.m in Sources */,
 				0E88AF051E67C86D0045401A /* BaseViewController.m in Sources */,
@@ -409,6 +463,7 @@
 				0E8AFDA81E659C5800904504 /* Base */,
 			);
 			name = Main.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 		0E8AFDAC1E659C5800904504 /* LaunchScreen.storyboard */ = {
@@ -417,6 +472,7 @@
 				0E8AFDAD1E659C5800904504 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
