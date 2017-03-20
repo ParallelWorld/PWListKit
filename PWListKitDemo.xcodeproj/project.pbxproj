@@ -140,8 +140,6 @@
 		0E33ACF91E7FC09800025D84 /* TableView */ = {
 			isa = PBXGroup;
 			children = (
-				0E4A10B11E80130F00EB8FBF /* UITableView+PWAdapter.h */,
-				0E4A10B21E80130F00EB8FBF /* UITableView+PWAdapter.m */,
 				0E8AFDC01E659E9300904504 /* PWTableAdapter.h */,
 				0E8AFDC11E659E9300904504 /* PWTableAdapter.m */,
 				0E88AEE81E66B9ED0045401A /* PWTableAdapterProxy.h */,
@@ -154,6 +152,8 @@
 				0E33ACFB1E7FC09800025D84 /* PWTableRow.m */,
 				0E33ACFC1E7FC09800025D84 /* PWTableSection.h */,
 				0E33ACFD1E7FC09800025D84 /* PWTableSection.m */,
+				0E4A10B11E80130F00EB8FBF /* UITableView+PWAdapter.h */,
+				0E4A10B21E80130F00EB8FBF /* UITableView+PWAdapter.m */,
 				0E88AEE51E6690CE0045401A /* UITableView+PWTemplateLayoutCell.h */,
 				0E88AEE61E6690CE0045401A /* UITableView+PWTemplateLayoutCell.m */,
 			);

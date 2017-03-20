@@ -12,6 +12,6 @@
 
 @interface UITableView (PWAdapter)
 
-@property (nonatomic) PWTableAdapter *adapter;
+@property (nonatomic, readonly) PWTableAdapter *adapter;
 
 @end

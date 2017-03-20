@@ -12,8 +12,6 @@
 
 @implementation UITableView (PWAdapter)
 
-@dynamic adapter;
-
 - (PWTableAdapter *)adapter {
     PWTableAdapter *adapter = objc_getAssociatedObject(self, _cmd);
     if (!adapter) {
