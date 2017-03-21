@@ -65,12 +65,6 @@
     UNLOCK;
 }
 
-- (void)removeChildrenAtIndexSet:(NSIndexSet *)indexSet {
-    [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
-        [self removeChildAtIndex:idx];
-    }];
-}
-
 - (void)removeFromParent {
     LOCK;
     [self.parent removeChild:self];

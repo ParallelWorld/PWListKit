@@ -39,3 +39,16 @@
 }
 
 @end
+
+
+@implementation UITableViewCell (PWTableRow)
+
+- (PWTableRow *)row {
+    return objc_getAssociatedObject(self, _cmd);
+}
+
+- (void)setRow:(PWTableRow *)row {
+    objc_setAssociatedObject(self, @selector(row), row, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+@end

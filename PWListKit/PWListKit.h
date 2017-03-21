@@ -10,28 +10,21 @@
 #define PWListKit_h
 
 
-/// Base
 #import "PWListNode.h"
 
 
 /// TableView
-#import "PWTableSection.h"
-#import "PWTableRow.h"
-#import "PWTableHeaderFooter.h"
 #import "PWTableAdapter.h"
-#import "UITableView+PWAdapter.h"
-#import "UITableViewCell+PWTableRow.h"
+#import "PWTableHeaderFooter.h"
+#import "PWTableRow.h"
+#import "PWTableSection.h"
+#import "UITableView+PWTemplateLayoutCell.h"
 
 
 /// CollectionView
 #import "PWCollectionSection.h"
 #import "PWCollectionItem.h"
-
-
-
 #import "PWCollectionAdapter.h"
-#import "PWTableHeaderFooter.h"
-#import "UITableView+PWTemplateLayoutCell.h"
 
 
 #endif /* PWListKit_h */

@@ -10,11 +10,8 @@
 #import "PWTableRow.h"
 #import "PWTableSection.h"
 #import "PWTableHeaderFooter.h"
-#import "PWTableContext.h"
 #import "UITableView+PWTemplateLayoutCell.h"
-#import "PWTableAdapterProxy.h"
-#import "UITableViewCell+PWTableRow.h"
-#import "UITableView+PWAdapter.h"
+#import <objc/runtime.h>
 
 
 static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
@@ -28,11 +25,96 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
 }
 
 
+@interface PWTableAdapterProxy : NSProxy
+
+- (instancetype)initWithTableDataSourceTarget:(id<UITableViewDataSource>)dataSource
+                          tableDelegateTarget:(id<UITableViewDelegate>)delegate
+                                  interceptor:(id)interceptor;
+
+@end
+
+
+
+/**
+ Define messages that you want the PWTableModel object to intercept. Pattern copied from
+ https://github.com/facebook/AsyncDisplayKit/blob/7b112a2dcd0391ddf3671f9dcb63521f554b78bd/AsyncDisplayKit/ASCollectionView.mm#L34-L53
+ */
+static BOOL isInterceptedSelector(SEL sel) {
+    return (
+            // UITableViewDataSource
+            sel == @selector(tableView:cellForRowAtIndexPath:) ||
+            sel == @selector(tableView:numberOfRowsInSection:) ||
+            sel == @selector(numberOfSectionsInTableView:) ||
+            // UITableViewDelegate
+            sel == @selector(tableView:heightForRowAtIndexPath:) ||
+            sel == @selector(tableView:heightForHeaderInSection:) ||
+            sel == @selector(tableView:heightForFooterInSection:) ||
+            sel == @selector(tableView:viewForHeaderInSection:) ||
+            sel == @selector(tableView:viewForFooterInSection:)
+            );
+}
+
+@implementation PWTableAdapterProxy {
+    __weak id _tableDataSourceTarget;
+    __weak id _tableDelegateTarget;
+    __weak id _interceptor;
+}
+
+- (instancetype)initWithTableDataSourceTarget:(id<UITableViewDataSource>)dataSource
+                          tableDelegateTarget:(id<UITableViewDelegate>)delegate
+                                  interceptor:(id)interceptor {
+    NSParameterAssert(interceptor);
+    
+    // -[NSProxy init] is undefined
+    _tableDataSourceTarget = dataSource;
+    _tableDelegateTarget = delegate;
+    _interceptor = interceptor;
+    
+    return self;
+}
+
+- (BOOL)respondsToSelector:(SEL)aSelector {
+    return isInterceptedSelector(aSelector)
+    || [_tableDataSourceTarget respondsToSelector:aSelector]
+    || [_tableDelegateTarget respondsToSelector:aSelector];
+}
+
+- (id)forwardingTargetForSelector:(SEL)aSelector {
+    if (isInterceptedSelector(aSelector)) {
+        return _interceptor;
+    }
+    if ([_tableDelegateTarget respondsToSelector:aSelector]) {
+        return _tableDelegateTarget;
+    }
+    return _tableDataSourceTarget;
+}
+
+// handling unimplemented methods and nil target/interceptor
+// https://github.com/Flipboard/FLAnimatedImage/blob/76a31aefc645cc09463a62d42c02954a30434d7d/FLAnimatedImage/FLAnimatedImage.m#L786-L807
+- (void)forwardInvocation:(NSInvocation *)invocation {
+    void *nullPointer = NULL;
+    [invocation setReturnValue:&nullPointer];
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector {
+    return [NSObject instanceMethodSignatureForSelector:@selector(init)];
+}
+
+@end
+
+
+
+
+
+
+
+
 
 @interface PWTableAdapter () <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic) PWTableContext *context;
 @property (nonatomic) PWTableAdapterProxy *delegateProxy; ///< 包含tableView的dataSource和delegate
+@property (nonatomic) NSMutableSet *registeredCellClasses;
+@property (nonatomic) NSMutableSet *registeredHeaderFooterClasses;
 
 @end
 
@@ -41,29 +123,24 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
 @implementation PWTableAdapter
 
 - (void)dealloc {
-    // on iOS 9 setting the dataSource has side effects that can invalidate the layout and seg fault
     if ([[[UIDevice currentDevice] systemVersion] floatValue] < 9.0) {
-        // properties are assign for <iOS 9
         _tableView.dataSource = nil;
         _tableView.delegate = nil;
     }
 }
 
 - (instancetype)initWithTableView:(UITableView *)tableView {
-    
     self = [super init];
     
-    NSAssert(tableView, @"tableView不能为nil");
+    NSParameterAssert(tableView);
     
     _tableView = tableView;
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.adapter = self;
     
-    _context = [PWTableContext new];
-    _context.tableView = tableView;
-    _context.registeredCellClasses = [NSMutableSet new];
-    _context.registeredHeaderFooterClasses = [NSMutableSet new];
+    _registeredCellClasses = [NSMutableSet new];
+    _registeredHeaderFooterClasses = [NSMutableSet new];
     
     return self;
 }
@@ -84,24 +161,18 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
 
 - (void)addSection:(void (^)(PWTableSection *section))block {
     PWTableSection *section = [PWTableSection new];
-    section.context = self.context;
-    block(section);
     [self addChild:section];
+    block(section);
 }
 
 - (void)insertSection:(void (^)(PWTableSection * _Nonnull))block atIndex:(NSUInteger)index {
     PWTableSection *section = [PWTableSection new];
-    section.context = self.context;
-    block(section);
     [self insertChild:section atIndex:index];
+    block(section);
 }
 
 - (void)removeSectionAtIndex:(NSUInteger)index {
     [self removeChildAtIndex:index];
-}
-
-- (void)removeSectionsAtIndexSet:(NSIndexSet *)indexSet {
-    [self removeChildrenAtIndexSet:indexSet];
 }
 
 - (void)removeSection:(PWTableSection *)section {
@@ -168,24 +239,31 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     });
 }
 
+
 #pragma mark - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     PWTableRow *row = [self rowAtIndexPath:indexPath];
+    
+    [self registerCellClassForRow:row];
+    
     UITableViewCell<PWTableCellConfigureProtocol> *cell = [tableView dequeueReusableCellWithIdentifier:row.reuseIdentifier forIndexPath:indexPath];
     cell.row = row;
     [cell populateData:row.data];
+    
+    if ([self.delegate respondsToSelector:@selector(tableAdapter:configureCell:)]) {
+        [self.delegate tableAdapter:self configureCell:cell];
+    }
+    
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     return [self childAtIndex:section].children.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
     return self.children.count;
 }
 
@@ -198,76 +276,27 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
 
     if (row.height > 0) return row.height;
     
+    [self registerCellClassForRow:row];
+
     return [self.tableView pw_heightForCellWithIdentifier:row.reuseIdentifier cacheByIndexPath:indexPath configuration:^(UITableViewCell<PWTableCellConfigureProtocol> *cell) {
         [cell populateData:row.data];
     }];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    
-    PWTableSection *tableSection = [self sectionAtIndex:section];
-    PWTableHeaderFooter *header = tableSection.sectionHeader;
-    
-    if (!header) return 0;
-    
-    if (header.height > 0) return header.height;
-    
-    return [self.tableView pw_heightForHeaderWithIdentifier:header.reuseIdentifier cacheBySection:section configuration:^(UITableViewHeaderFooterView<PWTableHeaderFooterConfigureProtocol> *headerView) {
-        [headerView populateData:header.data];
-    }];
+    return [self heightForHeaderFooter:[self sectionAtIndex:section].header];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    
-    PWTableSection *tableSection = [self sectionAtIndex:section];
-    PWTableHeaderFooter *footer = tableSection.sectionFooter;
-    
-    if (!footer) {
-        return 0;
-    }
-    
-    if (footer.height > 0) {
-        return footer.height;
-    }
-    
-    return [self.tableView pw_heightForFooterWithIdentifier:footer.reuseIdentifier cacheBySection:section configuration:^(UITableViewHeaderFooterView<PWTableHeaderFooterConfigureProtocol> *footerView) {
-        [footerView populateData:footer.data];
-    }];
+    return [self heightForHeaderFooter:[self sectionAtIndex:section].footer];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
-    PWTableSection *tableSection = [self sectionAtIndex:section];
-    
-    PWTableHeaderFooter *header = tableSection.sectionHeader;
-    if (!header) {
-        return nil;
-    }
-    Class clazz = header.clazz;
-
-    UITableViewHeaderFooterView<PWTableHeaderFooterConfigureProtocol> *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:header.reuseIdentifier];
-    if (!headerView) {
-        headerView = [[clazz alloc] initWithReuseIdentifier:header.reuseIdentifier];
-    }
-    [headerView populateData:header.data];
-    return headerView;
+    return [self viewForHeaderFooter:[self sectionAtIndex:section].header];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-
-    PWTableSection *tableSection = [self sectionAtIndex:section];
-    
-    PWTableHeaderFooter *footer = tableSection.sectionFooter;
-    if (!footer) {
-        return nil;
-    }
-    Class clazz = footer.clazz;
-    UITableViewHeaderFooterView<PWTableHeaderFooterConfigureProtocol> *footerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:footer.reuseIdentifier];
-    if (!footerView) {
-        footerView = [[clazz alloc] initWithReuseIdentifier:footer.reuseIdentifier];
-    }
-    [footerView populateData:footer.data];
-    return footerView;
+    return [self viewForHeaderFooter:[self sectionAtIndex:section].footer];
 }
 
 
@@ -316,6 +345,91 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     }
 
     return YES;
+}
+
+- (void)registerCellClassForRow:(PWTableRow *)row {
+    Class clazz = row.clazz;
+    NSString *className = NSStringFromClass(clazz);
+    
+    if ([self.registeredCellClasses containsObject:clazz]) {
+        return;
+    }
+    
+    NSString *nibPath = [[NSBundle mainBundle] pathForResource:className ofType:@"nib"];
+    if (nibPath) {
+        [self.tableView registerNib:[UINib nibWithNibName:className bundle:nil] forCellReuseIdentifier:row.reuseIdentifier];
+    } else {
+        [self.tableView registerClass:clazz forCellReuseIdentifier:row.reuseIdentifier];
+    }
+    
+    [self.registeredCellClasses addObject:clazz];
+}
+
+- (void)registerHeaderFooterClassForHeaderFooter:(PWTableHeaderFooter *)headerFooter {
+    Class clazz = headerFooter.clazz;
+    NSString *className = NSStringFromClass(clazz);
+    
+    if ([self.registeredHeaderFooterClasses containsObject:clazz]) {
+        return;
+    }
+    
+    NSString *nibPath = [[NSBundle mainBundle] pathForResource:className ofType:@"nib"];
+    if (nibPath) {
+        [self.tableView registerNib:[UINib nibWithNibName:className bundle:nil] forHeaderFooterViewReuseIdentifier:headerFooter.reuseIdentifier];
+    } else {
+        [self.tableView registerClass:clazz forHeaderFooterViewReuseIdentifier:headerFooter.reuseIdentifier];
+    }
+    
+    [self.registeredHeaderFooterClasses addObject:clazz];
+}
+
+- (UIView *)viewForHeaderFooter:(PWTableHeaderFooter *)headerFooter {
+
+    if (!headerFooter) return nil;
+    
+    Class clazz = headerFooter.clazz;
+    
+    [self registerHeaderFooterClassForHeaderFooter:headerFooter];
+    
+    UITableViewHeaderFooterView<PWTableHeaderFooterConfigureProtocol> *headerFooterView = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:headerFooter.reuseIdentifier];
+    if (!headerFooterView) {
+        headerFooterView = [[clazz alloc] initWithReuseIdentifier:headerFooter.reuseIdentifier];
+    }
+    [headerFooterView populateData:headerFooter.data];
+    return headerFooterView;
+}
+
+- (CGFloat)heightForHeaderFooter:(PWTableHeaderFooter *)headerFooter {
+    
+    if (!headerFooter) return 0;
+    
+    if (headerFooter.height > 0) return headerFooter.height;
+    
+    [self registerHeaderFooterClassForHeaderFooter:headerFooter];
+    
+    return [self.tableView pw_heightForHeaderWithIdentifier:headerFooter.reuseIdentifier cacheBySection:headerFooter.section configuration:^(UITableViewHeaderFooterView<PWTableHeaderFooterConfigureProtocol> *view) {
+        [view populateData:headerFooter.data];
+    }];
+}
+
+@end
+
+
+
+@implementation UITableView (PWAdapter)
+
+- (PWTableAdapter *)adapter {
+    PWTableAdapter *adapter = objc_getAssociatedObject(self, _cmd);
+    if (!adapter) {
+        adapter = [[PWTableAdapter alloc] initWithTableView:self];
+        objc_setAssociatedObject(self, _cmd, adapter, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    return adapter;
+}
+
+- (void)setAdapter:(PWTableAdapter *)adapter {
+    if (adapter.tableView != self) return;
+    objc_setAssociatedObject(self, @selector(adapter), adapter, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end

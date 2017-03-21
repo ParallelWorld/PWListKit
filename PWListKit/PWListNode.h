@@ -10,8 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// 所有adapter、section和item的基类，主要实现结点的一些抽象方法
-/// 相比较直接用数组管理，方便了增删改查
 @interface PWListNode : NSObject
 
 @property (nonatomic, nullable, weak) PWListNode *parent;
@@ -23,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)removeChild:(__kindof PWListNode *)node;
 - (void)removeChildAtIndex:(NSUInteger)index;
-- (void)removeChildrenAtIndexSet:(NSIndexSet *)indexSet;
 
 - (void)removeFromParent;
 - (void)removeAllChildren;
@@ -35,8 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (__kindof PWListNode *)childAtIndex:(NSUInteger)index;
 
 
-@property (nonatomic) id data; /// 结点携带的数据
-@property (nonatomic, copy) NSString *tag; /// 结点的标识
+@property (nonatomic) id data;
+@property (nonatomic, copy) NSString *tag;
 
 @end
 

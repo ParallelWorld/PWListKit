@@ -79,10 +79,6 @@
     [self removeChildAtIndex:index];
 }
 
-- (void)removeSectionsAtIndexSet:(NSIndexSet *)indexSet {
-    [self removeChildrenAtIndexSet:indexSet];
-}
-
 - (void)removeSection:(PWCollectionSection *)section {
     [self removeChild:section];
 }

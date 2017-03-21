@@ -39,7 +39,7 @@
     [self.tableAdapter addSection:^(PWTableSection *section) {
         
         for (NSUInteger sectionIndex = 0; sectionIndex < 10; sectionIndex++) {
-            [section setHeader:^(PWTableHeaderFooter *header) {
+            [section configureHeader:^(PWTableHeaderFooter *header) {
                 header.clazz = [TableHeaderView class];
                 header.data = @{@"title": [NSString stringWithFormat:@"section%@-Header", @(sectionIndex)]};
             }];
@@ -59,7 +59,7 @@
                 row.data = mArray.copy;
             }];
             
-            [section setFooter:^(PWTableHeaderFooter *footer) {
+            [section configureFooter:^(PWTableHeaderFooter *footer) {
                 footer.clazz = [TableFooterView class];
                 footer.data = @{@"title": [NSString stringWithFormat:@"section%@-Footer", @(sectionIndex)]};
             }];

@@ -9,6 +9,8 @@
 #import "PWListNode.h"
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// Table cell配置协议
 @protocol PWTableCellConfigureProtocol <NSObject>
 
@@ -19,6 +21,8 @@
 + (CGFloat)cellHeight;
 
 @end
+
+
 
 
 /// Table row model
@@ -37,3 +41,17 @@
 @property (nonatomic, readonly) NSIndexPath *indexPath;
 
 @end
+
+
+
+
+
+@interface UITableViewCell (PWTableRow)
+
+@property (nonatomic) PWTableRow *row;
+
+@end
+
+
+
+NS_ASSUME_NONNULL_END

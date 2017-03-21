@@ -22,7 +22,6 @@
 @end
 
 
-/// Table header footer model.
 @interface PWTableHeaderFooter : PWListNode
 
 @property (nonatomic, readonly) NSString *reuseIdentifier;
@@ -33,5 +32,8 @@
 @property (nonatomic) CGFloat height;
 
 @property (nonatomic) Class<PWTableHeaderFooterConfigureProtocol> clazz;
+
+/// Header footer 所在的 section
+@property (nonatomic) NSUInteger section;
 
 @end

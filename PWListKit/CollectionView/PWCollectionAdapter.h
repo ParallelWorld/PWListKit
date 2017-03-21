@@ -42,7 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)insertSection:(void (^)(PWCollectionSection *section))block atIndex:(NSUInteger)index;
 
 - (void)removeSectionAtIndex:(NSUInteger)index;
-- (void)removeSectionsAtIndexSet:(NSIndexSet *)indexSet;
 - (void)removeSection:(PWCollectionSection *)section;
 
 - (void)clearAllSections;

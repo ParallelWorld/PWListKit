@@ -22,6 +22,15 @@
 
 @end
 
+@protocol PWTableAdapterDelegate <NSObject>
+
+@optional
+- (void)tableAdapter:(PWTableAdapter * _Nonnull)adapter configureCell:(__kindof UITableViewCell * _Nonnull)cell;
+
+@end
+
+
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,9 +43,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak, readonly) UITableView *tableView;
 
 
-@property (nonatomic, weak) id<PWTableAdapterDataSource> dataSource;
-@property (nonatomic, weak) id<UITableViewDataSource> tableDataSource;
-@property (nonatomic, weak) id<UITableViewDelegate> tableDelegate;
+@property (nonatomic, weak, nullable) id<PWTableAdapterDataSource> dataSource;
+@property (nonatomic, weak, nullable) id<PWTableAdapterDelegate> delegate;
+@property (nonatomic, weak, nullable) id<UITableViewDataSource> tableDataSource;
+@property (nonatomic, weak, nullable) id<UITableViewDelegate> tableDelegate;
 
 
 
@@ -44,7 +54,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)insertSection:(void (^)(PWTableSection *section))block atIndex:(NSUInteger)index;
 
 - (void)removeSectionAtIndex:(NSUInteger)index;
-- (void)removeSectionsAtIndexSet:(NSIndexSet *)indexSet;
 - (void)removeSection:(PWTableSection *)section;
 
 - (void)clearAllSections;
@@ -60,6 +69,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)reloadTableViewWithCompletion:(nullable void(^)(void))completion;
 - (void)reloadRowAtIndexPath:(NSIndexPath *)indexPath withRowAnimation:(UITableViewRowAnimation)animation;
 - (void)reloadSectionAtIndex:(NSUInteger)index withRowAnimation:(UITableViewRowAnimation)animation;
+
+@end
+
+
+
+
+@interface UITableView (PWAdapter)
+
+@property (nonatomic) PWTableAdapter *adapter;
 
 @end
 
