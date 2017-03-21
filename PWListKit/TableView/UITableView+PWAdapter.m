@@ -21,4 +21,9 @@
     return adapter;
 }
 
+- (void)setAdapter:(PWTableAdapter *)adapter {
+    if (adapter.tableView != self) return;
+    objc_setAssociatedObject(self, @selector(adapter), adapter, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 @end

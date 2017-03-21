@@ -14,7 +14,6 @@
 @interface TableDifferentCellHeightViewController ()
 @property (nonatomic) UITableView *tableView;
 
-@property (nonatomic) PWTableAdapter *tableAdapter;
 @end
 
 @implementation TableDifferentCellHeightViewController
@@ -38,7 +37,7 @@
     NSArray *data = [self data];
 
     
-    [self.tableAdapter addSection:^(PWTableSection * _Nonnull section) {
+    [self.tableView.adapter addSection:^(PWTableSection * _Nonnull section) {
         
         [data enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
@@ -49,7 +48,7 @@
         }];
     }];
     
-    [self.tableAdapter reloadTableView];
+    [self.tableView.adapter reloadTableView];
 }
 
 - (NSArray *)data {
@@ -70,13 +69,5 @@
     }
     return _tableView;
 }
-
-- (PWTableAdapter *)tableAdapter {
-    if (!_tableAdapter) {
-        _tableAdapter = [[PWTableAdapter alloc] initWithTableView:self.tableView];
-    }
-    return _tableAdapter;
-}
-
 
 @end

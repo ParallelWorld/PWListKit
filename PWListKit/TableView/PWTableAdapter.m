@@ -14,6 +14,7 @@
 #import "UITableView+PWTemplateLayoutCell.h"
 #import "PWTableAdapterProxy.h"
 #import "UITableViewCell+PWTableRow.h"
+#import "UITableView+PWAdapter.h"
 
 
 static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
@@ -57,6 +58,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     _tableView = tableView;
     _tableView.dataSource = self;
     _tableView.delegate = self;
+    _tableView.adapter = self;
     
     _context = [PWTableContext new];
     _context.tableView = tableView;
