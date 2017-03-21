@@ -249,11 +249,16 @@ static BOOL isInterceptedSelector(SEL sel) {
     [self registerCellClassForRow:row];
     
     UITableViewCell<PWTableCellConfigureProtocol> *cell = [tableView dequeueReusableCellWithIdentifier:row.reuseIdentifier forIndexPath:indexPath];
+    
+    if ([self.delegate respondsToSelector:@selector(tableAdapter:willConfigureCell:)]) {
+        [self.delegate tableAdapter:self willConfigureCell:cell];
+    }
+    
     cell.row = row;
     [cell populateData:row.data];
     
-    if ([self.delegate respondsToSelector:@selector(tableAdapter:configureCell:)]) {
-        [self.delegate tableAdapter:self configureCell:cell];
+    if ([self.delegate respondsToSelector:@selector(tableAdapter:didConfigureCell:)]) {
+        [self.delegate tableAdapter:self didConfigureCell:cell];
     }
     
     return cell;
@@ -386,16 +391,13 @@ static BOOL isInterceptedSelector(SEL sel) {
 - (UIView *)viewForHeaderFooter:(PWTableHeaderFooter *)headerFooter {
 
     if (!headerFooter) return nil;
-    
-    Class clazz = headerFooter.clazz;
-    
+        
     [self registerHeaderFooterClassForHeaderFooter:headerFooter];
     
     UITableViewHeaderFooterView<PWTableHeaderFooterConfigureProtocol> *headerFooterView = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:headerFooter.reuseIdentifier];
-    if (!headerFooterView) {
-        headerFooterView = [[clazz alloc] initWithReuseIdentifier:headerFooter.reuseIdentifier];
-    }
+
     [headerFooterView populateData:headerFooter.data];
+    
     return headerFooterView;
 }
 

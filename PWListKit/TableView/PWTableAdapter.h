@@ -10,6 +10,9 @@
 #import <UIKit/UIkit.h>
 
 
+NS_ASSUME_NONNULL_BEGIN
+
+
 @class PWTableSection;
 @class PWTableRow;
 @class PWTableAdapter;
@@ -18,21 +21,23 @@
 @protocol PWTableAdapterDataSource <NSObject>
 
 @optional
-- (UIView * _Nullable)emptyViewForTableAdapter:(PWTableAdapter * _Nonnull)adapter;
+- (nullable UIView *)emptyViewForTableAdapter:(PWTableAdapter *)adapter;
 
 @end
 
 @protocol PWTableAdapterDelegate <NSObject>
 
 @optional
-- (void)tableAdapter:(PWTableAdapter * _Nonnull)adapter configureCell:(__kindof UITableViewCell * _Nonnull)cell;
+- (void)tableAdapter:(PWTableAdapter *)adapter willConfigureCell:(UITableViewCell *)cell;
+- (void)tableAdapter:(PWTableAdapter *)adapter didConfigureCell:(UITableViewCell *)cell;
+
+// TODO header footer view configure
 
 @end
 
 
 
 
-NS_ASSUME_NONNULL_BEGIN
 
 @interface PWTableAdapter : PWListNode
 
