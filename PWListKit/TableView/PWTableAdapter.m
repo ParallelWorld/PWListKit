@@ -249,7 +249,7 @@ static BOOL isInterceptedSelector(SEL sel) {
     
     PWTableRow *row = [self rowAtIndexPath:indexPath];
     
-    [self registerCellClassForRow:row];
+    [self registerCellClassForRowIfNeeded:row];
     
     UITableViewCell<PWTableCellConfigureProtocol> *cell = [tableView dequeueReusableCellWithIdentifier:row.reuseIdentifier forIndexPath:indexPath];
     
@@ -284,7 +284,7 @@ static BOOL isInterceptedSelector(SEL sel) {
 
     if (row.height > 0) return row.height;
     
-    [self registerCellClassForRow:row];
+    [self registerCellClassForRowIfNeeded:row];
 
     return [self.tableView pw_heightForCellWithIdentifier:row.reuseIdentifier cacheByIndexPath:indexPath configuration:^(UITableViewCell<PWTableCellConfigureProtocol> *cell) {
         [cell populateData:row.data];
@@ -355,7 +355,7 @@ static BOOL isInterceptedSelector(SEL sel) {
     return YES;
 }
 
-- (void)registerCellClassForRow:(PWTableRow *)row {
+- (void)registerCellClassForRowIfNeeded:(PWTableRow *)row {
     Class clazz = row.clazz;
     NSString *className = NSStringFromClass(clazz);
     
@@ -373,7 +373,7 @@ static BOOL isInterceptedSelector(SEL sel) {
     [self.registeredCellClasses addObject:clazz];
 }
 
-- (void)registerHeaderFooterClassForHeaderFooter:(PWTableHeaderFooter *)headerFooter {
+- (void)registerHeaderFooterClassForHeaderFooterIfNeeded:(PWTableHeaderFooter *)headerFooter {
     Class clazz = headerFooter.clazz;
     NSString *className = NSStringFromClass(clazz);
     
@@ -395,7 +395,7 @@ static BOOL isInterceptedSelector(SEL sel) {
 
     if (!headerFooter) return nil;
         
-    [self registerHeaderFooterClassForHeaderFooter:headerFooter];
+    [self registerHeaderFooterClassForHeaderFooterIfNeeded:headerFooter];
     
     UITableViewHeaderFooterView<PWTableHeaderFooterConfigureProtocol> *headerFooterView = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:headerFooter.reuseIdentifier];
 
@@ -410,7 +410,7 @@ static BOOL isInterceptedSelector(SEL sel) {
     
     if (headerFooter.height > 0) return headerFooter.height;
     
-    [self registerHeaderFooterClassForHeaderFooter:headerFooter];
+    [self registerHeaderFooterClassForHeaderFooterIfNeeded:headerFooter];
     
     return [self.tableView pw_heightForHeaderWithIdentifier:headerFooter.reuseIdentifier cacheBySection:headerFooter.section configuration:^(UITableViewHeaderFooterView<PWTableHeaderFooterConfigureProtocol> *view) {
         [view populateData:headerFooter.data];
