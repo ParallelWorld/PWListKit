@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
-@interface PWTableAdapter : PWListNode
+@interface PWTableAdapter : NSObject
 
 - (instancetype)initWithTableView:(UITableView *)tableView NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;

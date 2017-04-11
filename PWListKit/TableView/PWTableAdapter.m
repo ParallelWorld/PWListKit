@@ -112,6 +112,7 @@ static BOOL isInterceptedSelector(SEL sel) {
 
 @interface PWTableAdapter () <UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic) PWListNode *rootNode;
 @property (nonatomic) PWTableAdapterProxy *delegateProxy; ///< 包含tableView的dataSource和delegate
 @property (nonatomic) NSMutableSet *registeredCellClasses;
 @property (nonatomic) NSMutableSet *registeredHeaderFooterClasses;
@@ -133,6 +134,8 @@ static BOOL isInterceptedSelector(SEL sel) {
     self = [super init];
     
     NSParameterAssert(tableView);
+    
+    _rootNode = [PWListNode new];
     
     _tableView = tableView;
     _tableView.dataSource = self;
@@ -161,34 +164,34 @@ static BOOL isInterceptedSelector(SEL sel) {
 
 - (void)addSection:(void (^)(PWTableSection *section))block {
     PWTableSection *section = [PWTableSection new];
-    [self addChild:section];
+    [self.rootNode addChild:section];
     block(section);
 }
 
 - (void)insertSection:(void (^)(PWTableSection * _Nonnull))block atIndex:(NSUInteger)index {
     PWTableSection *section = [PWTableSection new];
-    [self insertChild:section atIndex:index];
+    [self.rootNode insertChild:section atIndex:index];
     block(section);
 }
 
 - (void)removeSectionAtIndex:(NSUInteger)index {
-    [self removeChildAtIndex:index];
+    [self.rootNode removeChildAtIndex:index];
 }
 
 - (void)removeSection:(PWTableSection *)section {
-    [self removeChild:section];
+    [self.rootNode removeChild:section];
 }
 
 - (PWTableRow *)rowAtIndexPath:(NSIndexPath *)indexPath {
-    return [[self childAtIndex:indexPath.section] childAtIndex:indexPath.row];
+    return [[self.rootNode childAtIndex:indexPath.section] childAtIndex:indexPath.row];
 }
 
 - (PWTableSection *)sectionAtIndex:(NSUInteger)index {
-    return [self childAtIndex:index];
+    return [self.rootNode childAtIndex:index];
 }
 
 - (PWTableSection *)sectionWithTag:(NSString *)tag {
-    NSArray *sections = self.children;
+    NSArray *sections = self.rootNode.children;
     for (PWTableSection *section in sections) {
         if ([section.tag isEqualToString:tag]) {
             return section;
@@ -198,7 +201,7 @@ static BOOL isInterceptedSelector(SEL sel) {
 }
 
 - (void)clearAllSections {
-    [self removeAllChildren];
+    [self.rootNode removeAllChildren];
 }
 
 - (void)reloadTableView {
@@ -265,11 +268,11 @@ static BOOL isInterceptedSelector(SEL sel) {
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self childAtIndex:section].children.count;
+    return [self.rootNode childAtIndex:section].children.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.children.count;
+    return self.rootNode.children.count;
 }
 
 #pragma mark - UITableViewDelegate
@@ -338,11 +341,11 @@ static BOOL isInterceptedSelector(SEL sel) {
 }
 
 - (BOOL)isTableEmpty {
-    if (self.children.count == 0) {
+    if (self.rootNode.children.count == 0) {
         return YES;
     }
     
-    NSArray<PWTableSection *> *sections = self.children;
+    NSArray<PWTableSection *> *sections = self.rootNode.children;
     for (PWTableSection *section in sections) {
         if (section.children.count != 0) {
             return NO;
