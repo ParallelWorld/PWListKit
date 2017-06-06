@@ -38,7 +38,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
-
+/// Table adapter是table view的适配器，实现`UITableViewDataSource`和`UITableViewDelegate`的部分方法。
+///
+/// 简化使用table view的成本，去掉大部分的胶水代码。
 @interface PWTableAdapter : NSObject
 
 - (instancetype)initWithTableView:(UITableView *)tableView NS_DESIGNATED_INITIALIZER;
