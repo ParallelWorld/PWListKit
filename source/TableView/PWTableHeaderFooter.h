@@ -7,6 +7,7 @@
 //
 
 #import "PWListNode.h"
+#import "PWListMacros.h"
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -20,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
+PWLK_SUBCLASSING_RESTRICTED
 @interface PWTableHeaderFooter : PWListNode
 
 - (instancetype)initWithSection:(PWTableSection *)section NS_DESIGNATED_INITIALIZER;

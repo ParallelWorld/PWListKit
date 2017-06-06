@@ -7,6 +7,7 @@
 //
 
 #import "PWListNode.h"
+#import "PWListMacros.h"
 #import <UIKit/UIkit.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -51,6 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///     `tableView:viewForHeaderInSection:`
 ///     `tableView:viewForFooterInSection:`
 /// 使用方即使实现了这些方法，也不会调用，本类底层已经强制实现，并做了方法转发。
+PWLK_SUBCLASSING_RESTRICTED
 @interface PWTableAdapter : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;

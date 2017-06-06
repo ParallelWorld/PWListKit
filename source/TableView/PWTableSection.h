@@ -7,12 +7,14 @@
 //
 
 #import "PWListNode.h"
+#import "PWListMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class PWTableRow, PWTableHeaderFooter;
 
 /// Table section model
+PWLK_SUBCLASSING_RESTRICTED
 @interface PWTableSection : PWListNode
 
 @property (nonatomic, readonly) PWTableHeaderFooter *header;

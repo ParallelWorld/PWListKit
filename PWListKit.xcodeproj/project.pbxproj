@@ -612,6 +612,7 @@ fi
 				<string>0EF933E21EE67294005B6EE6</string>
 				<string>0EF933F01EE67294005B6EE6</string>
 				<string>0EF933ED1EE67294005B6EE6</string>
+				<string>0EF934311EE6B508005B6EE6</string>
 				<string>0EF933EE1EE67294005B6EE6</string>
 				<string>0EF933EF1EE67294005B6EE6</string>
 			</array>
@@ -1509,6 +1510,17 @@ fi
 			<string>0EF934231EE6736F005B6EE6</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
+		</dict>
+		<key>0EF934311EE6B508005B6EE6</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>PWListMacros.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
 		</dict>
 		<key>2EDB620EF4BE8004768EC95E</key>
 		<dict>

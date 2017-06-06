@@ -7,6 +7,7 @@
 //
 
 #import "PWListNode.h"
+#import "PWListMacros.h"
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -30,7 +31,7 @@ typedef NS_ENUM(NSUInteger, PWTableRowPosition) {
     PWTableRowPositionSingle,
 };
 
-
+PWLK_SUBCLASSING_RESTRICTED
 @interface PWTableRow : PWListNode
 
 /// row对应的cell class，这个必须要设置，否则会报异常
