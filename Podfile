@@ -1,4 +1,4 @@
-platform :ios, '8.0'
+platform :ios, '7.0'
 
 target 'PWListKit' do
     pod 'ReactiveCocoa', '~>2.5'
