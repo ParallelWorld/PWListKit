@@ -207,7 +207,6 @@ static BOOL isInterceptedSelector(SEL sel) {
 - (void)reloadRowAtIndexPath:(NSIndexPath *)indexPath withRowAnimation:(UITableViewRowAnimation)animation {
     pw_dispatch_block_into_main_queue(^{
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:animation];
-        
         [self updateTableEmptyView];
     });
 }
@@ -215,7 +214,6 @@ static BOOL isInterceptedSelector(SEL sel) {
 - (void)reloadSectionAtIndex:(NSUInteger)index withRowAnimation:(UITableViewRowAnimation)animation {
     pw_dispatch_block_into_main_queue(^{
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:animation];
-        
         [self updateTableEmptyView];
     });
 }

@@ -8,7 +8,6 @@ PWListKit完成的功能
 
 
 ## 未实现的功能
-- 数据发生变化时，能够准确的刷新变化的UI，而不是整体刷新，这个需要diff算法，可参考IGListKit
 
 ## 已经实现的功能
 - 指定cellClass即可自动注册cell的class或者nib，无需指定注册类型。当有cell的同名nib时，调用是`registerNib`方法，否则调用`registerClass`方法。

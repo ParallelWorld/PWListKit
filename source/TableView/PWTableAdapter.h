@@ -39,8 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
-/// Table adapter是table view的适配器，实现`UITableViewDataSource`和`UITableViewDelegate`的部分方法。
-/// 目的是简化使用table view的成本，去掉胶水代码。代理实现的方法如下：
+/// Table adapter是table view的适配器，实现了`UITableViewDataSource`和`UITableViewDelegate`的部分方法。
+/// 一个table view对应一个adapter，目的是简化使用table view的成本，去掉胶水代码。代理实现的方法如下：
 /// UITableViewDataSource
 ///     `tableView:cellForRowAtIndexPath:
 ///     `tableView:numberOfRowsInSection:`
@@ -80,6 +80,7 @@ PWLK_SUBCLASSING_RESTRICTED
 /// 根据自定义的tag来索引对应的section
 - (nullable PWTableSection *)sectionWithTag:(NSString *)tag;
 
+#pragma mark - 更新table view
 /// 以下方法除了更新tableView，还会判断是否显示emptyView。
 - (void)reloadTableView;
 - (void)reloadTableViewWithCompletion:(nullable void(^)(void))completion;
