@@ -242,7 +242,6 @@ fi
 			<key>children</key>
 			<array>
 				<string>0EF934061EE6736F005B6EE6</string>
-				<string>0EF933CA1EE670B1005B6EE6</string>
 				<string>0EF934091EE6736F005B6EE6</string>
 				<string>0EF934121EE6736F005B6EE6</string>
 				<string>0EF934191EE6736F005B6EE6</string>
@@ -260,25 +259,12 @@ fi
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>0EF933CA1EE670B1005B6EE6</key>
-		<dict>
-			<key>children</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Supporting Files</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
 		<key>0EF933CB1EE670B1005B6EE6</key>
 		<dict>
 			<key>isa</key>
 			<string>PBXFileReference</string>
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>main.m</string>
 			<key>path</key>
 			<string>main.m</string>
 			<key>sourceTree</key>

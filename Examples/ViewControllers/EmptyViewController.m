@@ -66,7 +66,7 @@
 
 - (PWTableAdapter *)tableAdapter {
     if (!_tableAdapter) {
-        _tableAdapter = [[PWTableAdapter alloc] initWithTableView:self.tableView];
+        _tableAdapter = self.tableView.adapter;
         _tableAdapter.tableDelegate = self;
         _tableAdapter.dataSource = self;
     }

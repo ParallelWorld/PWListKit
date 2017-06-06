@@ -10,12 +10,8 @@
 
 @implementation LabelTableCell
 
-- (void)populateData:(id)data {
-    self.textLabel.text = data[@"title"];
-}
-
-+ (CGFloat)cellHeight {
-    return 50;
+- (void)updateWithRow:(PWTableRow *)row {
+    self.textLabel.text = row.data[@"title"];
 }
 
 @end

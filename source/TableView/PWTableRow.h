@@ -11,29 +11,35 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class PWTableRow;
+
 /// Table cell配置协议
 @protocol PWTableCellConfigureProtocol <NSObject>
 
 @required
-- (void)populateData:(id)data;
-
-@optional
-+ (CGFloat)cellHeight;
+- (void)updateWithRow:(PWTableRow *)row;
 
 @end
 
+/// cell的位置
+typedef NS_ENUM(NSUInteger, PWTableRowPosition) {
+    PWTableRowPositionDefault,
+    PWTableRowPositionTop,
+    PWTableRowPositionMiddle,
+    PWTableRowPositionBottom,
+    PWTableRowPositionSingle,
+};
 
 
-
-/// Table row model
 @interface PWTableRow : PWListNode
 
-/// Row 对应的 cell class
+/// row对应的cell class，这个必须要设置，否则会报异常
 @property (nonatomic) Class<PWTableCellConfigureProtocol> clazz;
 
-/// 可以直接设置cellHeight，也可以在cell中覆写cellHeight类方法
-/// 优先级是[tableItem cellHeight] > [cellClass cellHeight]
-/// 默认是0
+/// cell在section中的位置
+@property (nonatomic) PWTableRowPosition position;
+
+/// 如果height<=0，则使用autolayout计算高度，否则直接使用height。默认是0。
 @property (nonatomic) CGFloat height;
 
 @property (nonatomic, readonly) NSString *reuseIdentifier;
@@ -41,17 +47,5 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSIndexPath *indexPath;
 
 @end
-
-
-
-
-
-@interface UITableViewCell (PWTableRow)
-
-@property (nonatomic) PWTableRow *row;
-
-@end
-
-
 
 NS_ASSUME_NONNULL_END

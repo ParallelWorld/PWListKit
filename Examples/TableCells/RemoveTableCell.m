@@ -16,7 +16,7 @@
     return self;
 }
 
-- (void)populateData:(id)data {
+- (void)updateWithRow:(PWTableRow *)row {
     
 }
 

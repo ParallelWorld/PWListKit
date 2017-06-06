@@ -24,21 +24,7 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     }
 }
 
-
-@interface PWTableAdapterProxy : NSProxy
-
-- (instancetype)initWithTableDataSourceTarget:(id<UITableViewDataSource>)dataSource
-                          tableDelegateTarget:(id<UITableViewDelegate>)delegate
-                                  interceptor:(id)interceptor;
-
-@end
-
-
-
-/**
- Define messages that you want the PWTableModel object to intercept. Pattern copied from
- https://github.com/facebook/AsyncDisplayKit/blob/7b112a2dcd0391ddf3671f9dcb63521f554b78bd/AsyncDisplayKit/ASCollectionView.mm#L34-L53
- */
+// https://github.com/facebook/AsyncDisplayKit/blob/7b112a2dcd0391ddf3671f9dcb63521f554b78bd/AsyncDisplayKit/ASCollectionView.mm#L34-L53
 static BOOL isInterceptedSelector(SEL sel) {
     return (
             // UITableViewDataSource
@@ -54,7 +40,13 @@ static BOOL isInterceptedSelector(SEL sel) {
             );
 }
 
-@implementation PWTableAdapterProxy {
+@interface _PWTableAdapterProxy : NSProxy
+- (instancetype)initWithTableDataSourceTarget:(id<UITableViewDataSource>)dataSource
+                          tableDelegateTarget:(id<UITableViewDelegate>)delegate
+                                  interceptor:(id)interceptor;
+@end
+
+@implementation _PWTableAdapterProxy {
     __weak id _tableDataSourceTarget;
     __weak id _tableDelegateTarget;
     __weak id _interceptor;
@@ -65,11 +57,9 @@ static BOOL isInterceptedSelector(SEL sel) {
                                   interceptor:(id)interceptor {
     NSParameterAssert(interceptor);
     
-    // -[NSProxy init] is undefined
     _tableDataSourceTarget = dataSource;
     _tableDelegateTarget = delegate;
     _interceptor = interceptor;
-    
     return self;
 }
 
@@ -103,23 +93,12 @@ static BOOL isInterceptedSelector(SEL sel) {
 @end
 
 
-
-
-
-
-
-
-
 @interface PWTableAdapter () <UITableViewDelegate, UITableViewDataSource>
-
-@property (nonatomic) PWListNode *rootNode;
-@property (nonatomic) PWTableAdapterProxy *delegateProxy; ///< 包含tableView的dataSource和delegate
+@property (nonatomic) PWListNode *rootNode; ///< 数据源的根结点
+@property (nonatomic) _PWTableAdapterProxy *delegateProxy; ///< 包含tableView的dataSource和delegate
 @property (nonatomic) NSMutableSet *registeredCellClasses;
 @property (nonatomic) NSMutableSet *registeredHeaderFooterClasses;
-
 @end
-
-
 
 @implementation PWTableAdapter
 
@@ -140,7 +119,6 @@ static BOOL isInterceptedSelector(SEL sel) {
     _tableView = tableView;
     _tableView.dataSource = self;
     _tableView.delegate = self;
-    _tableView.adapter = self;
     
     _registeredCellClasses = [NSMutableSet new];
     _registeredHeaderFooterClasses = [NSMutableSet new];
@@ -246,25 +224,7 @@ static BOOL isInterceptedSelector(SEL sel) {
 #pragma mark - UITableViewDataSource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    PWTableRow *row = [self rowAtIndexPath:indexPath];
-    
-    [self registerCellClassForRowIfNeeded:row];
-    
-    UITableViewCell<PWTableCellConfigureProtocol> *cell = [tableView dequeueReusableCellWithIdentifier:row.reuseIdentifier forIndexPath:indexPath];
-    
-    if ([self.delegate respondsToSelector:@selector(tableAdapter:willConfigureCell:)]) {
-        [self.delegate tableAdapter:self willConfigureCell:cell];
-    }
-    
-    cell.row = row;
-    [cell populateData:row.data];
-    
-    if ([self.delegate respondsToSelector:@selector(tableAdapter:didConfigureCell:)]) {
-        [self.delegate tableAdapter:self didConfigureCell:cell];
-    }
-    
-    return cell;
+    return [self cellForRow:[self rowAtIndexPath:indexPath]];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -278,17 +238,7 @@ static BOOL isInterceptedSelector(SEL sel) {
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    PWTableRow *row = [self rowAtIndexPath:indexPath];
-    if (!row) return 0;
-
-    if (row.height > 0) return row.height;
-    
-    [self registerCellClassForRowIfNeeded:row];
-
-    return [self.tableView pw_heightForCellWithIdentifier:row.reuseIdentifier cacheByIndexPath:indexPath configuration:^(UITableViewCell<PWTableCellConfigureProtocol> *cell) {
-        [cell populateData:row.data];
-    }];
+    return [self heightForRow:[self rowAtIndexPath:indexPath]];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -307,8 +257,6 @@ static BOOL isInterceptedSelector(SEL sel) {
     return [self viewForHeaderFooter:[self sectionAtIndex:section].footer];
 }
 
-
-
 #pragma mark - Private method
 
 - (void)updateTableProxy {
@@ -317,7 +265,7 @@ static BOOL isInterceptedSelector(SEL sel) {
     _tableView.delegate = nil;
     _tableView.dataSource = nil;
     
-    self.delegateProxy = [[PWTableAdapterProxy alloc] initWithTableDataSourceTarget:_tableDataSource tableDelegateTarget:_tableDelegate interceptor:self];
+    self.delegateProxy = [[_PWTableAdapterProxy alloc] initWithTableDataSourceTarget:_tableDataSource tableDelegateTarget:_tableDelegate interceptor:self];
     
     // set up the delegate to the proxy so the adapter can intercept events
     // default to the adapter simply being the delegate
@@ -327,17 +275,47 @@ static BOOL isInterceptedSelector(SEL sel) {
 
 - (void)updateTableEmptyView {
     UIView *emptyView = nil;
+    BOOL shouldHide = NO;
+    
+    if ([self.dataSource respondsToSelector:@selector(shouldHideEmptyViewForTableAdapter:)]) {
+        shouldHide = [self.dataSource shouldHideEmptyViewForTableAdapter:self];
+    } else {
+        shouldHide = ![self isTableEmpty];
+    }
+    
+    if (shouldHide) {
+        [self hideEmptyView];
+        return;
+    }
+    
     if ([self.dataSource respondsToSelector:@selector(emptyViewForTableAdapter:)]) {
         emptyView = [self.dataSource emptyViewForTableAdapter:self];
     }
     
-    if (!emptyView) return;
+    if (!emptyView) {
+        [self hideEmptyView];
+        return;
+    }
+    
+    [self showEmptyView:emptyView];
     
     if (emptyView != _tableView.backgroundView) {
         [_tableView.backgroundView removeFromSuperview];
         _tableView.backgroundView = emptyView;
     }
     _tableView.backgroundView.hidden = ![self isTableEmpty];
+}
+
+- (void)hideEmptyView {
+    _tableView.backgroundView.hidden = YES;
+}
+
+- (void)showEmptyView:(UIView *)view {
+    if (view != _tableView.backgroundView) {
+        [_tableView.backgroundView removeFromSuperview];
+        _tableView.backgroundView = view;
+    }
+    _tableView.backgroundView.hidden = NO;
 }
 
 - (BOOL)isTableEmpty {
@@ -355,7 +333,9 @@ static BOOL isInterceptedSelector(SEL sel) {
     return YES;
 }
 
-- (void)registerCellClassForRowIfNeeded:(PWTableRow *)row {
+- (void)registerCellClassIfNeeded:(PWTableRow *)row {
+    if (!row) return;
+
     Class clazz = row.clazz;
     NSString *className = NSStringFromClass(clazz);
     
@@ -373,7 +353,9 @@ static BOOL isInterceptedSelector(SEL sel) {
     [self.registeredCellClasses addObject:clazz];
 }
 
-- (void)registerHeaderFooterClassForHeaderFooterIfNeeded:(PWTableHeaderFooter *)headerFooter {
+- (void)registerHeaderFooterClassIfNeeded:(PWTableHeaderFooter *)headerFooter {
+    if (!headerFooter) return;
+    
     Class clazz = headerFooter.clazz;
     NSString *className = NSStringFromClass(clazz);
     
@@ -391,34 +373,47 @@ static BOOL isInterceptedSelector(SEL sel) {
     [self.registeredHeaderFooterClasses addObject:clazz];
 }
 
-- (UIView *)viewForHeaderFooter:(PWTableHeaderFooter *)headerFooter {
+- (UITableViewCell *)cellForRow:(PWTableRow *)row {
+    [self registerCellClassIfNeeded:row];
+    
+    UITableViewCell<PWTableCellConfigureProtocol> *cell = [self.tableView dequeueReusableCellWithIdentifier:row.reuseIdentifier forIndexPath:row.indexPath];
+    
+    [cell updateWithRow:row];
+    
+    return cell;
+}
 
-    if (!headerFooter) return nil;
-        
-    [self registerHeaderFooterClassForHeaderFooterIfNeeded:headerFooter];
+- (UIView *)viewForHeaderFooter:(PWTableHeaderFooter *)headerFooter {
+    [self registerHeaderFooterClassIfNeeded:headerFooter];
     
     UITableViewHeaderFooterView<PWTableHeaderFooterConfigureProtocol> *headerFooterView = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:headerFooter.reuseIdentifier];
 
-    [headerFooterView populateData:headerFooter.data];
+    [headerFooterView updateWithHeaderFooter:headerFooter];
     
     return headerFooterView;
 }
 
 - (CGFloat)heightForHeaderFooter:(PWTableHeaderFooter *)headerFooter {
-    
-    if (!headerFooter) return 0;
+    [self registerHeaderFooterClassIfNeeded:headerFooter];
     
     if (headerFooter.height > 0) return headerFooter.height;
     
-    [self registerHeaderFooterClassForHeaderFooterIfNeeded:headerFooter];
+    return [self.tableView pw_heightForHeaderWithIdentifier:headerFooter.reuseIdentifier cacheBySection:headerFooter.section.section configuration:^(UITableViewHeaderFooterView<PWTableHeaderFooterConfigureProtocol> *view) {
+        [view updateWithHeaderFooter:headerFooter];
+    }];
+}
+
+- (CGFloat)heightForRow:(PWTableRow *)row {
+    [self registerCellClassIfNeeded:row];
     
-    return [self.tableView pw_heightForHeaderWithIdentifier:headerFooter.reuseIdentifier cacheBySection:headerFooter.section configuration:^(UITableViewHeaderFooterView<PWTableHeaderFooterConfigureProtocol> *view) {
-        [view populateData:headerFooter.data];
+    if (row.height > 0) return row.height;
+    
+    return [self.tableView pw_heightForCellWithIdentifier:row.reuseIdentifier cacheByIndexPath:row.indexPath configuration:^(UITableViewCell<PWTableCellConfigureProtocol> *cell) {
+        [cell updateWithRow:row];
     }];
 }
 
 @end
-
 
 
 @implementation UITableView (PWAdapter)
@@ -430,11 +425,6 @@ static BOOL isInterceptedSelector(SEL sel) {
         objc_setAssociatedObject(self, _cmd, adapter, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return adapter;
-}
-
-- (void)setAdapter:(PWTableAdapter *)adapter {
-    if (adapter.tableView != self) return;
-    objc_setAssociatedObject(self, @selector(adapter), adapter, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end

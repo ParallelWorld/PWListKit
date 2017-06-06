@@ -28,8 +28,9 @@
     return self;
 }
 
-- (void)populateData:(id)data {
-    self.multilineLabel.text = data[@"largeText"];
+- (void)updateWithRow:(PWTableRow *)row {
+    self.multilineLabel.text = row.data[@"largeText"];
+
 }
 
 @end

@@ -29,8 +29,8 @@
     return self;
 }
 
-- (void)populateData:(NSDictionary *)data {
-    self.middleTitleLabel.text = data[@"title"];
+- (void)updateWithHeaderFooter:(PWTableHeaderFooter *)headerFooter {
+    self.middleTitleLabel.text = headerFooter.data[@"title"];
 }
 
 @end

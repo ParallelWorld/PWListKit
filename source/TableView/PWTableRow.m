@@ -22,33 +22,9 @@
     return NSStringFromClass(self.clazz);
 }
 
-- (CGFloat)height {
-    if (_height > 0) return _height;
-
-    Method method = class_getClassMethod(self.clazz, @selector(cellHeight));
-    if (method) {
-        return [self.clazz cellHeight];
-    }
-    
-    return _height;
-}
-
 - (NSIndexPath *)indexPath {
     if (!self.parent) return nil;
     return [NSIndexPath indexPathForRow:self.index inSection:self.parent.index];
-}
-
-@end
-
-
-@implementation UITableViewCell (PWTableRow)
-
-- (PWTableRow *)row {
-    return objc_getAssociatedObject(self, _cmd);
-}
-
-- (void)setRow:(PWTableRow *)row {
-    objc_setAssociatedObject(self, @selector(row), row, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end

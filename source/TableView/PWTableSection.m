@@ -8,8 +8,7 @@
 
 #import "PWTableSection.h"
 #import "PWTableRow.h"
-#import "PWTableHeaderFooter.h" 
-
+#import "PWTableHeaderFooter.h"
 
 @implementation PWTableSection
 
@@ -37,24 +36,22 @@
     [self removeAllChildren];
 }
 
-
 - (NSUInteger)section {
     return self.index;
 }
 
-
 - (void)configureHeader:(void (^)(PWTableHeaderFooter * _Nonnull))block {
-    PWTableHeaderFooter *header = [PWTableHeaderFooter new];
-    block(header);
-    header.section = self.section;
-    _header = header;
+    if (!_header) {
+        _header = [[PWTableHeaderFooter alloc] initWithSection:self];
+    }
+    block(_header);
 }
 
 - (void)configureFooter:(void (^)(PWTableHeaderFooter * _Nonnull))block {
-    PWTableHeaderFooter *footer = [PWTableHeaderFooter new];
-    block(footer);
-    footer.section = self.section;
-    _footer = footer;
+    if (!_footer) {
+        _footer = [[PWTableHeaderFooter alloc] initWithSection:self];
+    }
+    block(_footer);
 }
 
 @end

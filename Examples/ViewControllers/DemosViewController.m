@@ -41,6 +41,7 @@
             [section addRow:^(PWTableRow *row) {
                 row.clazz = [LabelTableCell class];
                 row.data = @{@"title": name};
+                row.height = 50;
             }];
         }];
     }];

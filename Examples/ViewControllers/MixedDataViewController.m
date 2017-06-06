@@ -80,10 +80,7 @@
 }
 
 - (PWTableAdapter *)tableAdapter {
-    if (!_tableAdapter) {
-        _tableAdapter = [[PWTableAdapter alloc] initWithTableView:self.tableView];
-    }
-    return _tableAdapter;
+    return self.tableView.adapter;
 }
 
 

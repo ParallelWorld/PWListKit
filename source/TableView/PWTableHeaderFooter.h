@@ -9,31 +9,35 @@
 #import "PWListNode.h"
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
+@class PWTableHeaderFooter, PWTableSection;
 
 /// Table header footer配置协议
 @protocol PWTableHeaderFooterConfigureProtocol <NSObject>
-
 @required
-- (void)populateData:(id)data;
-
-@optional
-+ (CGFloat)headerFooterHeight;
-
+- (void)updateWithHeaderFooter:(PWTableHeaderFooter *)headerFooter;
 @end
 
 
 @interface PWTableHeaderFooter : PWListNode
 
-@property (nonatomic, readonly) NSString *reuseIdentifier;
+- (instancetype)initWithSection:(PWTableSection *)section NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
 
-/// 可以直接设置headerFooterHeight，也可以在headerFooterView中覆写headerFooterHeight类方法
-/// 优先级是[headerFooter headerFooterHeight] > [headerFooterClass headerFooterHeight]
-/// 默认是0
+
+/// 如果height<=0，则使用autolayout计算高度，否则直接使用height。默认是0。
 @property (nonatomic) CGFloat height;
 
+/// row对应的header footer class，这个必须要设置，否则会报异常
 @property (nonatomic) Class<PWTableHeaderFooterConfigureProtocol> clazz;
 
+@property (nonatomic, readonly) NSString *reuseIdentifier;
+
 /// Header footer 所在的 section
-@property (nonatomic) NSUInteger section;
+@property (nonatomic, weak, readonly) PWTableSection *section;
 
 @end
+
+NS_ASSUME_NONNULL_END

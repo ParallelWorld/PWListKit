@@ -30,7 +30,8 @@
     return self;
 }
 
-- (void)populateData:(NSArray *)data {
+- (void)updateWithRow:(PWTableRow *)row {
+    NSArray *data = row.data;
     [self.collectionModel addSection:^(PWCollectionSection *section) {
         [data enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [section addItem:^(PWCollectionItem *item) {
