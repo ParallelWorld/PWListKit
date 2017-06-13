@@ -13,6 +13,10 @@
 #import "UITableView+PWTemplateLayoutCell.h"
 #import <objc/runtime.h>
 
+#import "PWTableAdapterInternal.h"
+#import "PWTableAdapterProxy.h"
+#import "PWTableAdapter+UITableView.h"
+
 
 static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     if ([NSThread mainThread]) {
@@ -23,82 +27,6 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
         });
     }
 }
-
-// https://github.com/facebook/AsyncDisplayKit/blob/7b112a2dcd0391ddf3671f9dcb63521f554b78bd/AsyncDisplayKit/ASCollectionView.mm#L34-L53
-static BOOL isInterceptedSelector(SEL sel) {
-    return (
-            // UITableViewDataSource
-            sel == @selector(tableView:cellForRowAtIndexPath:) ||
-            sel == @selector(tableView:numberOfRowsInSection:) ||
-            sel == @selector(numberOfSectionsInTableView:) ||
-            // UITableViewDelegate
-            sel == @selector(tableView:heightForRowAtIndexPath:) ||
-            sel == @selector(tableView:heightForHeaderInSection:) ||
-            sel == @selector(tableView:heightForFooterInSection:) ||
-            sel == @selector(tableView:viewForHeaderInSection:) ||
-            sel == @selector(tableView:viewForFooterInSection:)
-            );
-}
-
-@interface _PWTableAdapterProxy : NSProxy
-- (instancetype)initWithTableDataSourceTarget:(id<UITableViewDataSource>)dataSource
-                          tableDelegateTarget:(id<UITableViewDelegate>)delegate
-                                  interceptor:(id)interceptor;
-@end
-
-@implementation _PWTableAdapterProxy {
-    __weak id _tableDataSourceTarget;
-    __weak id _tableDelegateTarget;
-    __weak id _interceptor;
-}
-
-- (instancetype)initWithTableDataSourceTarget:(id<UITableViewDataSource>)dataSource
-                          tableDelegateTarget:(id<UITableViewDelegate>)delegate
-                                  interceptor:(id)interceptor {
-    NSParameterAssert(interceptor);
-    
-    _tableDataSourceTarget = dataSource;
-    _tableDelegateTarget = delegate;
-    _interceptor = interceptor;
-    return self;
-}
-
-- (BOOL)respondsToSelector:(SEL)aSelector {
-    return isInterceptedSelector(aSelector)
-    || [_tableDataSourceTarget respondsToSelector:aSelector]
-    || [_tableDelegateTarget respondsToSelector:aSelector];
-}
-
-- (id)forwardingTargetForSelector:(SEL)aSelector {
-    if (isInterceptedSelector(aSelector)) {
-        return _interceptor;
-    }
-    if ([_tableDelegateTarget respondsToSelector:aSelector]) {
-        return _tableDelegateTarget;
-    }
-    return _tableDataSourceTarget;
-}
-
-// handling unimplemented methods and nil target/interceptor
-// https://github.com/Flipboard/FLAnimatedImage/blob/76a31aefc645cc09463a62d42c02954a30434d7d/FLAnimatedImage/FLAnimatedImage.m#L786-L807
-- (void)forwardInvocation:(NSInvocation *)invocation {
-    void *nullPointer = NULL;
-    [invocation setReturnValue:&nullPointer];
-}
-
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector {
-    return [NSObject instanceMethodSignatureForSelector:@selector(init)];
-}
-
-@end
-
-
-@interface PWTableAdapter () <UITableViewDelegate, UITableViewDataSource>
-@property (nonatomic) PWListNode *rootNode; ///< 数据源的根结点
-@property (nonatomic) _PWTableAdapterProxy *delegateProxy; ///< 包含tableView的dataSource和delegate
-@property (nonatomic) NSMutableSet *registeredCellClasses;
-@property (nonatomic) NSMutableSet *registeredHeaderFooterClasses;
-@end
 
 @implementation PWTableAdapter
 
@@ -219,42 +147,6 @@ static BOOL isInterceptedSelector(SEL sel) {
 }
 
 
-#pragma mark - UITableViewDataSource
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [self cellForRow:[self rowAtIndexPath:indexPath]];
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.rootNode childAtIndex:section].children.count;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.rootNode.children.count;
-}
-
-#pragma mark - UITableViewDelegate
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [self heightForRow:[self rowAtIndexPath:indexPath]];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return [self heightForHeaderFooter:[self sectionAtIndex:section].header];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return [self heightForHeaderFooter:[self sectionAtIndex:section].footer];
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return [self viewForHeaderFooter:[self sectionAtIndex:section].header];
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    return [self viewForHeaderFooter:[self sectionAtIndex:section].footer];
-}
-
 #pragma mark - Private method
 
 - (void)updateTableProxy {
@@ -263,7 +155,7 @@ static BOOL isInterceptedSelector(SEL sel) {
     _tableView.delegate = nil;
     _tableView.dataSource = nil;
     
-    self.delegateProxy = [[_PWTableAdapterProxy alloc] initWithTableDataSourceTarget:_tableDataSource tableDelegateTarget:_tableDelegate interceptor:self];
+    self.delegateProxy = [[PWTableAdapterProxy alloc] initWithTableDataSourceTarget:_tableDataSource tableDelegateTarget:_tableDelegate interceptor:self];
     
     // set up the delegate to the proxy so the adapter can intercept events
     // default to the adapter simply being the delegate
@@ -331,85 +223,7 @@ static BOOL isInterceptedSelector(SEL sel) {
     return YES;
 }
 
-- (void)registerCellClassIfNeeded:(PWTableRow *)row {
-    if (!row) return;
 
-    Class clazz = row.clazz;
-    NSString *className = NSStringFromClass(clazz);
-    
-    if ([self.registeredCellClasses containsObject:clazz]) {
-        return;
-    }
-    
-    NSString *nibPath = [[NSBundle mainBundle] pathForResource:className ofType:@"nib"];
-    if (nibPath) {
-        [self.tableView registerNib:[UINib nibWithNibName:className bundle:nil] forCellReuseIdentifier:row.reuseIdentifier];
-    } else {
-        [self.tableView registerClass:clazz forCellReuseIdentifier:row.reuseIdentifier];
-    }
-    
-    [self.registeredCellClasses addObject:clazz];
-}
-
-- (void)registerHeaderFooterClassIfNeeded:(PWTableHeaderFooter *)headerFooter {
-    if (!headerFooter) return;
-    
-    Class clazz = headerFooter.clazz;
-    NSString *className = NSStringFromClass(clazz);
-    
-    if ([self.registeredHeaderFooterClasses containsObject:clazz]) {
-        return;
-    }
-    
-    NSString *nibPath = [[NSBundle mainBundle] pathForResource:className ofType:@"nib"];
-    if (nibPath) {
-        [self.tableView registerNib:[UINib nibWithNibName:className bundle:nil] forHeaderFooterViewReuseIdentifier:headerFooter.reuseIdentifier];
-    } else {
-        [self.tableView registerClass:clazz forHeaderFooterViewReuseIdentifier:headerFooter.reuseIdentifier];
-    }
-    
-    [self.registeredHeaderFooterClasses addObject:clazz];
-}
-
-- (UITableViewCell *)cellForRow:(PWTableRow *)row {
-    [self registerCellClassIfNeeded:row];
-    
-    UITableViewCell<PWTableCellConfigureProtocol> *cell = [self.tableView dequeueReusableCellWithIdentifier:row.reuseIdentifier forIndexPath:row.indexPath];
-    
-    [cell updateWithRow:row];
-    
-    return cell;
-}
-
-- (UIView *)viewForHeaderFooter:(PWTableHeaderFooter *)headerFooter {
-    [self registerHeaderFooterClassIfNeeded:headerFooter];
-    
-    UITableViewHeaderFooterView<PWTableHeaderFooterConfigureProtocol> *headerFooterView = [self.tableView dequeueReusableHeaderFooterViewWithIdentifier:headerFooter.reuseIdentifier];
-
-    [headerFooterView updateWithHeaderFooter:headerFooter];
-    
-    return headerFooterView;
-}
-
-- (CGFloat)heightForHeaderFooter:(PWTableHeaderFooter *)headerFooter {
-    [self registerHeaderFooterClassIfNeeded:headerFooter];
-    
-    if (headerFooter.height > 0) return headerFooter.height;
-    
-    return [self.tableView pw_heightForHeaderWithIdentifier:headerFooter.reuseIdentifier cacheBySection:headerFooter.section.section configuration:^(UITableViewHeaderFooterView<PWTableHeaderFooterConfigureProtocol> *view) {
-        [view updateWithHeaderFooter:headerFooter];
-    }];
-}
-
-- (CGFloat)heightForRow:(PWTableRow *)row {
-    [self registerCellClassIfNeeded:row];
-    
-    if (row.height > 0) return row.height;
-    
-    return [self.tableView pw_heightForCellWithIdentifier:row.reuseIdentifier cacheByIndexPath:row.indexPath configuration:^(UITableViewCell<PWTableCellConfigureProtocol> *cell) {
-        [cell updateWithRow:row];
-    }];
-}
 
 @end
 
