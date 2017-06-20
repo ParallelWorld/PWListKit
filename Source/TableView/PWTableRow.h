@@ -8,6 +8,7 @@
 
 #import "PWListNode.h"
 #import "PWListMacros.h"
+#import "IGListDiffKit.h"
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -32,7 +33,7 @@ typedef NS_ENUM(NSUInteger, PWTableRowPosition) {
 };
 
 PWLK_SUBCLASSING_RESTRICTED
-@interface PWTableRow : PWListNode
+@interface PWTableRow : PWListNode <IGListDiffable>
 
 /// row对应的cell class，这个必须要设置，否则会报异常
 @property (nonatomic) Class<PWTableCellConfigureProtocol> clazz;

@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeFromParent;
 - (void)removeAllChildren;
 
+- (void)moveChildFrom:(NSUInteger)from to:(NSUInteger)to;
+
 - (NSUInteger)index;
 
 - (__kindof PWListNode *)firstChild;

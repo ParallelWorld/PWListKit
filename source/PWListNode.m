@@ -7,14 +7,12 @@
 //
 
 #import "PWListNode.h"
+#import "PWListNodeInternal.h"
 
 #define LOCK   [_lock lock]
 #define UNLOCK [_lock unlock]
 
-@interface PWListNode ()
-@property (nonatomic) NSMutableArray *innerChildren;
-@property (nonatomic) NSLock *lock;
-@end
+
 
 @implementation PWListNode
 
@@ -60,6 +58,9 @@
 }
 
 - (void)removeChildAtIndex:(NSUInteger)index {
+    if (index >= self.innerChildren.count) {
+        return;
+    }
     LOCK;
     [_innerChildren removeObjectAtIndex:index];
     UNLOCK;
@@ -74,6 +75,16 @@
 - (void)removeAllChildren {
     LOCK;
     [_innerChildren removeAllObjects];
+    UNLOCK;
+}
+
+- (void)moveChildFrom:(NSUInteger)from to:(NSUInteger)to {
+    if (from >= self.innerChildren.count || to >= self.innerChildren.count) {
+        return;
+    }
+    
+    LOCK;
+    [_innerChildren exchangeObjectAtIndex:from withObjectAtIndex:to];
     UNLOCK;
 }
 

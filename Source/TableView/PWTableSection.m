@@ -9,6 +9,7 @@
 #import "PWTableSection.h"
 #import "PWTableRow.h"
 #import "PWTableHeaderFooter.h"
+#import "PWListNodeInternal.h"
 
 @implementation PWTableSection
 
@@ -53,6 +54,31 @@
     }
     block(_footer);
 }
+
+
+
+#pragma mark - IGListDiffable
+
+- (id<NSObject>)diffIdentifier {
+    return self.tag;
+}
+
+- (BOOL)isEqualToDiffableObject:(PWTableSection *)object {
+    IGListIndexPathResult *result = IGListDiffPaths(self.section, object.section, self.children, object.children, IGListDiffEquality);
+    return !result.hasChanges;
+}
+
+#pragma mark - Life
+
+- (id)copyWithZone:(NSZone *)zone {
+    PWTableSection *copy = [[PWTableSection allocWithZone:zone] init];
+    if (copy != nil) {
+        copy.tag = [self.tag copy];
+        copy.innerChildren = [self.innerChildren mutableCopy];
+    }
+    return copy;
+}
+
 
 @end
 

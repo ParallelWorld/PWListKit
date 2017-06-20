@@ -7,6 +7,7 @@
 //
 
 #import "PWTableRow.h"
+#import "PWListNodeInternal.h"
 #import <objc/runtime.h>
 
 
@@ -25,6 +26,26 @@
 - (NSIndexPath *)indexPath {
     if (!self.parent) return nil;
     return [NSIndexPath indexPathForRow:self.index inSection:self.parent.index];
+}
+
+#pragma mark - IGListDiffable
+
+- (id<NSObject>)diffIdentifier {
+    return self;
+}
+
+- (BOOL)isEqualToDiffableObject:(PWTableRow *)object {
+    return [self.data isEqual:object.data];
+}
+
+#pragma mark - Life
+
+- (id)copyWithZone:(NSZone *)zone {
+    PWTableRow *copy = [[PWTableRow allocWithZone:zone] init];
+    if (copy != nil) {
+        copy.innerChildren = [self.innerChildren mutableCopy];
+    }
+    return copy;
 }
 
 @end

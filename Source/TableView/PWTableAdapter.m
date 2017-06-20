@@ -17,6 +17,8 @@
 #import "PWTableAdapterProxy.h"
 #import "PWTableAdapter+UITableView.h"
 
+#import "PWListNodeInternal.h"
+
 
 static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     if ([NSThread mainThread]) {
@@ -50,6 +52,8 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     
     _registeredCellClasses = [NSMutableSet new];
     _registeredHeaderFooterClasses = [NSMutableSet new];
+    
+    _actions = [NSMutableArray new];
     
     return self;
 }
@@ -86,6 +90,10 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
 
 - (void)removeSection:(PWTableSection *)section {
     [self.rootNode removeChild:section];
+}
+
+- (void)moveSectionFrom:(NSUInteger)from to:(NSUInteger)to {
+    [self.rootNode moveChildFrom:from to:to];
 }
 
 - (PWTableRow *)rowAtIndexPath:(NSIndexPath *)indexPath {
@@ -144,6 +152,83 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:index] withRowAnimation:animation];
         [self updateTableEmptyView];
     });
+}
+
+- (void)reloadTableWithBlock:(void (^)(void))block {
+    // 1. 先记录旧数据
+    NSMutableArray<PWTableSection *> *fromObjects = [self.rootNode.children mutableCopy];
+    for (int i = 0; i < fromObjects.count; i++) {
+        fromObjects[i] = [fromObjects[i] copy];
+    }
+    
+    self.isDiffing = YES;
+    // 2. 执行block
+    block();
+    
+    self.isDiffing = NO;
+    // 3. 记录新数据
+    NSMutableArray<PWTableSection *> *toObjects = [self.rootNode.children mutableCopy];
+    // 4. 比较数据
+    
+    // sections
+    IGListIndexSetResult *diffResult = IGListDiff(fromObjects, toObjects, IGListDiffEquality);
+    
+//    diffResult = [diffResult resultForBatchUpdates];
+    
+    NSMutableIndexSet *inserts = [diffResult.inserts mutableCopy];
+    NSMutableIndexSet *deletes = [diffResult.deletes mutableCopy];
+    NSSet *moves = [[NSSet alloc] initWithArray:diffResult.moves];
+    NSMutableIndexSet *updates = [diffResult.updates mutableCopy];
+
+    NSMutableArray<NSIndexPath *> *itemInserts = [NSMutableArray new];
+    NSMutableArray<NSIndexPath *> *itemDeletes = [NSMutableArray new];
+    NSMutableArray<NSIndexPath *> *itemUpdates = [NSMutableArray new];
+    NSMutableArray<IGListMoveIndexPath *> *itemMoves = [NSMutableArray new];
+    
+    [updates enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        IGListIndexPathResult *paths = IGListDiffPaths(idx,
+                                                       idx,
+                                                       [fromObjects[idx] children],
+                                                       [toObjects[idx] children],
+                                                       IGListDiffEquality);
+        [itemInserts addObjectsFromArray:paths.inserts];
+        [itemDeletes addObjectsFromArray:paths.deletes];
+        [itemUpdates addObjectsFromArray:paths.updates];
+        [itemMoves addObjectsFromArray:paths.moves];
+    }];
+    
+    
+    // merge
+    IGListBatchUpdateData *updateData = [[IGListBatchUpdateData alloc] initWithInsertSections:inserts
+                                                                               deleteSections:deletes
+                                                                                 moveSections:moves
+                                                                             insertIndexPaths:itemInserts
+                                                                             deleteIndexPaths:itemDeletes
+                                                                               moveIndexPaths:itemMoves];
+    // 5. 刷新
+    
+    [self applyBatchUpdateData:updateData];
+}
+
+- (void)applyBatchUpdateData:(IGListBatchUpdateData *)updateData {
+    [self.tableView beginUpdates];
+    
+    [self.tableView deleteRowsAtIndexPaths:updateData.deleteIndexPaths withRowAnimation:UITableViewRowAnimationTop];
+    [self.tableView insertRowsAtIndexPaths:updateData.insertIndexPaths withRowAnimation:UITableViewRowAnimationTop];
+    
+    for (IGListMoveIndexPath *move in updateData.moveIndexPaths) {
+        [self.tableView moveRowAtIndexPath:move.from toIndexPath:move.to];
+    }
+    
+    for (IGListMoveIndex *move in updateData.moveSections) {
+        [self.tableView moveSection:move.from toSection:move.to];
+    }
+    
+    [self.tableView deleteSections:updateData.deleteSections withRowAnimation:UITableViewRowAnimationTop];
+    [self.tableView insertSections:updateData.insertSections withRowAnimation:UITableViewRowAnimationTop];
+    
+    [self.tableView endUpdates];
 }
 
 
@@ -221,6 +306,16 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     }
 
     return YES;
+}
+
+- (NSArray *)objects {
+    NSMutableArray *o = [NSMutableArray new];
+    [self.rootNode.children enumerateObjectsUsingBlock:^(PWListNode *section, NSUInteger idx, BOOL * _Nonnull stop) {
+        [section.children enumerateObjectsUsingBlock:^(PWListNode *row, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+        }];
+    }];
+    return nil;
 }
 
 

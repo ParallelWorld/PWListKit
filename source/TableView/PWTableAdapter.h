@@ -77,7 +77,11 @@ PWLK_SUBCLASSING_RESTRICTED
 - (PWTableRow *)rowAtIndexPath:(NSIndexPath *)indexPath;
 - (PWTableSection *)sectionAtIndex:(NSUInteger)index;
 
+- (void)moveSectionFrom:(NSUInteger)from to:(NSUInteger)to;
+
+
 /// 根据自定义的tag来索引对应的section
+
 - (nullable PWTableSection *)sectionWithTag:(NSString *)tag;
 
 #pragma mark - 更新table view
@@ -86,6 +90,8 @@ PWLK_SUBCLASSING_RESTRICTED
 - (void)reloadTableViewWithCompletion:(nullable void(^)(void))completion;
 - (void)reloadRowAtIndexPath:(NSIndexPath *)indexPath withRowAnimation:(UITableViewRowAnimation)animation;
 - (void)reloadSectionAtIndex:(NSUInteger)index withRowAnimation:(UITableViewRowAnimation)animation;
+
+- (void)reloadTableWithBlock:(nullable void(^)(void))block;
 
 @end
 

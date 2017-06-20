@@ -17,4 +17,10 @@
 @property (nonatomic) NSMutableSet *registeredCellClasses;
 @property (nonatomic) NSMutableSet *registeredHeaderFooterClasses;
 
+@property (nonatomic) NSArray *objects; // shuzu
+
+@property (nonatomic) BOOL isDiffing;
+
+@property (nonatomic) NSMutableArray *actions;
+
 @end

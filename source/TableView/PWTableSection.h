@@ -8,6 +8,8 @@
 
 #import "PWListNode.h"
 #import "PWListMacros.h"
+#import "IGListDiffKit.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Table section model
 PWLK_SUBCLASSING_RESTRICTED
-@interface PWTableSection : PWListNode
+@interface PWTableSection : PWListNode <IGListDiffable>
 
 @property (nonatomic, readonly) PWTableHeaderFooter *header;
 @property (nonatomic, readonly) PWTableHeaderFooter *footer;
@@ -27,6 +29,7 @@ PWLK_SUBCLASSING_RESTRICTED
 - (void)removeRowAtIndex:(NSUInteger)index;
 - (PWTableRow *)rowAtIndex:(NSUInteger)index;
 - (void)clearAllRows;
+
 
 - (void)configureHeader:(void (^)(PWTableHeaderFooter *header))block;
 - (void)configureFooter:(void (^)(PWTableHeaderFooter *footer))block;
