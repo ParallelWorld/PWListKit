@@ -46,6 +46,7 @@
         [section removeRowAtIndex:0];
         
         [self.tableAdapter moveSectionFrom:0 to:1];
+
     }];
 }
 - (void)move {

@@ -185,12 +185,20 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
     NSMutableArray<NSIndexPath *> *itemUpdates = [NSMutableArray new];
     NSMutableArray<IGListMoveIndexPath *> *itemMoves = [NSMutableArray new];
     
-    [updates enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+    [updates enumerateIndexesUsingBlock:^(NSUInteger oldIndex, BOOL *stop) {
         
-        IGListIndexPathResult *paths = IGListDiffPaths(idx,
-                                                       idx,
-                                                       [fromObjects[idx] children],
-                                                       [toObjects[idx] children],
+        __block NSUInteger newIndex = NSNotFound;
+        [moves enumerateObjectsUsingBlock:^(IGListMoveIndex *moveIndex, BOOL *moveStop) {
+            if (moveIndex.from == oldIndex) {
+                newIndex = moveIndex.to;
+                *moveStop = YES;
+            }
+        }];
+        
+        IGListIndexPathResult *paths = IGListDiffPaths(oldIndex,
+                                                       newIndex,
+                                                       [fromObjects[oldIndex] children],
+                                                       [toObjects[newIndex] children],
                                                        IGListDiffEquality);
         [itemInserts addObjectsFromArray:paths.inserts];
         [itemDeletes addObjectsFromArray:paths.deletes];
