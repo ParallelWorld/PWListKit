@@ -13,3 +13,13 @@
         #define PWLK_SUBCLASSING_RESTRICTED
     #endif
 #endif
+
+static inline void pwlk_dispatch_block_into_main_queue(void (^block)()) {
+    if ([NSThread mainThread]) {
+        block();
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            block();
+        });
+    }
+}

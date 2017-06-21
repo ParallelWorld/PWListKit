@@ -46,7 +46,9 @@
         [section removeRowAtIndex:0];
         
         [self.tableAdapter moveSectionFrom:0 to:1];
-
+        [self.tableAdapter reloadTableViewWithCompletion:^{
+            
+        }];
     }];
 }
 - (void)move {

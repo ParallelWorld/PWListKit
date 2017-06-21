@@ -8,20 +8,17 @@
 
 #import "PWListNode.h"
 
-@class PWTableAdapterProxy, PWListNode;
+@class PWTableAdapterProxy;
+@class PWListNode;
 
 @interface PWTableAdapter ()
 
-@property (nonatomic) PWListNode *rootNode; ///< 数据源的根结点
-@property (nonatomic) PWTableAdapterProxy *delegateProxy; ///< 包含tableView的dataSource和delegate
-@property (nonatomic) NSMutableSet *registeredCellClasses;
-@property (nonatomic) NSMutableSet *registeredHeaderFooterClasses;
-
-@property (nonatomic) NSArray *objects; // shuzu
+@property (nonatomic) PWListNode *rootNode;                         ///< 数据源的根结点
+@property (nonatomic) PWTableAdapterProxy *delegateProxy;           ///< 包含tableView的dataSource和delegate
+@property (nonatomic) NSMutableSet *registeredCellClasses;          ///< 注册过的cell class
+@property (nonatomic) NSMutableSet *registeredHeaderFooterClasses;  ///< 注册过的headerfooter class
 
 @property (nonatomic) BOOL isDiffing;
-
-@property (nonatomic) NSMutableArray *actions;
 
 - (instancetype)initWithTableView:(UITableView *)tableView NS_DESIGNATED_INITIALIZER;
 

@@ -9,10 +9,6 @@
 #import "PWTableAdapter.h"
 #import <UIKit/UIkit.h>
 
-@interface PWTableAdapter (UITableView)
-<
-UITableViewDelegate,
-UITableViewDataSource
->
+@interface PWTableAdapter (UITableView) <UITableViewDelegate, UITableViewDataSource>
 
 @end

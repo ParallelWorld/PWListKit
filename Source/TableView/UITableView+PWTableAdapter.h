@@ -12,9 +12,7 @@
 
 @interface UITableView (PWTableAdapter)
 
-/**
- 一个table view对应一个adapter，使用懒加载。
- */
+/// 一个table view对应一个adapter，使用懒加载。
 @property (nonatomic, readonly) PWTableAdapter *adapter;
 
 @end
