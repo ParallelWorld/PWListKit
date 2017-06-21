@@ -11,7 +11,6 @@
 #import "PWTableSection.h"
 #import "PWTableHeaderFooter.h"
 #import "UITableView+PWTemplateLayoutCell.h"
-#import <objc/runtime.h>
 
 #import "PWTableAdapterInternal.h"
 #import "PWTableAdapterProxy.h"
@@ -215,7 +214,6 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
                                                                              deleteIndexPaths:itemDeletes
                                                                                moveIndexPaths:itemMoves];
     // 5. 刷新
-    
     [self applyBatchUpdateData:updateData];
 }
 
@@ -324,22 +322,6 @@ static inline void pw_dispatch_block_into_main_queue(void (^block)()) {
         }];
     }];
     return nil;
-}
-
-
-
-@end
-
-
-@implementation UITableView (PWAdapter)
-
-- (PWTableAdapter *)adapter {
-    PWTableAdapter *adapter = objc_getAssociatedObject(self, _cmd);
-    if (!adapter) {
-        adapter = [[PWTableAdapter alloc] initWithTableView:self];
-        objc_setAssociatedObject(self, _cmd, adapter, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-    return adapter;
 }
 
 @end

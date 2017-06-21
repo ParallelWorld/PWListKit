@@ -6,9 +6,9 @@
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 
+#import <UIKit/UIkit.h>
 #import "PWListNode.h"
 #import "PWListMacros.h"
-#import <UIKit/UIkit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -92,14 +92,6 @@ PWLK_SUBCLASSING_RESTRICTED
 - (void)reloadSectionAtIndex:(NSUInteger)index withRowAnimation:(UITableViewRowAnimation)animation;
 
 - (void)reloadTableWithBlock:(nullable void(^)(void))block;
-
-@end
-
-
-/// 一个table view对应一个adapter，使用懒加载。
-@interface UITableView (PWAdapter)
-
-@property (nonatomic, readonly) PWTableAdapter *adapter;
 
 @end
 

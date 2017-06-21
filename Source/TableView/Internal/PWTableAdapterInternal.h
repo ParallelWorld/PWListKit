@@ -23,4 +23,6 @@
 
 @property (nonatomic) NSMutableArray *actions;
 
+- (instancetype)initWithTableView:(UITableView *)tableView NS_DESIGNATED_INITIALIZER;
+
 @end

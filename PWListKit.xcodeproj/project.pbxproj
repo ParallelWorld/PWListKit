@@ -43,6 +43,7 @@ fi
 		<dict>
 			<key>children</key>
 			<array>
+				<string>0ED298DC1EF91949000DC9B7</string>
 				<string>0E710B411EEFEA7600919C0E</string>
 				<string>0E710B421EEFEA7600919C0E</string>
 				<string>0E710B441EEFEB1900919C0E</string>
@@ -130,6 +131,39 @@ fi
 		<dict>
 			<key>fileRef</key>
 			<string>0E710B461EEFEB8900919C0E</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0E82A01E1EFA537D00188238</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>UITableView+PWTableAdapter.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0E82A01F1EFA537D00188238</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>UITableView+PWTableAdapter.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0E82A0201EFA537D00188238</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0E82A01F1EFA537D00188238</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
@@ -781,6 +815,7 @@ fi
 				<string>0EF934301EE6736F005B6EE6</string>
 				<string>0EF933FE1EE67294005B6EE6</string>
 				<string>0ED298D91EF9000A000DC9B7</string>
+				<string>0E82A0201EFA537D00188238</string>
 				<string>0EF933FB1EE67294005B6EE6</string>
 				<string>0EF934261EE6736F005B6EE6</string>
 				<string>0EF934051EE67294005B6EE6</string>
@@ -1274,7 +1309,6 @@ fi
 				<string>0EF934311EE6B508005B6EE6</string>
 				<string>0EF933EE1EE67294005B6EE6</string>
 				<string>0EF933EF1EE67294005B6EE6</string>
-				<string>0ED298DC1EF91949000DC9B7</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -1487,6 +1521,8 @@ fi
 				<string>0EF933F61EE67294005B6EE6</string>
 				<string>0EF933F71EE67294005B6EE6</string>
 				<string>0EF933F81EE67294005B6EE6</string>
+				<string>0E82A01E1EFA537D00188238</string>
+				<string>0E82A01F1EFA537D00188238</string>
 				<string>0EF933F91EE67294005B6EE6</string>
 				<string>0EF933FA1EE67294005B6EE6</string>
 			</array>

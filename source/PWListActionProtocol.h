@@ -23,7 +23,7 @@
 @protocol PWListReuseViewProtocol <NSObject>
 
 @optional
-@property (nonatomic, weak) id<PWListActionProtocol> actionDelegate;
+@property (nonatomic, weak) id<PWListViewActionDelegate> actionDelegate;
 
 @end
 
