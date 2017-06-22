@@ -1,8 +1,8 @@
 //
 //  main.m
-//  PWListKit
+//  PWListKitExamples
 //
-//  Created by Huang Wei on 2017/6/6.
+//  Created by Huang Wei on 2017/6/22.
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 

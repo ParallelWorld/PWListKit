@@ -1,31 +1,37 @@
 //
 //  PWListKit.h
-//  Demo
+//  PWListKit
 //
-//  Created by Huang Wei on 2017/2/27.
+//  Created by Huang Wei on 2017/6/22.
 //  Copyright © 2017年 Parallel World. All rights reserved.
 //
 
-#ifndef PWListKit_h
-#define PWListKit_h
+#import <UIKit/UIKit.h>
 
-#import "PWListActionProtocol.h"
-#import "PWListMacros.h"
-#import "PWListNode.h"
+//! Project version number for PWListKit.
+FOUNDATION_EXPORT double PWListKitVersionNumber;
+
+//! Project version string for PWListKit.
+FOUNDATION_EXPORT const unsigned char PWListKitVersionString[];
+
+// In this header, you should import all the public headers of your framework using statements like #import <PWListKit/PublicHeader.h>
+
+
+#import <PWListKit/PWListActionProtocol.h>
+#import <PWListKit/PWListMacros.h>
+#import <PWListKit/PWListNode.h>
 
 /// TableView
-#import "PWTableAdapter.h"
-#import "PWTableHeaderFooter.h"
-#import "PWTableRow.h"
-#import "PWTableSection.h"
-#import "UITableView+PWTableAdapter.h"
-#import "UITableView+PWTemplateLayoutCell.h"
+#import <PWListKit/PWTableAdapter.h>
+#import <PWListKit/PWTableHeaderFooter.h>
+#import <PWListKit/PWTableRow.h>
+#import <PWListKit/PWTableSection.h>
+#import <PWListKit/UITableView+PWTableAdapter.h>
+#import <PWListKit/UITableView+PWTemplateLayoutCell.h>
 
 
 /// CollectionView
-#import "PWCollectionSection.h"
-#import "PWCollectionItem.h"
-#import "PWCollectionAdapter.h"
+#import <PWListKit/PWCollectionSection.h>
+#import <PWListKit/PWCollectionItem.h>
+#import <PWListKit/PWCollectionAdapter.h>
 
-
-#endif /* PWListKit_h */

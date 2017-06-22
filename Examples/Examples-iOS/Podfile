@@ -1,0 +1,7 @@
+platform :ios, '8.0'
+
+target 'PWListKitExamples' do
+    pod 'PWListKit', :path => '../../PWListKit.podspec'
+    
+    pod 'Masonry'
+end
