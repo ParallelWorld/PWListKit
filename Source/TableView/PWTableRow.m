@@ -13,14 +13,15 @@
 
 @implementation PWTableRow
 
-- (void)setClazz:(Class<PWTableCellConfigureProtocol>)clazz {
-    _clazz = clazz;
-    NSAssert(class_conformsToProtocol(clazz, @protocol(PWTableCellConfigureProtocol)), @"Cell class 需满足`PWTableCellConfigureProtocol`协议");
+- (void)setCellClass:(Class<PWTableCellConfigureProtocol>)cellClass {
+    _cellClass = cellClass;
+    NSAssert(class_conformsToProtocol(cellClass, @protocol(PWTableCellConfigureProtocol)),
+             @"Cell class 需满足`PWTableCellConfigureProtocol`协议");
 }
 
 - (NSString *)reuseIdentifier {
-    NSAssert(self.clazz, @"cellClass不能为空");
-    return NSStringFromClass(self.clazz);
+    NSAssert(self.cellClass, @"cellClass不能为空");
+    return NSStringFromClass(self.cellClass);
 }
 
 - (NSIndexPath *)indexPath {

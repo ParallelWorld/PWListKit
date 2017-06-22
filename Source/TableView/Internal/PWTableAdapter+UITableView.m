@@ -56,7 +56,7 @@
 - (void)registerCellClassIfNeeded:(PWTableRow *)row {
     if (!row) return;
     
-    Class clazz = row.clazz;
+    Class clazz = row.cellClass;
     NSString *className = NSStringFromClass(clazz);
     
     if ([self.registeredCellClasses containsObject:clazz]) {
