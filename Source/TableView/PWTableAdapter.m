@@ -134,7 +134,7 @@
     IGListBatchUpdateData *updateData = [self calculateDiffWithActions:actions];
     
     // 更新table view
-    [self applyBatchUpdateData:updateData];
+    [self applyBatchUpdateData:updateData animation:animation];
 }
 
 
@@ -298,27 +298,36 @@
                                                                              deleteIndexPaths:itemDeletes
                                                                                moveIndexPaths:itemMoves];
     // 5. 刷新
-    [self applyBatchUpdateData:updateData];
+//    [self applyBatchUpdateData:updateData];
 }
 
-- (void)applyBatchUpdateData:(IGListBatchUpdateData *)updateData {
-    [self.tableView beginUpdates];
-    
-    [self.tableView deleteRowsAtIndexPaths:updateData.deleteIndexPaths withRowAnimation:UITableViewRowAnimationTop];
-    [self.tableView insertRowsAtIndexPaths:updateData.insertIndexPaths withRowAnimation:UITableViewRowAnimationTop];
-    
-    for (IGListMoveIndexPath *move in updateData.moveIndexPaths) {
-        [self.tableView moveRowAtIndexPath:move.from toIndexPath:move.to];
+- (void)applyBatchUpdateData:(IGListBatchUpdateData *)updateData animation:(UITableViewRowAnimation)animation {
+    void (^viewActions)() = ^{
+        [self.tableView beginUpdates];
+        
+        [self.tableView deleteRowsAtIndexPaths:updateData.deleteIndexPaths withRowAnimation:animation];
+        [self.tableView insertRowsAtIndexPaths:updateData.insertIndexPaths withRowAnimation:animation];
+        
+        for (IGListMoveIndexPath *move in updateData.moveIndexPaths) {
+            [self.tableView moveRowAtIndexPath:move.from toIndexPath:move.to];
+        }
+        
+        for (IGListMoveIndex *move in updateData.moveSections) {
+            [self.tableView moveSection:move.from toSection:move.to];
+        }
+        
+        [self.tableView deleteSections:updateData.deleteSections withRowAnimation:animation];
+        [self.tableView insertSections:updateData.insertSections withRowAnimation:animation];
+        
+        [self.tableView endUpdates];
+    };
+    if (animation == UITableViewRowAnimationNone) {
+        [UIView performWithoutAnimation:^{
+            viewActions();
+        }];
+    } else {
+        viewActions();
     }
-    
-    for (IGListMoveIndex *move in updateData.moveSections) {
-        [self.tableView moveSection:move.from toSection:move.to];
-    }
-    
-    [self.tableView deleteSections:updateData.deleteSections withRowAnimation:UITableViewRowAnimationTop];
-    [self.tableView insertSections:updateData.insertSections withRowAnimation:UITableViewRowAnimationTop];
-    
-    [self.tableView endUpdates];
 }
 
 

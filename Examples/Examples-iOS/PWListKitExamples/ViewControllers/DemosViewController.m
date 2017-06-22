@@ -32,24 +32,22 @@
 }
 
 - (void)loadData {
-    NSArray *controllerClassNames = [self controllerClassNames];
-    
-    [self.tableView.adapter updateTableViewWithActions:^(PWTableAdapter * _Nonnull adapter) {
-        [adapter addSection:^(PWTableSection * _Nonnull s) {
-            [[[controllerClassNames.rac_sequence map:^id(NSString *name) {
-                PWTableRow *row = [[PWTableRow alloc] initWithCellClass:[LabelTableCell class]];
-                row.data = @{@"title": name};
-                row.height = 50;
-                return row;
-            }] array] enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                [s addRow:obj];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSArray *controllerClassNames = [self controllerClassNames];
+        
+        [self.tableView.adapter updateTableViewWithActions:^(PWTableAdapter * _Nonnull adapter) {
+            [adapter addSection:^(PWTableSection * _Nonnull s) {
+                [[[controllerClassNames.rac_sequence map:^id(NSString *name) {
+                    PWTableRow *row = [[PWTableRow alloc] initWithCellClass:[LabelTableCell class]];
+                    row.data = @{@"title": name};
+                    row.height = 50;
+                    return row;
+                }] array] enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    [s addRow:obj];
+                }];
             }];
-        }];
-    } animation:UITableViewRowAnimationLeft completion:nil];
-    
-//    [self.tableView.adapter updateTableViewWithActions:nil animation:UITableViewRowAnimationNone completion:^{
-//        NSLog(@"tableView refresh complete");
-//    }];
+        } animation:UITableViewRowAnimationLeft completion:nil];
+    });
 }
 
 - (NSArray *)controllerClassNames {
