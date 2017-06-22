@@ -118,9 +118,13 @@
     
     if (headerFooter.height > 0) return headerFooter.height;
     
-    return [self.tableView pw_heightForHeaderWithIdentifier:headerFooter.reuseIdentifier cacheBySection:headerFooter.section.sectionIndex configuration:^(UITableViewHeaderFooterView<PWTableHeaderFooterConfigureProtocol> *view) {
+    CGFloat height = [self.tableView pw_heightForHeaderWithIdentifier:headerFooter.reuseIdentifier cacheBySection:headerFooter.section.sectionIndex configuration:^(UITableViewHeaderFooterView<PWTableHeaderFooterConfigureProtocol> *view) {
         [view updateWithHeaderFooter:headerFooter];
     }];
+    
+    if (height > 0) return height;
+    
+    return 44;
 }
 
 - (CGFloat)heightForRow:(PWTableRow *)row {
@@ -128,9 +132,13 @@
     
     if (row.height > 0) return row.height;
     
-    return [self.tableView pw_heightForCellWithIdentifier:row.reuseIdentifier cacheByIndexPath:row.indexPath configuration:^(UITableViewCell<PWTableCellConfigureProtocol> *cell) {
+    CGFloat height = [self.tableView pw_heightForCellWithIdentifier:row.reuseIdentifier cacheByIndexPath:row.indexPath configuration:^(UITableViewCell<PWTableCellConfigureProtocol> *cell) {
         [cell updateWithRow:row];
     }];
+    
+    if (height > 0) return height;
+    
+    return 44;
 }
 
 @end

@@ -72,10 +72,12 @@
             section.tag = [NSString stringWithFormat:@"third%@", @(count++)];
 
             for (int i = 0; i<2; i++) {
-                [section addRow:^(PWTableRow * _Nonnull row) {
+                [section addRow:({
+                    PWTableRow *row = [[PWTableRow alloc] initWithCellClass:[LabelTableCell class]];
                     row.cellClass = [LabelTableCell class];
                     row.data = @{@"title": [NSString stringWithFormat:@"%zi-%zi", row.indexPath.section, row.indexPath.row]};
-                }];
+                    row;
+                })];
             }
             
         }];
@@ -88,54 +90,57 @@
 
 - (void)loadData {
     
-    [self.tableAdapter addSection:^(PWTableSection *section) {
-        
-        section.tag = @"first";
-        
-        for (NSUInteger sectionIndex = 0; sectionIndex < 2; sectionIndex++) {
-//            [section configureHeader:^(PWTableHeaderFooter *header) {
-//                header.clazz = [TableHeaderView class];
-//                header.data = @{@"title": [NSString stringWithFormat:@"section%@-Header", @(sectionIndex)]};
-//            }];
-            
-            [section addRow:^(PWTableRow * _Nonnull row) {
-                row.cellClass = [LabelTableCell class];
-                row.data = @{@"title": [NSString stringWithFormat:@"%zi-%zi", row.indexPath.section, row.indexPath.row]};
-            }];
-            
-        
-            
-//            [section configureFooter:^(PWTableHeaderFooter *footer) {
-//                footer.clazz = [TableFooterView class];
-//                footer.data = @{@"title": [NSString stringWithFormat:@"section%@-Footer", @(sectionIndex)]};
-//            }];
-        }
-    }];
     
-    
-    [self.tableAdapter addSection:^(PWTableSection *section) {
-        
-        section.tag = @"second";
 
-        for (NSUInteger sectionIndex = 0; sectionIndex < 2; sectionIndex++) {
-//            [section configureHeader:^(PWTableHeaderFooter *header) {
-//                header.clazz = [TableHeaderView class];
-//                header.data = @{@"title": [NSString stringWithFormat:@"section%@-Header", @(sectionIndex)]};
-//            }];
+    [self.tableAdapter updateTableViewWithActions:^(PWTableAdapter * _Nonnull adapter) {
+        [self.tableAdapter addSection:^(PWTableSection *section) {
             
-            [section addRow:^(PWTableRow * _Nonnull row) {
-                row.cellClass = [LabelTableCell class];
-                row.data = @{@"title": [NSString stringWithFormat:@"%zi-%zi", row.indexPath.section, row.indexPath.row]};
-            }];
-//            
-//            [section configureFooter:^(PWTableHeaderFooter *footer) {
-//                footer.clazz = [TableFooterView class];
-//                footer.data = @{@"title": [NSString stringWithFormat:@"section%@-Footer", @(sectionIndex)]};
-//            }];
-        }
-    }];
-
-    [self.tableAdapter reloadTableView];
+            section.tag = @"first";
+            
+            for (NSUInteger sectionIndex = 0; sectionIndex < 2; sectionIndex++) {
+                //            [section configureHeader:^(PWTableHeaderFooter *header) {
+                //                header.clazz = [TableHeaderView class];
+                //                header.data = @{@"title": [NSString stringWithFormat:@"section%@-Header", @(sectionIndex)]};
+                //            }];
+                
+                [section addRow:({
+                    PWTableRow *row = [[PWTableRow alloc] initWithCellClass:[LabelTableCell class]];
+                    row.data = @{@"title": [NSString stringWithFormat:@"%@-%zi", @(section.sectionIndex), sectionIndex]};
+                    row;
+                })];
+                
+                //            [section configureFooter:^(PWTableHeaderFooter *footer) {
+                //                footer.clazz = [TableFooterView class];
+                //                footer.data = @{@"title": [NSString stringWithFormat:@"section%@-Footer", @(sectionIndex)]};
+                //            }];
+            }
+        }];
+        
+        
+        [self.tableAdapter addSection:^(PWTableSection *section) {
+            
+            section.tag = @"second";
+            
+            for (NSUInteger sectionIndex = 0; sectionIndex < 2; sectionIndex++) {
+                //            [section configureHeader:^(PWTableHeaderFooter *header) {
+                //                header.clazz = [TableHeaderView class];
+                //                header.data = @{@"title": [NSString stringWithFormat:@"section%@-Header", @(sectionIndex)]};
+                //            }];
+                
+                [section addRow:({
+                    PWTableRow *row = [[PWTableRow alloc] initWithCellClass:[LabelTableCell class]];
+                    row.cellClass = [LabelTableCell class];
+                    row.data = @{@"title": [NSString stringWithFormat:@"%@-%zi", @(section.sectionIndex), sectionIndex]};
+                    row;
+                })];
+                //
+                //            [section configureFooter:^(PWTableHeaderFooter *footer) {
+                //                footer.clazz = [TableFooterView class];
+                //                footer.data = @{@"title": [NSString stringWithFormat:@"section%@-Footer", @(sectionIndex)]};
+                //            }];
+            }
+        }];
+    } animation:UITableViewRowAnimationLeft completion:nil];
 }
 
 

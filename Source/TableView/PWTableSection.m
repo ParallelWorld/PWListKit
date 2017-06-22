@@ -53,7 +53,7 @@
 }
 
 - (NSUInteger)sectionIndex {
-    return self.parent.index;
+    return self.index;
 }
 
 
