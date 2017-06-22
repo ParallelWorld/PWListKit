@@ -37,7 +37,7 @@
     
     [self.tableAdapter addSection:^(PWTableSection * _Nonnull section) {
         [section addRow:^(PWTableRow * _Nonnull row) {
-            row.clazz = RemoveTableCell.class;
+            row.cellClass = RemoveTableCell.class;
         }];
     }];
     
@@ -48,7 +48,7 @@
 - (void)clickAddCellButton {
     [self.tableAdapter addSection:^(PWTableSection *section) {
         [section addRow:^(PWTableRow * _Nonnull row) {
-            row.clazz = RemoveTableCell.class;
+            row.cellClass = RemoveTableCell.class;
         }];
     }];
     [self.tableAdapter reloadTableView];

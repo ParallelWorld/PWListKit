@@ -4,4 +4,5 @@ target 'PWListKitExamples' do
     pod 'PWListKit', :path => '../../PWListKit.podspec'
     
     pod 'Masonry'
+    pod 'ReactiveCocoa', '2.5'
 end

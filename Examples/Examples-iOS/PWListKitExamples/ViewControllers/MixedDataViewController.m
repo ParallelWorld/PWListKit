@@ -73,7 +73,7 @@
 
             for (int i = 0; i<2; i++) {
                 [section addRow:^(PWTableRow * _Nonnull row) {
-                    row.clazz = [LabelTableCell class];
+                    row.cellClass = [LabelTableCell class];
                     row.data = @{@"title": [NSString stringWithFormat:@"%zi-%zi", row.indexPath.section, row.indexPath.row]};
                 }];
             }
@@ -99,7 +99,7 @@
 //            }];
             
             [section addRow:^(PWTableRow * _Nonnull row) {
-                row.clazz = [LabelTableCell class];
+                row.cellClass = [LabelTableCell class];
                 row.data = @{@"title": [NSString stringWithFormat:@"%zi-%zi", row.indexPath.section, row.indexPath.row]};
             }];
             
@@ -124,7 +124,7 @@
 //            }];
             
             [section addRow:^(PWTableRow * _Nonnull row) {
-                row.clazz = [LabelTableCell class];
+                row.cellClass = [LabelTableCell class];
                 row.data = @{@"title": [NSString stringWithFormat:@"%zi-%zi", row.indexPath.section, row.indexPath.row]};
             }];
 //            

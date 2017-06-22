@@ -20,7 +20,6 @@
 		0E394CA51EFB7731000C9BF0 /* MixedDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3F85A91EFB6DD2006B152A /* MixedDataViewController.m */; };
 		0E394CA61EFB7731000C9BF0 /* TableDifferentCellHeightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E3F85AB1EFB6DD2006B152A /* TableDifferentCellHeightViewController.m */; };
 		0E4E02C71EFB648600B32A7F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4E02C61EFB648600B32A7F /* AppDelegate.m */; };
-		0E4E02CD1EFB648600B32A7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E4E02CB1EFB648600B32A7F /* Main.storyboard */; };
 		0E4E02CF1EFB648600B32A7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E4E02CE1EFB648600B32A7F /* Assets.xcassets */; };
 		0E4E02D21EFB648600B32A7F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E4E02D01EFB648600B32A7F /* LaunchScreen.storyboard */; };
 		0E4E02D51EFB648600B32A7F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4E02D41EFB648600B32A7F /* main.m */; };
@@ -55,7 +54,6 @@
 		0E4E02C21EFB648600B32A7F /* PWListKitExamples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PWListKitExamples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E4E02C51EFB648600B32A7F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0E4E02C61EFB648600B32A7F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		0E4E02CC1EFB648600B32A7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0E4E02CE1EFB648600B32A7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0E4E02D11EFB648600B32A7F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0E4E02D31EFB648600B32A7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -159,7 +157,6 @@
 				0E4E02CE1EFB648600B32A7F /* Assets.xcassets */,
 				0E4E02D31EFB648600B32A7F /* Info.plist */,
 				0E4E02D01EFB648600B32A7F /* LaunchScreen.storyboard */,
-				0E4E02CB1EFB648600B32A7F /* Main.storyboard */,
 				0E4E02D41EFB648600B32A7F /* main.m */,
 			);
 			path = PWListKitExamples;
@@ -244,7 +241,6 @@
 			files = (
 				0E4E02D21EFB648600B32A7F /* LaunchScreen.storyboard in Resources */,
 				0E4E02CF1EFB648600B32A7F /* Assets.xcassets in Resources */,
-				0E4E02CD1EFB648600B32A7F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,15 +319,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		0E4E02CB1EFB648600B32A7F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0E4E02CC1EFB648600B32A7F /* Base */,
-			);
-			name = Main.storyboard;
-			path = .;
-			sourceTree = "<group>";
-		};
 		0E4E02D01EFB648600B32A7F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

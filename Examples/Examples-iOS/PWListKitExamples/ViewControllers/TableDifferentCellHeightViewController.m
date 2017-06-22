@@ -42,7 +42,7 @@
         [data enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
             [section addRow:^(PWTableRow *item) {
-                item.clazz = [MultilineLabelTableCell class];
+                item.cellClass = [MultilineLabelTableCell class];
                 item.data = @{@"largeText": obj};
             }];
         }];
