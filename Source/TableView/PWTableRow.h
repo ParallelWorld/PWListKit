@@ -35,7 +35,13 @@ typedef NS_ENUM(NSUInteger, PWTableRowPosition) {
 PWLK_SUBCLASSING_RESTRICTED
 @interface PWTableRow : PWListNode <IGListDiffable>
 
-/// row关联的cell class，这个必须要设置，否则会报异常
+- (instancetype)initWithCellClass:(Class)cellClass NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
+
+
+/// row关联的cell class
 @property (nonatomic) Class<PWTableCellConfigureProtocol> cellClass;
 
 /// cell在section中的位置

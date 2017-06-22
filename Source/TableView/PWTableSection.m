@@ -13,33 +13,49 @@
 
 @implementation PWTableSection
 
-- (void)addRow:(void (^)(PWTableRow * _Nonnull))block {
-    PWTableRow *row = [PWTableRow new];
+- (void)addRow:(PWTableRow *)row {
     [self addChild:row];
-    block(row);
 }
 
-- (void)insertRow:(void (^)(PWTableRow * _Nonnull))block atIndex:(NSUInteger)index {
-    PWTableRow *row = [PWTableRow new];
-    [self insertChild:row atIndex:index];
-    block(row);
+- (void)insertRow:(PWTableRow *)row atIndex:(NSUInteger)idx {
+    [self insertChild:row atIndex:idx];
 }
 
-- (void)removeRowAtIndex:(NSUInteger)index {
-    [self removeChildAtIndex:index];
+- (void)removeRow:(PWTableRow *)row {
+    [self removeChild:row];
 }
 
-- (PWTableRow *)rowAtIndex:(NSUInteger)index {
-    return [self childAtIndex:index];
+- (void)removeRowAtIndex:(NSUInteger)idx {
+    [self removeChildAtIndex:idx];
 }
 
 - (void)clearAllRows {
+    [self clearAllRowsWithRemoveSection:NO];
+}
+
+- (void)clearAllRowsWithRemoveSection:(BOOL)shouldRemove {
+    if (shouldRemove) {
+        [self.parent removeFromParent];
+    }
     [self removeAllChildren];
 }
 
-- (NSUInteger)section {
-    return self.index;
+- (void)moveRowFrom:(NSUInteger)from to:(NSUInteger)to {
+    [self moveChildFrom:from to:to];
 }
+
+- (void)updateRowAtIndex:(NSUInteger)idx withBlock:(void (^)(PWTableRow * _Nullable))block {
+    
+}
+
+- (PWTableRow *)rowAtIndex:(NSUInteger)idx {
+    return [self childAtIndex:idx];
+}
+
+- (NSUInteger)sectionIndex {
+    return self.parent.index;
+}
+
 
 - (void)configureHeader:(void (^)(PWTableHeaderFooter * _Nonnull))block {
     if (!_header) {
@@ -60,11 +76,14 @@
 #pragma mark - IGListDiffable
 
 - (id<NSObject>)diffIdentifier {
+    if (!self.tag || [self.tag isEqualToString:@""]) {
+        return self;
+    }
     return self.tag;
 }
 
 - (BOOL)isEqualToDiffableObject:(PWTableSection *)object {
-    IGListIndexPathResult *result = IGListDiffPaths(self.section, object.section, self.children, object.children, IGListDiffEquality);
+    IGListIndexPathResult *result = IGListDiffPaths(self.sectionIndex, object.sectionIndex, self.children, object.children, IGListDiffEquality);
     return !result.hasChanges;
 }
 

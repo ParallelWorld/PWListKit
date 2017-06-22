@@ -13,6 +13,13 @@
 
 @implementation PWTableRow
 
+- (instancetype)initWithCellClass:(Class)cellClass {
+    self = [super init];
+    NSAssert(cellClass, @"cellClass不能为空");
+    _cellClass = cellClass;
+    return self;
+}
+
 - (void)setCellClass:(Class<PWTableCellConfigureProtocol>)cellClass {
     _cellClass = cellClass;
     NSAssert(class_conformsToProtocol(cellClass, @protocol(PWTableCellConfigureProtocol)),
@@ -37,16 +44,6 @@
 
 - (BOOL)isEqualToDiffableObject:(PWTableRow *)object {
     return [self.data isEqual:object.data];
-}
-
-#pragma mark - Life
-
-- (id)copyWithZone:(NSZone *)zone {
-    PWTableRow *copy = [[PWTableRow allocWithZone:zone] init];
-    if (copy != nil) {
-        copy.innerChildren = [self.innerChildren mutableCopy];
-    }
-    return copy;
 }
 
 @end

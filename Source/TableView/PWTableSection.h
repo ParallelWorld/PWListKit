@@ -22,13 +22,30 @@ PWLK_SUBCLASSING_RESTRICTED
 @property (nonatomic, readonly) PWTableHeaderFooter *header;
 @property (nonatomic, readonly) PWTableHeaderFooter *footer;
 
-@property (nonatomic, readonly) NSUInteger section;
+/// section index
+@property (nonatomic, readonly) NSUInteger sectionIndex;
 
-- (void)addRow:(void (^)(PWTableRow *row))block;
-- (void)insertRow:(void (^)(PWTableRow *row))block atIndex:(NSUInteger)index;
-- (void)removeRowAtIndex:(NSUInteger)index;
-- (PWTableRow *)rowAtIndex:(NSUInteger)index;
-- (void)clearAllRows;
+////////////////////////////////////////////////////////////////////////////////
+#pragma mark - 数据操作
+
+// 增
+- (void)addRow:(PWTableRow *)row;
+- (void)insertRow:(PWTableRow *)row atIndex:(NSUInteger)idx;
+
+// 删
+- (void)removeRowAtIndex:(NSUInteger)idx;
+- (void)removeRow:(PWTableRow *)row;
+- (void)clearAllRows;///只是清空rows，但不删除对应的section对象
+- (void)clearAllRowsWithRemoveSection:(BOOL)shouldRemove; ///清空rows，并删除对应的section对象
+
+// 改
+- (void)moveRowFrom:(NSUInteger)from to:(NSUInteger)to;
+- (void)updateRowAtIndex:(NSUInteger)idx withBlock:(void (^)(PWTableRow *__nullable row))block;
+
+// 查
+- (nullable PWTableRow *)rowAtIndex:(NSUInteger)idx;
+
+////////////////////////////////////////////////////////////////////////////////
 
 
 - (void)configureHeader:(void (^)(PWTableHeaderFooter *header))block;

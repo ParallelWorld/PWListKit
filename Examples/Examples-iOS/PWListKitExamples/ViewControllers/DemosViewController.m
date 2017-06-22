@@ -34,28 +34,22 @@
 - (void)loadData {
     NSArray *controllerClassNames = [self controllerClassNames];
     
-    [self.tableView.adapter addSection:^(PWTableSection * _Nonnull s) {
-        [[[controllerClassNames.rac_sequence map:^id(NSString *name) {
-            PWTableRow *row = [PWTableRow new];
-            row.cellClass = [LabelTableCell class];
-            row.data = @{@"title": name};
-            row.height = 50;
-            return row;
-        }] array] enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            
-        }];
-        [controllerClassNames enumerateObjectsUsingBlock:^(NSString *name, NSUInteger idx, BOOL * _Nonnull stop) {
-            [s addRow:^(PWTableRow *row) {
-                row.cellClass = [LabelTableCell class];
+    [self.tableView.adapter updateTableViewWithActions:^(PWTableAdapter * _Nonnull adapter) {
+        [adapter addSection:^(PWTableSection * _Nonnull s) {
+            [[[controllerClassNames.rac_sequence map:^id(NSString *name) {
+                PWTableRow *row = [[PWTableRow alloc] initWithCellClass:[LabelTableCell class]];
                 row.data = @{@"title": name};
                 row.height = 50;
+                return row;
+            }] array] enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [s addRow:obj];
             }];
         }];
-    }];
+    } animation:UITableViewRowAnimationLeft completion:nil];
     
-    [self.tableView.adapter updateTableViewWithActions:nil animation:UITableViewRowAnimationNone completion:^{
-        NSLog(@"tableView refresh complete");
-    }];
+//    [self.tableView.adapter updateTableViewWithActions:nil animation:UITableViewRowAnimationNone completion:^{
+//        NSLog(@"tableView refresh complete");
+//    }];
 }
 
 - (NSArray *)controllerClassNames {
