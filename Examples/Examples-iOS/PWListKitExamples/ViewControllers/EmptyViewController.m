@@ -36,9 +36,10 @@
     }];
     
     [self.tableAdapter addSection:^(PWTableSection * _Nonnull section) {
-        [section addRow:^(PWTableRow * _Nonnull row) {
-            row.cellClass = RemoveTableCell.class;
-        }];
+        [section addRow:({
+            PWTableRow *row = [[PWTableRow alloc] initWithCellClass:RemoveTableCell.class];
+            row;
+        })];
     }];
     
     [self.tableAdapter reloadTableView];
@@ -47,9 +48,10 @@
 
 - (void)clickAddCellButton {
     [self.tableAdapter addSection:^(PWTableSection *section) {
-        [section addRow:^(PWTableRow * _Nonnull row) {
-            row.cellClass = RemoveTableCell.class;
-        }];
+        [section addRow:({
+            PWTableRow *row = [[PWTableRow alloc] initWithCellClass:RemoveTableCell.class];
+            row;
+        })];
     }];
     [self.tableAdapter reloadTableView];
 }
