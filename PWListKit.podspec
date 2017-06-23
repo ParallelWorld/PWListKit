@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '8.0'
   s.source = { :git => 'https://github.com/parallelWorld/PWListKit.git', :tag => s.version.to_s }
-  s.dependency 'UITableView+FDTemplateLayoutCell'
+  s.dependency 'UITableView+FDTemplateLayoutCell', '1.6'
   s.library = 'c++'
   s.pod_target_xcconfig = {
        'CLANG_CXX_LANGUAGE_STANDARD' => 'c++11',
